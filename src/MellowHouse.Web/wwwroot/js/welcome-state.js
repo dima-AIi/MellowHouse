@@ -1,0 +1,1 @@
+(()=>{if(location.pathname!=='/')return;const root=document.documentElement;let repeat=true;try{repeat=sessionStorage.getItem('mh.hero.v5')==='1';sessionStorage.setItem('mh.hero.v5','1');}catch{}root.classList.add(repeat?'mh-welcome-return':'mh-welcome-first');setTimeout(()=>root.classList.add('mh-welcome-ready'),5000);})();

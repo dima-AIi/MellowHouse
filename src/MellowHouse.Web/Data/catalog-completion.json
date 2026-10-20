@@ -1,0 +1,2396 @@
+[
+  {
+    "id": "potato-waffles",
+    "categoryId": "breakfast",
+    "name": "Картофельные вафли",
+    "price": 390,
+    "portion": "280 г",
+    "description": "Хрустящие картофельные вафли, бекон, яйцо пашот и зелень.",
+    "ingredients": "Картофель, пшеничная мука, яйцо, молоко, сливочное масло, бекон, яйцо пашот, сметана, укроп, соль.",
+    "image": "/images/products/potato-waffles-v6.png",
+    "photo": "two crispy golden potato waffles topped with poached egg and bacon, fresh herbs and a little sour cream",
+    "groups": [
+      {
+        "id": "exclude",
+        "label": "Исключить ингредиенты",
+        "options": [
+          {
+            "id": "0",
+            "label": "Без бекона",
+            "price": 0
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      }
+    ],
+    "allergens": [
+      "глютен",
+      "яйцо",
+      "молоко"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 1
+  },
+  {
+    "id": "berry-granola",
+    "categoryId": "breakfast",
+    "name": "Гранола с ягодами",
+    "price": 280,
+    "portion": "250 г",
+    "description": "Домашняя гранола, натуральный йогурт, свежие ягоды и мёд.",
+    "ingredients": "Овсяные хлопья, миндаль, грецкий орех, мёд, натуральный йогурт, клубника, черника, малина.",
+    "image": "/images/products/berry-granola-v6.png",
+    "photo": "white bowl of thick yogurt with golden oat granola, blueberries raspberries and honey",
+    "groups": [],
+    "allergens": [
+      "молоко",
+      "овёс",
+      "орехи"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 2
+  },
+  {
+    "id": "flat-white",
+    "categoryId": "coffee",
+    "name": "Флэт уайт",
+    "price": 290,
+    "portion": "200 мл",
+    "description": "Двойной эспрессо и тонкий слой молочной пены.",
+    "ingredients": "Двойной эспрессо, коровье молоко. Сахар добавляется только по выбору.",
+    "image": "/images/products/flat-white-v6.png",
+    "photo": "small matte sage ceramic flat white coffee cup with fine microfoam heart latte art",
+    "groups": [
+      {
+        "id": "size",
+        "label": "Объём",
+        "options": [
+          {
+            "id": "200",
+            "label": "200 мл",
+            "price": 0
+          },
+          {
+            "id": "250",
+            "label": "250 мл",
+            "price": 40
+          }
+        ],
+        "defaults": [
+          "200"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "milk",
+        "label": "Молоко",
+        "options": [
+          {
+            "id": "regular",
+            "label": "Обычное",
+            "price": 0
+          },
+          {
+            "id": "oat",
+            "label": "Овсяное",
+            "price": 60,
+            "removeAllergens": [
+              "молоко"
+            ],
+            "addAllergens": [
+              "овёс"
+            ]
+          }
+        ],
+        "defaults": [
+          "regular"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "sweet",
+        "label": "Сахар",
+        "options": [
+          {
+            "id": "none",
+            "label": "Не добавлять",
+            "price": 0
+          },
+          {
+            "id": "standard",
+            "label": "Добавить сахар",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "none"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "extras",
+        "label": "Дополнительно",
+        "options": [
+          {
+            "id": "espresso",
+            "label": "Дополнительный шот эспрессо",
+            "price": 50
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      }
+    ],
+    "allergens": [
+      "молоко"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 3
+  },
+  {
+    "id": "cold-brew",
+    "categoryId": "coffee",
+    "name": "Колд-брю",
+    "price": 280,
+    "portion": "300 мл",
+    "description": "Кофе длительного холодного заваривания со льдом.",
+    "ingredients": "Кофе холодного заваривания, питьевая вода, лёд.",
+    "image": "/images/products/cold-brew-v6.png",
+    "photo": "clear tumbler of dark amber cold brew black coffee over ice cubes, coffee beans beside",
+    "groups": [
+      {
+        "id": "size",
+        "label": "Объём",
+        "options": [
+          {
+            "id": "300",
+            "label": "300 мл",
+            "price": 0
+          },
+          {
+            "id": "400",
+            "label": "400 мл",
+            "price": 40
+          }
+        ],
+        "defaults": [
+          "300"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [],
+    "popular": false,
+    "available": true,
+    "sortOrder": 4
+  },
+  {
+    "id": "espresso-tonic",
+    "categoryId": "coffee",
+    "name": "Эспрессо-тоник",
+    "price": 340,
+    "portion": "350 мл",
+    "description": "Эспрессо, тоник, лёд и долька апельсина.",
+    "ingredients": "Эспрессо, тоник с сахаром, лёд, апельсин.",
+    "image": "/images/products/espresso-tonic-v6.png",
+    "photo": "tall glass espresso tonic, golden bubbly tonic at bottom and dark espresso layer above, orange slice and ice",
+    "groups": [
+      {
+        "id": "size",
+        "label": "Объём",
+        "options": [
+          {
+            "id": "350",
+            "label": "350 мл",
+            "price": 0
+          },
+          {
+            "id": "450",
+            "label": "450 мл",
+            "price": 40
+          }
+        ],
+        "defaults": [
+          "350"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [],
+    "popular": false,
+    "available": true,
+    "sortOrder": 5
+  },
+  {
+    "id": "jasmine-tea",
+    "categoryId": "tea",
+    "name": "Жасминовый чай",
+    "price": 210,
+    "portion": "400 мл",
+    "description": "Зелёный чай с нежным ароматом жасмина.",
+    "ingredients": "Зелёный чай с жасмином, питьевая вода.",
+    "image": "/images/products/jasmine-tea-v6.png",
+    "photo": "clear glass teapot of pale golden green jasmine tea with small white jasmine flowers",
+    "groups": [
+      {
+        "id": "size",
+        "label": "Объём",
+        "options": [
+          {
+            "id": "400",
+            "label": "400 мл",
+            "price": 0
+          },
+          {
+            "id": "600",
+            "label": "600 мл",
+            "price": 80
+          }
+        ],
+        "defaults": [
+          "400"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [],
+    "popular": false,
+    "available": true,
+    "sortOrder": 6
+  },
+  {
+    "id": "ginger-lemon",
+    "categoryId": "tea",
+    "name": "Имбирно-лимонный чай",
+    "price": 270,
+    "portion": "400 мл",
+    "description": "Свежий имбирь, лимон и мёд.",
+    "ingredients": "Имбирь, лимон, мёд, питьевая вода.",
+    "image": "/images/products/ginger-lemon-v6.png",
+    "photo": "glass mug of warm ginger lemon tea with lemon slices, ginger root and honey",
+    "groups": [
+      {
+        "id": "size",
+        "label": "Объём",
+        "options": [
+          {
+            "id": "400",
+            "label": "400 мл",
+            "price": 0
+          },
+          {
+            "id": "600",
+            "label": "600 мл",
+            "price": 80
+          }
+        ],
+        "defaults": [
+          "400"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "honey",
+        "label": "Мёд",
+        "options": [
+          {
+            "id": "standard",
+            "label": "С мёдом",
+            "price": 0
+          },
+          {
+            "id": "none",
+            "label": "Без мёда",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [],
+    "popular": false,
+    "available": true,
+    "sortOrder": 7
+  },
+  {
+    "id": "cocoa",
+    "categoryId": "tea",
+    "name": "Классическое какао",
+    "price": 270,
+    "portion": "300 мл",
+    "description": "Какао, молоко и немного тёмного шоколада.",
+    "ingredients": "Какао-порошок, коровье молоко, тёмный шоколад с соевым лецитином, сахар.",
+    "image": "/images/products/cocoa-v6.png",
+    "photo": "round ceramic mug of hot chocolate cocoa with light milk foam and dark chocolate shavings",
+    "groups": [
+      {
+        "id": "size",
+        "label": "Объём",
+        "options": [
+          {
+            "id": "300",
+            "label": "300 мл",
+            "price": 0
+          },
+          {
+            "id": "400",
+            "label": "400 мл",
+            "price": 40
+          }
+        ],
+        "defaults": [
+          "300"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "milk",
+        "label": "Молоко",
+        "options": [
+          {
+            "id": "regular",
+            "label": "Обычное",
+            "price": 0
+          },
+          {
+            "id": "oat",
+            "label": "Овсяное",
+            "price": 60,
+            "removeAllergens": [
+              "молоко"
+            ],
+            "addAllergens": [
+              "овёс"
+            ]
+          }
+        ],
+        "defaults": [
+          "regular"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "sweet",
+        "label": "Добавленный сахар",
+        "options": [
+          {
+            "id": "standard",
+            "label": "По рецепту",
+            "price": 0
+          },
+          {
+            "id": "none",
+            "label": "Без добавленного сахара",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [
+      "молоко",
+      "соя"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 8
+  },
+  {
+    "id": "berry-iced-tea",
+    "categoryId": "cold",
+    "name": "Холодный ягодный чай",
+    "price": 260,
+    "portion": "400 мл",
+    "description": "Чёрный чай, малина, смородина и лёд.",
+    "ingredients": "Чёрный чай, малина, чёрная смородина, сахарный сироп, питьевая вода, лёд.",
+    "image": "/images/products/berry-iced-tea-v6.png",
+    "photo": "tall clear glass of deep ruby iced berry tea with raspberries, blackcurrants and ice",
+    "groups": [
+      {
+        "id": "size",
+        "label": "Объём",
+        "options": [
+          {
+            "id": "400",
+            "label": "400 мл",
+            "price": 0
+          },
+          {
+            "id": "500",
+            "label": "500 мл",
+            "price": 40
+          }
+        ],
+        "defaults": [
+          "400"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "syrup",
+        "label": "Сироп",
+        "options": [
+          {
+            "id": "standard",
+            "label": "По рецепту",
+            "price": 0
+          },
+          {
+            "id": "none",
+            "label": "Без дополнительного сиропа",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [],
+    "popular": false,
+    "available": true,
+    "sortOrder": 9
+  },
+  {
+    "id": "lemon-mint",
+    "categoryId": "cold",
+    "name": "Лимонад лимон-мята",
+    "price": 270,
+    "portion": "400 мл",
+    "description": "Свежий лимон, мята и газированная вода.",
+    "ingredients": "Лимонный сок, лимон, мята, сахарный сироп, газированная вода, лёд.",
+    "image": "/images/products/lemon-mint-v6.png",
+    "photo": "clear tall glass sparkling lemon mint lemonade, yellow lemon slices, lots of green mint and ice",
+    "groups": [
+      {
+        "id": "size",
+        "label": "Объём",
+        "options": [
+          {
+            "id": "400",
+            "label": "400 мл",
+            "price": 0
+          },
+          {
+            "id": "500",
+            "label": "500 мл",
+            "price": 40
+          }
+        ],
+        "defaults": [
+          "400"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "syrup",
+        "label": "Сироп",
+        "options": [
+          {
+            "id": "standard",
+            "label": "По рецепту",
+            "price": 0
+          },
+          {
+            "id": "none",
+            "label": "Без дополнительного сиропа",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [],
+    "popular": false,
+    "available": true,
+    "sortOrder": 10
+  },
+  {
+    "id": "mango-passion",
+    "categoryId": "cold",
+    "name": "Манго-маракуйя",
+    "price": 310,
+    "portion": "400 мл",
+    "description": "Манго, маракуйя и газированная вода.",
+    "ingredients": "Пюре манго, пюре маракуйи, сахарный сироп, газированная вода, лёд.",
+    "image": "/images/products/mango-passion-v6.png",
+    "photo": "tall glass of golden orange mango passionfruit lemonade, passion fruit half and mango cubes",
+    "groups": [
+      {
+        "id": "size",
+        "label": "Объём",
+        "options": [
+          {
+            "id": "400",
+            "label": "400 мл",
+            "price": 0
+          },
+          {
+            "id": "500",
+            "label": "500 мл",
+            "price": 40
+          }
+        ],
+        "defaults": [
+          "400"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "syrup",
+        "label": "Сироп",
+        "options": [
+          {
+            "id": "standard",
+            "label": "По рецепту",
+            "price": 0
+          },
+          {
+            "id": "none",
+            "label": "Без дополнительного сиропа",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [],
+    "popular": false,
+    "available": true,
+    "sortOrder": 11
+  },
+  {
+    "id": "peach-iced-tea",
+    "categoryId": "cold",
+    "name": "Персиковый айс-ти",
+    "price": 270,
+    "portion": "400 мл",
+    "description": "Чёрный чай с персиком, лимоном и льдом.",
+    "ingredients": "Чёрный чай, персиковое пюре, лимон, сахарный сироп, питьевая вода, лёд.",
+    "image": "/images/products/peach-iced-tea-v6.png",
+    "photo": "tall glass amber peach iced tea with peach slices lemon and clear ice",
+    "groups": [
+      {
+        "id": "size",
+        "label": "Объём",
+        "options": [
+          {
+            "id": "400",
+            "label": "400 мл",
+            "price": 0
+          },
+          {
+            "id": "500",
+            "label": "500 мл",
+            "price": 40
+          }
+        ],
+        "defaults": [
+          "400"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "syrup",
+        "label": "Сироп",
+        "options": [
+          {
+            "id": "standard",
+            "label": "По рецепту",
+            "price": 0
+          },
+          {
+            "id": "none",
+            "label": "Без дополнительного сиропа",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [],
+    "popular": false,
+    "available": true,
+    "sortOrder": 12
+  },
+  {
+    "id": "berry-smoothie",
+    "categoryId": "cold",
+    "name": "Ягодный смузи",
+    "price": 340,
+    "portion": "300 мл",
+    "description": "Малина, черника, банан и яблочный сок.",
+    "ingredients": "Малина, черника, банан, яблочный сок без добавленного сахара.",
+    "image": "/images/products/berry-smoothie-v6.png",
+    "photo": "tall glass of thick deep purple berry banana smoothie topped with raspberries and blueberries",
+    "groups": [
+      {
+        "id": "size",
+        "label": "Объём",
+        "options": [
+          {
+            "id": "300",
+            "label": "300 мл",
+            "price": 0
+          },
+          {
+            "id": "400",
+            "label": "400 мл",
+            "price": 70
+          }
+        ],
+        "defaults": [
+          "300"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [],
+    "popular": false,
+    "available": true,
+    "sortOrder": 13
+  },
+  {
+    "id": "tropical-smoothie",
+    "categoryId": "cold",
+    "name": "Тропический смузи",
+    "price": 350,
+    "portion": "300 мл",
+    "description": "Манго, ананас, банан и апельсиновый сок.",
+    "ingredients": "Манго, ананас, банан, апельсиновый сок без добавленного сахара.",
+    "image": "/images/products/tropical-smoothie-v6.png",
+    "photo": "tall glass of thick golden tropical mango pineapple banana smoothie with pineapple wedge and mango cubes",
+    "groups": [
+      {
+        "id": "size",
+        "label": "Объём",
+        "options": [
+          {
+            "id": "300",
+            "label": "300 мл",
+            "price": 0
+          },
+          {
+            "id": "400",
+            "label": "400 мл",
+            "price": 70
+          }
+        ],
+        "defaults": [
+          "300"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [],
+    "popular": false,
+    "available": true,
+    "sortOrder": 14
+  },
+  {
+    "id": "chocolate-shake",
+    "categoryId": "shakes",
+    "name": "Шоколадный коктейль",
+    "price": 340,
+    "portion": "400 мл",
+    "description": "Молоко, шоколадное мороженое и шоколадный соус.",
+    "ingredients": "Коровье молоко, шоколадное мороженое (молоко, сливки, сахар, какао), шоколадный соус с соевым лецитином, взбитые сливки.",
+    "image": "/images/products/chocolate-shake-v6.png",
+    "photo": "rich brown chocolate milkshake in a tall glass with whipped cream and chocolate drizzle",
+    "groups": [
+      {
+        "id": "size",
+        "label": "Объём",
+        "options": [
+          {
+            "id": "400",
+            "label": "400 мл",
+            "price": 0
+          },
+          {
+            "id": "500",
+            "label": "500 мл",
+            "price": 70
+          }
+        ],
+        "defaults": [
+          "400"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "topping",
+        "label": "Топпинг",
+        "options": [
+          {
+            "id": "standard",
+            "label": "С соусом и сливками",
+            "price": 0
+          },
+          {
+            "id": "none",
+            "label": "Без соуса и сливок",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [
+      "молоко",
+      "соя"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 15
+  },
+  {
+    "id": "caramel-shake",
+    "categoryId": "shakes",
+    "name": "Солёная карамель",
+    "price": 350,
+    "portion": "400 мл",
+    "description": "Молоко, мороженое, солёная карамель и сливки.",
+    "ingredients": "Коровье молоко, ванильное мороженое (молоко, сливки, сахар, ваниль), карамельный соус (сахар, сливки, соль), взбитые сливки.",
+    "image": "/images/products/caramel-shake-v6.png",
+    "photo": "caramel milkshake in clear tall glass with whipped cream, golden caramel sauce and tiny sea salt flakes",
+    "groups": [
+      {
+        "id": "size",
+        "label": "Объём",
+        "options": [
+          {
+            "id": "400",
+            "label": "400 мл",
+            "price": 0
+          },
+          {
+            "id": "500",
+            "label": "500 мл",
+            "price": 70
+          }
+        ],
+        "defaults": [
+          "400"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "topping",
+        "label": "Топпинг",
+        "options": [
+          {
+            "id": "standard",
+            "label": "С соусом и сливками",
+            "price": 0
+          },
+          {
+            "id": "none",
+            "label": "Без соуса и сливок",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [
+      "молоко"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 16
+  },
+  {
+    "id": "mojito",
+    "categoryId": "shakes",
+    "name": "Мохито без алкоголя",
+    "price": 310,
+    "portion": "400 мл",
+    "description": "Лайм, мята, тростниковый сироп и газированная вода.",
+    "ingredients": "Лайм, мята, тростниковый сироп, газированная вода, лёд. Без алкоголя.",
+    "image": "/images/products/mojito-v6.png",
+    "photo": "tall glass of nonalcoholic mojito with fresh lime wedges, green mint, crushed ice and soda",
+    "groups": [
+      {
+        "id": "size",
+        "label": "Объём",
+        "options": [
+          {
+            "id": "400",
+            "label": "400 мл",
+            "price": 0
+          },
+          {
+            "id": "500",
+            "label": "500 мл",
+            "price": 40
+          }
+        ],
+        "defaults": [
+          "400"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "syrup",
+        "label": "Сироп",
+        "options": [
+          {
+            "id": "standard",
+            "label": "По рецепту",
+            "price": 0
+          },
+          {
+            "id": "none",
+            "label": "Без дополнительного сиропа",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [],
+    "popular": false,
+    "available": true,
+    "sortOrder": 17
+  },
+  {
+    "id": "pina-colada",
+    "categoryId": "shakes",
+    "name": "Пина-колада без алкоголя",
+    "price": 350,
+    "portion": "400 мл",
+    "description": "Ананасовый сок, кокосовые сливки и лёд.",
+    "ingredients": "Ананасовый сок, кокосовые сливки, ананас, лёд. Без алкоголя.",
+    "image": "/images/products/pina-colada-v6.png",
+    "photo": "creamy white nonalcoholic pina colada in a curved clear glass, pineapple wedge and coconut flesh",
+    "groups": [
+      {
+        "id": "size",
+        "label": "Объём",
+        "options": [
+          {
+            "id": "400",
+            "label": "400 мл",
+            "price": 0
+          },
+          {
+            "id": "500",
+            "label": "500 мл",
+            "price": 70
+          }
+        ],
+        "defaults": [
+          "400"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [],
+    "popular": false,
+    "available": true,
+    "sortOrder": 18
+  },
+  {
+    "id": "roastbeef-mustard",
+    "categoryId": "sandwiches",
+    "name": "Ростбиф–горчица",
+    "price": 420,
+    "portion": "260 г",
+    "description": "Ростбиф, горчичный соус, рукола и маринованный лук.",
+    "ingredients": "Пшеничный хлеб на закваске, ростбиф, горчичный соус, рукола, красный лук, уксус, сахар, соль.",
+    "image": "/images/products/roastbeef-mustard-v6.png",
+    "photo": "grilled sourdough roast beef sandwich with pink sliced roastbeef, arugula, pickled red onion and mustard sauce",
+    "groups": [
+      {
+        "id": "size",
+        "label": "Размер",
+        "options": [
+          {
+            "id": "standard",
+            "label": "Стандарт",
+            "price": 0
+          },
+          {
+            "id": "large",
+            "label": "Большой",
+            "price": 130
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "extras",
+        "label": "Дополнительно",
+        "options": [
+          {
+            "id": "cheese",
+            "label": "Добавить сыр",
+            "price": 60,
+            "addAllergens": [
+              "молоко"
+            ]
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      },
+      {
+        "id": "exclude",
+        "label": "Исключить ингредиенты",
+        "options": [
+          {
+            "id": "0",
+            "label": "Без лука",
+            "price": 0
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      },
+      {
+        "id": "sauce",
+        "label": "Соус",
+        "options": [
+          {
+            "id": "standard",
+            "label": "Стандартно",
+            "price": 0
+          },
+          {
+            "id": "apart",
+            "label": "Отдельно",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [
+      "глютен",
+      "горчица"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 19
+  },
+  {
+    "id": "caprese-panini",
+    "categoryId": "sandwiches",
+    "name": "Панини капрезе",
+    "price": 360,
+    "portion": "250 г",
+    "description": "Панини, моцарелла, томаты, базилик и песто.",
+    "ingredients": "Пшеничный хлеб панини, моцарелла, томаты, базилик, песто (базилик, оливковое масло, пармезан, кедровый орех, чеснок), соль.",
+    "image": "/images/products/caprese-panini-v6.png",
+    "photo": "grilled panini sandwich filled with fresh mozzarella, red tomatoes, basil and pesto",
+    "groups": [
+      {
+        "id": "exclude",
+        "label": "Исключить ингредиенты",
+        "options": [
+          {
+            "id": "0",
+            "label": "Без томатов",
+            "price": 0
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      },
+      {
+        "id": "sauce",
+        "label": "Соус",
+        "options": [
+          {
+            "id": "standard",
+            "label": "Стандартно",
+            "price": 0
+          },
+          {
+            "id": "apart",
+            "label": "Отдельно",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [
+      "глютен",
+      "молоко",
+      "орехи"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 20
+  },
+  {
+    "id": "chicken-wrap",
+    "categoryId": "sandwiches",
+    "name": "Ролл с курицей",
+    "price": 350,
+    "portion": "250 г",
+    "description": "Тортилья, курица-гриль, овощи и йогуртовый соус.",
+    "ingredients": "Пшеничная тортилья, куриное филе, томаты, огурец, листья салата, натуральный йогурт, чеснок, лимонный сок, соль.",
+    "image": "/images/products/chicken-wrap-v6.png",
+    "photo": "chicken wrap tortilla cut in halves showing grilled chicken, green lettuce, tomatoes and yogurt sauce",
+    "groups": [
+      {
+        "id": "exclude",
+        "label": "Исключить ингредиенты",
+        "options": [
+          {
+            "id": "0",
+            "label": "Без томатов",
+            "price": 0
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      },
+      {
+        "id": "sauce",
+        "label": "Соус",
+        "options": [
+          {
+            "id": "standard",
+            "label": "Стандартно",
+            "price": 0
+          },
+          {
+            "id": "apart",
+            "label": "Отдельно",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [
+      "глютен",
+      "молоко"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 21
+  },
+  {
+    "id": "cheese-sticks",
+    "categoryId": "sandwiches",
+    "name": "Сырные палочки",
+    "price": 320,
+    "portion": "180 г",
+    "description": "Сыр в хрустящей панировке с томатным соусом.",
+    "ingredients": "Моцарелла, пшеничная мука, яйцо, панировочные сухари, растительное масло, томатный соус.",
+    "image": "/images/products/cheese-sticks-v6.png",
+    "photo": "golden breaded mozzarella cheese sticks with one broken showing melting cheese and small tomato dip",
+    "groups": [
+      {
+        "id": "sauce",
+        "label": "Соус",
+        "options": [
+          {
+            "id": "standard",
+            "label": "Стандартно",
+            "price": 0
+          },
+          {
+            "id": "apart",
+            "label": "Отдельно",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [
+      "глютен",
+      "молоко",
+      "яйцо"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 22
+  },
+  {
+    "id": "potato-wedges",
+    "categoryId": "sandwiches",
+    "name": "Картофельные дольки",
+    "price": 240,
+    "portion": "200 г",
+    "description": "Запечённый картофель с паприкой и чесночным соусом.",
+    "ingredients": "Картофель, растительное масло, паприка, соль, чесночный соус (сметана, чеснок, укроп).",
+    "image": "/images/products/potato-wedges-v6.png",
+    "photo": "golden rustic roasted potato wedges with paprika, herbs and a small bowl of garlic dip",
+    "groups": [
+      {
+        "id": "sauce",
+        "label": "Соус",
+        "options": [
+          {
+            "id": "standard",
+            "label": "Стандартно",
+            "price": 0
+          },
+          {
+            "id": "apart",
+            "label": "Отдельно",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [
+      "молоко"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 23
+  },
+  {
+    "id": "warm-beef-salad",
+    "categoryId": "salads",
+    "name": "Тёплый салат с говядиной",
+    "price": 520,
+    "portion": "240 г",
+    "description": "Нежная говядина, овощи-гриль, микс салата и соус бальзамик.",
+    "ingredients": "Говядина, листья салата, томаты черри, сладкий перец, цукини, бальзамический уксус, оливковое масло, соль.",
+    "image": "/images/products/warm-beef-salad-v6.png",
+    "photo": "dark ceramic bowl of warm beef salad with grilled beef slices, roasted peppers cherry tomatoes and mixed greens",
+    "groups": [
+      {
+        "id": "dressing",
+        "label": "Заправка",
+        "options": [
+          {
+            "id": "standard",
+            "label": "Стандартная",
+            "price": 0
+          },
+          {
+            "id": "apart",
+            "label": "Отдельно",
+            "price": 0
+          },
+          {
+            "id": "none",
+            "label": "Без заправки",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "exclude",
+        "label": "Исключить ингредиенты",
+        "options": [
+          {
+            "id": "0",
+            "label": "Без томатов",
+            "price": 0
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      }
+    ],
+    "allergens": [],
+    "popular": false,
+    "available": true,
+    "sortOrder": 24
+  },
+  {
+    "id": "grilled-chicken-salad",
+    "categoryId": "salads",
+    "name": "Салат с курицей-гриль",
+    "price": 420,
+    "portion": "230 г",
+    "description": "Курица-гриль, микс салата, свежие овощи и ореховый соус.",
+    "ingredients": "Куриное филе, листья салата, томаты, огурец, красный лук, грецкий орех, оливковое масло, лимонный сок, соль.",
+    "image": "/images/products/grilled-chicken-salad-v6.png",
+    "photo": "bowl of fresh mixed lettuce with sliced chargrilled chicken, tomatoes cucumber and nut dressing",
+    "groups": [
+      {
+        "id": "dressing",
+        "label": "Заправка",
+        "options": [
+          {
+            "id": "standard",
+            "label": "Стандартная",
+            "price": 0
+          },
+          {
+            "id": "apart",
+            "label": "Отдельно",
+            "price": 0
+          },
+          {
+            "id": "none",
+            "label": "Без заправки",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "exclude",
+        "label": "Исключить ингредиенты",
+        "options": [
+          {
+            "id": "0",
+            "label": "Без томатов",
+            "price": 0
+          },
+          {
+            "id": "onion",
+            "label": "Без лука",
+            "price": 0
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      }
+    ],
+    "allergens": [
+      "орехи"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 25
+  },
+  {
+    "id": "chicken-bowl",
+    "categoryId": "salads",
+    "name": "Боул с курицей",
+    "price": 450,
+    "portion": "300 г",
+    "description": "Курица-гриль, рис, авокадо, кукуруза и свежие овощи.",
+    "ingredients": "Куриное филе, рис, авокадо, кукуруза, огурец, томаты, листья салата, лимонный сок, оливковое масло, соль.",
+    "image": "/images/products/chicken-bowl-v6.png",
+    "photo": "bowl with grilled chicken strips, rice, sliced avocado, sweetcorn, tomato and cucumber",
+    "groups": [
+      {
+        "id": "dressing",
+        "label": "Заправка",
+        "options": [
+          {
+            "id": "standard",
+            "label": "Стандартная",
+            "price": 0
+          },
+          {
+            "id": "apart",
+            "label": "Отдельно",
+            "price": 0
+          },
+          {
+            "id": "none",
+            "label": "Без заправки",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "exclude",
+        "label": "Исключить ингредиенты",
+        "options": [
+          {
+            "id": "0",
+            "label": "Без томатов",
+            "price": 0
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      }
+    ],
+    "allergens": [],
+    "popular": false,
+    "available": true,
+    "sortOrder": 26
+  },
+  {
+    "id": "vegetable-bowl",
+    "categoryId": "salads",
+    "name": "Овощной боул",
+    "price": 390,
+    "portion": "270 г",
+    "description": "Киноа, авокадо, овощи-гриль, нут и соус тахини.",
+    "ingredients": "Киноа, авокадо, цукини, морковь, сладкий перец, томаты, нут, кунжутная паста тахини, лимонный сок, оливковое масло, соль.",
+    "image": "/images/products/vegetable-bowl-v6.png",
+    "photo": "colorful dark bowl of quinoa, chickpeas, avocado, grilled zucchini, roasted carrots and tahini dressing",
+    "groups": [
+      {
+        "id": "dressing",
+        "label": "Заправка",
+        "options": [
+          {
+            "id": "standard",
+            "label": "Стандартная",
+            "price": 0
+          },
+          {
+            "id": "apart",
+            "label": "Отдельно",
+            "price": 0
+          },
+          {
+            "id": "none",
+            "label": "Без заправки",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "exclude",
+        "label": "Исключить ингредиенты",
+        "options": [
+          {
+            "id": "0",
+            "label": "Без томатов",
+            "price": 0
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      }
+    ],
+    "allergens": [
+      "кунжут"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 27
+  },
+  {
+    "id": "shrimp-avocado",
+    "categoryId": "salads",
+    "name": "Салат с креветками и авокадо",
+    "price": 560,
+    "portion": "240 г",
+    "description": "Креветки, авокадо, черри, микс салата и цитрусовая заправка.",
+    "ingredients": "Креветки, авокадо, томаты черри, листья салата, апельсиновый сок, лимонный сок, оливковое масло, соль.",
+    "image": "/images/products/shrimp-avocado-v6.png",
+    "photo": "bowl of fresh salad with large pink cooked shrimp, avocado slices, cherry tomatoes and green leaves",
+    "groups": [
+      {
+        "id": "dressing",
+        "label": "Заправка",
+        "options": [
+          {
+            "id": "standard",
+            "label": "Стандартная",
+            "price": 0
+          },
+          {
+            "id": "apart",
+            "label": "Отдельно",
+            "price": 0
+          },
+          {
+            "id": "none",
+            "label": "Без заправки",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "exclude",
+        "label": "Исключить ингредиенты",
+        "options": [
+          {
+            "id": "0",
+            "label": "Без томатов",
+            "price": 0
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      }
+    ],
+    "allergens": [
+      "ракообразные"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 28
+  },
+  {
+    "id": "chicken-steak",
+    "categoryId": "hot",
+    "name": "Куриный стейк",
+    "price": 490,
+    "portion": "320 г",
+    "description": "Куриное филе на гриле, запечённые овощи и соус с травами.",
+    "ingredients": "Куриное филе, картофель, цукини, сладкий перец, морковь, оливковое масло, петрушка, лимонный сок, соль.",
+    "image": "/images/products/chicken-steak-v6.png",
+    "photo": "juicy grilled chicken breast steak with grill marks, roasted vegetables potatoes and herb sauce on a ceramic plate",
+    "groups": [
+      {
+        "id": "sauce",
+        "label": "Соус",
+        "options": [
+          {
+            "id": "standard",
+            "label": "Стандартно",
+            "price": 0
+          },
+          {
+            "id": "apart",
+            "label": "Отдельно",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "exclude",
+        "label": "Исключить ингредиенты",
+        "options": [
+          {
+            "id": "0",
+            "label": "Без соуса",
+            "price": 0
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      }
+    ],
+    "allergens": [],
+    "popular": false,
+    "available": true,
+    "sortOrder": 29
+  },
+  {
+    "id": "pork-steak",
+    "categoryId": "hot",
+    "name": "Свиной стейк",
+    "price": 590,
+    "portion": "350 г",
+    "description": "Свиной стейк, картофельные дольки, овощи-гриль и перечный соус.",
+    "ingredients": "Свинина, картофель, сладкий перец, цукини, сливки, чёрный перец, сливочное масло, соль.",
+    "image": "/images/products/pork-steak-v6.png",
+    "photo": "grilled pork steak with golden potato wedges, roasted vegetables and pepper sauce on a ceramic plate",
+    "groups": [
+      {
+        "id": "sauce",
+        "label": "Соус",
+        "options": [
+          {
+            "id": "standard",
+            "label": "Стандартно",
+            "price": 0
+          },
+          {
+            "id": "apart",
+            "label": "Отдельно",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "exclude",
+        "label": "Исключить ингредиенты",
+        "options": [
+          {
+            "id": "0",
+            "label": "Без соуса",
+            "price": 0
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      }
+    ],
+    "allergens": [
+      "молоко"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 30
+  },
+  {
+    "id": "bbq-ribs",
+    "categoryId": "hot",
+    "name": "BBQ-рёбрышки",
+    "price": 690,
+    "portion": "400 г",
+    "description": "Свиные рёбрышки в глазури BBQ, картофель и салат коул-слоу.",
+    "ingredients": "Свиные рёбрышки, соус BBQ (томаты, сахар, уксус, специи), картофель, белокочанная капуста, морковь, майонез с яйцом и горчицей, соль.",
+    "image": "/images/products/bbq-ribs-v6.png",
+    "photo": "sticky glazed BBQ pork ribs on a wooden board with roasted potatoes and a small cabbage coleslaw",
+    "groups": [
+      {
+        "id": "sauce",
+        "label": "Соус",
+        "options": [
+          {
+            "id": "standard",
+            "label": "Стандартно",
+            "price": 0
+          },
+          {
+            "id": "apart",
+            "label": "Отдельно",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "exclude",
+        "label": "Исключить ингредиенты",
+        "options": [
+          {
+            "id": "0",
+            "label": "Без соуса",
+            "price": 0
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      }
+    ],
+    "allergens": [
+      "яйцо",
+      "горчица"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 31
+  },
+  {
+    "id": "stuffed-potato",
+    "categoryId": "hot",
+    "name": "Запечённый картофель с начинкой",
+    "price": 390,
+    "portion": "330 г",
+    "description": "Запечённый картофель, курица, грибы, сыр и зелень.",
+    "ingredients": "Картофель, куриное филе, шампиньоны, сыр, сливочное масло, укроп, соль.",
+    "image": "/images/products/stuffed-potato-v6.png",
+    "photo": "large baked jacket potato split open filled with chicken, mushrooms and golden melted cheese, fresh dill",
+    "groups": [
+      {
+        "id": "exclude",
+        "label": "Исключить ингредиенты",
+        "options": [
+          {
+            "id": "0",
+            "label": "Без сыра",
+            "price": 0
+          },
+          {
+            "id": "1",
+            "label": "Без грибов",
+            "price": 0
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      }
+    ],
+    "allergens": [
+      "молоко"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 32
+  },
+  {
+    "id": "shrimp-pasta",
+    "categoryId": "hot",
+    "name": "Паста с креветками",
+    "price": 590,
+    "portion": "300 г",
+    "description": "Лингвини, креветки, томаты, чеснок и базилик.",
+    "ingredients": "Лингвини из пшеницы твёрдых сортов без яйца, креветки, томаты, чеснок, базилик, оливковое масло, соль.",
+    "image": "/images/products/shrimp-pasta-v6.png",
+    "photo": "linguine pasta with large pink shrimp, cherry tomatoes, garlic and fresh basil in a ceramic bowl",
+    "groups": [
+      {
+        "id": "exclude",
+        "label": "Исключить ингредиенты",
+        "options": [
+          {
+            "id": "0",
+            "label": "Без чеснока",
+            "price": 0
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      }
+    ],
+    "allergens": [
+      "глютен",
+      "ракообразные"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 33
+  },
+  {
+    "id": "chicken-rice",
+    "categoryId": "hot",
+    "name": "Рис с курицей и овощами",
+    "price": 450,
+    "portion": "330 г",
+    "description": "Рис, курица, брокколи, сладкий перец и соус терияки.",
+    "ingredients": "Рис, куриное филе, брокколи, сладкий перец, соус терияки (соевый соус с пшеницей, сахар, имбирь), растительное масло.",
+    "image": "/images/products/chicken-rice-v6.png",
+    "photo": "bowl of rice with chicken pieces, broccoli, sweet peppers and glossy teriyaki sauce",
+    "groups": [
+      {
+        "id": "sauce",
+        "label": "Соус",
+        "options": [
+          {
+            "id": "standard",
+            "label": "Стандартно",
+            "price": 0
+          },
+          {
+            "id": "apart",
+            "label": "Отдельно",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [
+      "соя",
+      "глютен"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 34
+  },
+  {
+    "id": "four-cheese",
+    "categoryId": "pizza",
+    "name": "Пицца Четыре сыра",
+    "price": 620,
+    "portion": "25 см · 430 г",
+    "description": "Моцарелла, чеддер, пармезан, голубой сыр и сливочный соус.",
+    "ingredients": "Пшеничное тесто, моцарелла, чеддер, пармезан, голубой сыр, сливочный соус, оливковое масло.",
+    "image": "/images/products/four-cheese-v6.png",
+    "photo": "whole four cheese pizza with creamy golden melted mozzarella cheddar parmesan and blue cheese on wooden board",
+    "groups": [
+      {
+        "id": "size",
+        "label": "Диаметр",
+        "options": [
+          {
+            "id": "25",
+            "label": "25 см",
+            "price": 0
+          },
+          {
+            "id": "30",
+            "label": "30 см",
+            "price": 180
+          }
+        ],
+        "defaults": [
+          "25"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "extras",
+        "label": "Дополнительно",
+        "options": [
+          {
+            "id": "cheese",
+            "label": "Добавить сыр",
+            "price": 60,
+            "addAllergens": [
+              "молоко"
+            ]
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      },
+      {
+        "id": "exclude",
+        "label": "Исключить ингредиенты",
+        "options": [
+          {
+            "id": "0",
+            "label": "Без соуса",
+            "price": 0
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      }
+    ],
+    "allergens": [
+      "глютен",
+      "молоко"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 35
+  },
+  {
+    "id": "chicken-mushroom-pizza",
+    "categoryId": "pizza",
+    "name": "Пицца Курица и грибы",
+    "price": 590,
+    "portion": "25 см · 470 г",
+    "description": "Курица, шампиньоны, моцарелла и сливочный соус.",
+    "ingredients": "Пшеничное тесто, куриное филе, шампиньоны, моцарелла, сливочный соус, оливковое масло.",
+    "image": "/images/products/chicken-mushroom-pizza-v6.png",
+    "photo": "whole small pizza topped with chicken pieces, sliced mushrooms and golden melted mozzarella on a wooden board",
+    "groups": [
+      {
+        "id": "size",
+        "label": "Диаметр",
+        "options": [
+          {
+            "id": "25",
+            "label": "25 см",
+            "price": 0
+          },
+          {
+            "id": "30",
+            "label": "30 см",
+            "price": 180
+          }
+        ],
+        "defaults": [
+          "25"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "extras",
+        "label": "Дополнительно",
+        "options": [
+          {
+            "id": "cheese",
+            "label": "Добавить сыр",
+            "price": 60,
+            "addAllergens": [
+              "молоко"
+            ]
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      },
+      {
+        "id": "exclude",
+        "label": "Исключить ингредиенты",
+        "options": [
+          {
+            "id": "0",
+            "label": "Без соуса",
+            "price": 0
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      }
+    ],
+    "allergens": [
+      "глютен",
+      "молоко"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 36
+  },
+  {
+    "id": "apple-crumble",
+    "categoryId": "desserts",
+    "name": "Яблочный крамбл",
+    "price": 310,
+    "portion": "190 г",
+    "description": "Тёплые яблоки с корицей, рассыпчатая крошка и ванильное мороженое.",
+    "ingredients": "Яблоко, пшеничная мука, овсяные хлопья, сливочное масло, сахар, корица, ванильное мороженое (молоко, сливки, сахар, ваниль).",
+    "image": "/images/products/apple-crumble-v6.png",
+    "photo": "small ceramic dish of baked apple crumble with golden crumb topping, cinnamon and vanilla ice cream scoop",
+    "groups": [],
+    "allergens": [
+      "глютен",
+      "молоко",
+      "овёс"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 37
+  },
+  {
+    "id": "honey-cake",
+    "categoryId": "desserts",
+    "name": "Медовик",
+    "price": 340,
+    "portion": "150 г",
+    "description": "Тонкие медовые коржи и нежный сметанный крем.",
+    "ingredients": "Пшеничная мука, мёд, яйцо, сахар, сливочное масло, сметана, сливки.",
+    "image": "/images/products/honey-cake-v6.png",
+    "photo": "triangular slice of Russian honey cake medovik with many thin golden layers and cream on ceramic plate",
+    "groups": [],
+    "allergens": [
+      "глютен",
+      "яйцо",
+      "молоко"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 38
+  },
+  {
+    "id": "berry-tart",
+    "categoryId": "desserts",
+    "name": "Ягодная тарталетка",
+    "price": 290,
+    "portion": "130 г",
+    "description": "Песочная корзинка, заварной крем и свежие ягоды.",
+    "ingredients": "Пшеничная мука, сливочное масло, яйцо, сахар, молоко, кукурузный крахмал, ваниль, клубника, малина, черника.",
+    "image": "/images/products/berry-tart-v6.png",
+    "photo": "small round shortcrust berry tart with vanilla custard, fresh raspberries blueberries and strawberry halves",
+    "groups": [],
+    "allergens": [
+      "глютен",
+      "яйцо",
+      "молоко"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 39
+  },
+  {
+    "id": "chocolate-cookie",
+    "categoryId": "desserts",
+    "name": "Шоколадное печенье",
+    "price": 170,
+    "portion": "90 г",
+    "description": "Мягкое печенье с кусочками тёмного шоколада.",
+    "ingredients": "Пшеничная мука, сливочное масло, яйцо, сахар, тёмный шоколад с соевым лецитином, сода, соль.",
+    "image": "/images/products/chocolate-cookie-v6.png",
+    "photo": "two thick rustic chocolate chip cookies with visible dark chocolate chunks on a small ceramic plate",
+    "groups": [],
+    "allergens": [
+      "глютен",
+      "яйцо",
+      "молоко",
+      "соя"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 40
+  },
+  {
+    "id": "tiramisu",
+    "categoryId": "desserts",
+    "name": "Тирамису",
+    "price": 350,
+    "portion": "160 г",
+    "description": "Савоярди, эспрессо, крем маскарпоне и какао. Без алкоголя.",
+    "ingredients": "Печенье савоярди (пшеничная мука, яйцо, сахар), маскарпоне, пастеризованное яйцо, сливки, эспрессо, какао. Без алкоголя.",
+    "image": "/images/products/tiramisu-v6.png",
+    "photo": "square portion of tiramisu with distinct coffee soaked sponge and mascarpone layers, cocoa dusting on top on white plate",
+    "groups": [],
+    "allergens": [
+      "глютен",
+      "яйцо",
+      "молоко"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 41
+  },
+  {
+    "id": "strawberry-matcha",
+    "categoryId": "cold",
+    "name": "Клубничная матча-латте",
+    "price": 390,
+    "portion": "400 мл",
+    "description": "Яркая клубника, нежное молоко и зелёная матча. Подаём со льдом.",
+    "ingredients": "Зелёный чай матча, клубничное пюре с сахаром, коровье молоко, питьевая вода, лёд.",
+    "image": "/images/products/strawberry-matcha-v6.png",
+    "photo": "iced strawberry matcha latte in one plain tall clear glass: a distinct red strawberry puree layer at the bottom, white milk and ice in the middle, vibrant emerald matcha at the top. No whipped cream and no garnish.",
+    "groups": [
+      {
+        "id": "size",
+        "label": "Объём",
+        "options": [
+          {
+            "id": "400",
+            "label": "400 мл",
+            "price": 0
+          },
+          {
+            "id": "500",
+            "label": "500 мл",
+            "price": 70
+          }
+        ],
+        "defaults": [
+          "400"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "milk",
+        "label": "Молоко",
+        "options": [
+          {
+            "id": "regular",
+            "label": "Обычное",
+            "price": 0
+          },
+          {
+            "id": "oat",
+            "label": "Овсяное",
+            "price": 60,
+            "removeAllergens": [
+              "молоко"
+            ],
+            "addAllergens": [
+              "овёс"
+            ]
+          }
+        ],
+        "defaults": [
+          "regular"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [
+      "молоко"
+    ],
+    "popular": true,
+    "available": true,
+    "sortOrder": 42
+  },
+  {
+    "id": "mango-matcha",
+    "categoryId": "cold",
+    "name": "Манговая матча-латте",
+    "price": 390,
+    "portion": "400 мл",
+    "description": "Сочное манго, холодное молоко и насыщенная матча в одном стакане.",
+    "ingredients": "Зелёный чай матча, пюре манго, коровье молоко, питьевая вода, лёд.",
+    "image": "/images/products/mango-matcha-v6.png",
+    "photo": "iced mango matcha latte in one tall clear glass: golden mango puree bottom, white milk and ice middle, emerald matcha top. No whipped cream and no garnish.",
+    "groups": [
+      {
+        "id": "size",
+        "label": "Объём",
+        "options": [
+          {
+            "id": "400",
+            "label": "400 мл",
+            "price": 0
+          },
+          {
+            "id": "500",
+            "label": "500 мл",
+            "price": 70
+          }
+        ],
+        "defaults": [
+          "400"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "milk",
+        "label": "Молоко",
+        "options": [
+          {
+            "id": "regular",
+            "label": "Обычное",
+            "price": 0
+          },
+          {
+            "id": "oat",
+            "label": "Овсяное",
+            "price": 60,
+            "removeAllergens": [
+              "молоко"
+            ],
+            "addAllergens": [
+              "овёс"
+            ]
+          }
+        ],
+        "defaults": [
+          "regular"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [
+      "молоко"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 43
+  },
+  {
+    "id": "bubblegum-shake",
+    "categoryId": "shakes",
+    "name": "Коктейль Бабл-гам",
+    "price": 370,
+    "portion": "400 мл",
+    "description": "Нежный розовый молочный коктейль со вкусом жевательной резинки и сливочной шапкой.",
+    "ingredients": "Коровье молоко, ванильное мороженое (молоко, сливки, сахар, ваниль), сироп бабл-гам (сахар, вода, ароматизатор, пищевой краситель), взбитые сливки.",
+    "image": "/images/products/bubblegum-shake-v6.png",
+    "photo": "one tall clear glass of pastel pink bubblegum milkshake with a small neat white whipped cream swirl. Absolutely no chewing gum balls, no candy, no sprinkles and no fruit garnish.",
+    "groups": [
+      {
+        "id": "size",
+        "label": "Объём",
+        "options": [
+          {
+            "id": "400",
+            "label": "400 мл",
+            "price": 0
+          },
+          {
+            "id": "500",
+            "label": "500 мл",
+            "price": 70
+          }
+        ],
+        "defaults": [
+          "400"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "cream",
+        "label": "Сливки",
+        "options": [
+          {
+            "id": "yes",
+            "label": "Со сливками",
+            "price": 0
+          },
+          {
+            "id": "no",
+            "label": "Без сливок",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "yes"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [
+      "молоко"
+    ],
+    "popular": true,
+    "available": true,
+    "sortOrder": 44
+  },
+  {
+    "id": "taro-bubble-tea",
+    "categoryId": "cold",
+    "name": "Бабл-ти Таро",
+    "price": 390,
+    "portion": "400 мл",
+    "description": "Сливочный напиток с нежным таро, чёрным чаем и мягкими жемчужинами тапиоки.",
+    "ingredients": "Чёрный чай, пюре таро, коровье молоко, сахарный сироп, варёная тапиока (крахмал маниоки, сахар), питьевая вода, лёд.",
+    "image": "/images/products/taro-bubble-tea-v6.png",
+    "photo": "one tall plain clear straight glass of softly lavender taro milk bubble tea with black cooked tapioca pearls at the base and a few ice cubes at the top; no cream, no garnish, no lid, no straw.",
+    "groups": [
+      {
+        "id": "size",
+        "label": "Объём",
+        "options": [
+          {
+            "id": "400",
+            "label": "400 мл",
+            "price": 0
+          },
+          {
+            "id": "500",
+            "label": "500 мл",
+            "price": 70
+          }
+        ],
+        "defaults": [
+          "400"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "milk",
+        "label": "Молоко",
+        "options": [
+          {
+            "id": "regular",
+            "label": "Обычное",
+            "price": 0
+          },
+          {
+            "id": "oat",
+            "label": "Овсяное",
+            "price": 60,
+            "removeAllergens": [
+              "молоко"
+            ],
+            "addAllergens": [
+              "овёс"
+            ]
+          }
+        ],
+        "defaults": [
+          "regular"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "syrup",
+        "label": "Сироп",
+        "options": [
+          {
+            "id": "standard",
+            "label": "По рецепту",
+            "price": 0
+          },
+          {
+            "id": "none",
+            "label": "Без дополнительного сиропа",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [
+      "молоко"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 45
+  },
+  {
+    "id": "mango-bubble-tea",
+    "categoryId": "cold",
+    "name": "Бабл-ти Манго",
+    "price": 370,
+    "portion": "400 мл",
+    "description": "Холодный жасминовый чай с манго и мягкими жемчужинами тапиоки.",
+    "ingredients": "Жасминовый зелёный чай, пюре манго, сахарный сироп, варёная тапиока (крахмал маниоки, сахар), питьевая вода, лёд.",
+    "image": "/images/products/mango-bubble-tea-v6.png",
+    "photo": "one tall plain clear glass of golden mango jasmine fruit bubble tea with black cooked tapioca pearls visible at the bottom and a few ice cubes; translucent bright mango tea, absolutely no milk, no cream, no fruit garnish, no lid, no straw.",
+    "groups": [
+      {
+        "id": "size",
+        "label": "Объём",
+        "options": [
+          {
+            "id": "400",
+            "label": "400 мл",
+            "price": 0
+          },
+          {
+            "id": "500",
+            "label": "500 мл",
+            "price": 70
+          }
+        ],
+        "defaults": [
+          "400"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "syrup",
+        "label": "Сироп",
+        "options": [
+          {
+            "id": "standard",
+            "label": "По рецепту",
+            "price": 0
+          },
+          {
+            "id": "none",
+            "label": "Без дополнительного сиропа",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [],
+    "popular": false,
+    "available": true,
+    "sortOrder": 46
+  }
+]

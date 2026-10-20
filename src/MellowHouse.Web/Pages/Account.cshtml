@@ -1,0 +1,3 @@
+@page
+@{ ViewData["Title"] = "Личный кабинет"; ViewData["BodyClass"] = "account-page"; }
+<div class="container page-space"><nav class="breadcrumbs" aria-label="Хлебные крошки"><a href="/">Главная</a><span>/</span><span>Личный кабинет</span></nav><h1>Личный кабинет</h1><div class="account-grid"><aside class="account-nav"><a href="/Account">Мои заказы</a><a href="/Account?view=profile">Личные данные</a><a href="/Admin" data-admin-link hidden>Панель управления</a><button class="text-button" data-logout>Выйти</button></aside><section id="account-content"><partial name="_MenuTabs" /><div id="history-content"><p>Загружаем историю…</p></div></section></div></div>

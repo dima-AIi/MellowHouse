@@ -1,0 +1,5 @@
+@page
+@inject MellowHouse.Web.Data.ShopDbContext Db
+@using Microsoft.EntityFrameworkCore
+@{ViewData["Title"]="Состав и аллергены";var products=await Db.Products.Include(x=>x.Category).Where(x=>!x.Draft&&!x.Archived&&x.Category.Visible&&!x.Category.Archived).OrderBy(x=>x.SortOrder).ToListAsync();}
+<section class="container page-space prose"><h1>Состав и аллергены</h1><p>Проверьте состав перед заказом. При выборе другого молока, добавок или исключений сведения обновляются в карточке товара.</p><div class="notice">На общем оборудовании возможны следы аллергенов. Исключение ингредиента не гарантирует отсутствие его следов. Если нужна дополнительная информация, свяжитесь с кафе до оформления.</div>@foreach(var p in products){<article class="allergen-item"><h2><a href="/Product/@p.Id">@p.Name</a></h2><p>@p.Ingredients</p><p><strong>Базовая рецептура:</strong> @(p.View().Allergens.Length>0?string.Join(", ",p.View().Allergens):"Отмеченных аллергенов в данных нет; уточните состав в кафе.")</p>@if(!string.IsNullOrWhiteSpace(p.Nutrition)){<p>@p.Nutrition</p>}</article>}<a href="/Menu" class="btn">Вернуться в меню</a></section>

@@ -1,0 +1,11 @@
+@page
+@inject MellowHouse.Web.Features.SiteService Site
+@{ ViewData["Title"] = "Контакты и доставка"; var s=await Site.GetAsync(); }
+<div class="container page-space"><h1>Контакты и доставка</h1><nav class="menu-tabs" aria-label="Информация кафе"><a class="active" href="/Contacts">Контакты</a><a href="/Delivery">Доставка</a><a href="/Delivery#payment">Оплата</a></nav>
+<div class="contacts-grid"><section class="contact-list" aria-label="Контакты Mellow House">
+<div class="contact-row"><svg aria-hidden="true"><use href="/images/icons.svg#call" /></svg><div>@if(s.Phone.Length>0){<a href="tel:@s.Phone"><strong>@s.Phone</strong></a>}else{<strong>Телефон скоро появится</strong>}<p>Поможем с выбором и ответим на вопросы о заказе.</p></div></div>
+<div class="contact-row"><svg aria-hidden="true"><use href="/images/icons.svg#mail" /></svg><div>@if(s.Email.Length>0){<a href="mailto:@s.Email"><strong>@s.Email</strong></a>}else{<strong>Контактная почта уточняется</strong>}<p>Для вопросов и обратной связи.</p></div></div>
+<div class="contact-row"><svg aria-hidden="true"><use href="/images/icons.svg#pin" /></svg><div><strong>@(s.Address.Length>0?s.Address:"Адрес кафе уточняется")</strong><p>@s.CafeName · самовывоз бесплатно</p></div></div>
+<div class="contact-row"><svg aria-hidden="true"><use href="/images/icons.svg#clock" /></svg><div><strong>@(s.Hours.Length>0?s.Hours:"График работы уточняется")</strong><p>Актуальный статус заказа — в вашем профиле.</p></div></div></section>
+<div class="contact-map" role="img" aria-label="Иллюстрация расположения кафе"><div class="map-label"><svg aria-hidden="true"><use href="/images/icons.svg#cup" /></svg><strong>@(s.Address.Length>0?s.Address:"Скоро здесь будет наш адрес")</strong></div><small>Схема-иллюстрация</small></div></div>
+<div class="service-cards"><a class="service-card" href="/Delivery#pickup"><svg aria-hidden="true"><use href="/images/icons.svg#bag" /></svg><div><h2>Самовывоз · бесплатно</h2><p>Закажите онлайн и заберите в кафе.</p></div></a><a class="service-card" href="/Delivery"><svg aria-hidden="true"><use href="/images/icons.svg#truck" /></svg><div><h2>Доставка · @s.DeliveryPrice ₽</h2><p>Укажите адрес и удобное время при оформлении.</p></div></a></div></div>

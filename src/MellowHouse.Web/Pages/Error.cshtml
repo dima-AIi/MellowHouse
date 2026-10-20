@@ -1,0 +1,16 @@
+﻿@page
+@model ErrorModel
+@{
+    ViewData["Title"] = "Не удалось открыть страницу";
+}
+
+<div class="container page-space error-box"><h1>Не удалось открыть страницу</h1><p>Обновите страницу или вернитесь в меню. Ваша корзина и сохранённые заказы остаются на месте.</p><a class="btn" href="/Menu">Открыть меню</a>
+
+@if (Model.ShowRequestId)
+{
+    <p>
+        <strong>Номер обращения:</strong> <code>@Model.RequestId</code>
+    </p>
+}
+
+</div>

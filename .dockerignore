@@ -1,0 +1,17 @@
+**/bin
+**/obj
+**/App_Data
+**/TestResults
+.vs
+.git
+.dotnet
+.nuget
+artifacts
+content-staging
+tests
+tools
+MellowHouse-Handoff
+*.zip
+.env*
+*.user
+.tools

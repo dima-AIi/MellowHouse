@@ -1,0 +1,5 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [{ "source": "/:path*", "destination": "https://YOUR-DOTNET-HOST.example/:path*" }],
+  "headers": [{ "source": "/:path*", "headers": [{ "key": "Cache-Control", "value": "private, no-store, max-age=0" }] }]
+}

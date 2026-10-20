@@ -1,0 +1,258 @@
+{
+  "categories": [
+    {
+      "id": "breakfast",
+      "name": "Завтраки",
+      "sortOrder": 0
+    },
+    {
+      "id": "coffee",
+      "name": "Кофе",
+      "sortOrder": 1
+    },
+    {
+      "id": "tea",
+      "name": "Чай и горячие напитки",
+      "sortOrder": 2
+    },
+    {
+      "id": "cold",
+      "name": "Холодные напитки",
+      "sortOrder": 3
+    },
+    {
+      "id": "shakes",
+      "name": "Коктейли",
+      "sortOrder": 4
+    },
+    {
+      "id": "sandwiches",
+      "name": "Сэндвичи и закуски",
+      "sortOrder": 5
+    },
+    {
+      "id": "salads",
+      "name": "Салаты и боулы",
+      "sortOrder": 6
+    },
+    {
+      "id": "hot",
+      "name": "Горячие блюда",
+      "sortOrder": 7
+    },
+    {
+      "id": "pizza",
+      "name": "Пицца",
+      "sortOrder": 8
+    },
+    {
+      "id": "desserts",
+      "name": "Десерты и выпечка",
+      "sortOrder": 9
+    }
+  ],
+  "products": [
+    {
+      "id": "vanilla-raf",
+      "categoryId": "coffee",
+      "name": "Ванильный раф",
+      "price": 320,
+      "portion": "300 мл",
+      "description": "Эспрессо, сливки и натуральная ваниль. Нежная воздушная текстура.",
+      "ingredients": "Эспрессо, сливки и натуральная ваниль. Нежная воздушная текстура.",
+      "image": "/images/products/vanilla-raf.webp",
+      "photo": "tall clear glass of creamy vanilla raf coffee, thick whipped cream, vanilla bean and tiny caramel crumbs, pale sage green stone surface",
+      "groups": [
+        {
+          "id": "size",
+          "label": "Объём",
+          "options": [
+            {
+              "id": "250",
+              "label": "250 мл",
+              "price": -40
+            },
+            {
+              "id": "300",
+              "label": "300 мл",
+              "price": 0
+            },
+            {
+              "id": "400",
+              "label": "400 мл",
+              "price": 40
+            }
+          ],
+          "defaults": [
+            "300"
+          ],
+          "multiple": false,
+          "required": true
+        },
+        {
+          "id": "milk",
+          "label": "Молоко",
+          "options": [
+            {
+              "id": "regular",
+              "label": "Обычное",
+              "price": 0
+            },
+            {
+              "id": "oat",
+              "label": "Овсяное",
+              "price": 60,
+              "removeAllergens": [
+                "молоко"
+              ],
+              "addAllergens": [
+                "овёс"
+              ]
+            }
+          ],
+          "defaults": [
+            "regular"
+          ],
+          "multiple": false,
+          "required": true
+        },
+        {
+          "id": "sweet",
+          "label": "Сладость",
+          "options": [
+            {
+              "id": "standard",
+              "label": "Стандартная",
+              "price": 0
+            },
+            {
+              "id": "none",
+              "label": "Без сахара",
+              "price": 0
+            }
+          ],
+          "defaults": [
+            "standard"
+          ],
+          "multiple": false,
+          "required": true
+        },
+        {
+          "id": "extras",
+          "label": "Дополнительно",
+          "options": [
+            {
+              "id": "espresso",
+              "label": "Дополнительный шот эспрессо",
+              "price": 50
+            }
+          ],
+          "defaults": [],
+          "multiple": true,
+          "required": false
+        }
+      ],
+      "allergens": [
+        "молоко"
+      ],
+      "popular": true,
+      "available": true
+    },
+    {
+      "id": "bbq-chicken",
+      "categoryId": "sandwiches",
+      "name": "Сэндвич BBQ с курицей",
+      "price": 390,
+      "portion": "280 г",
+      "description": "Куриное филе, соус BBQ, салат, томаты и хрустящий хлеб.",
+      "ingredients": "Куриное филе, соус BBQ, салат, томаты, красный лук и поджаренный пшеничный хлеб. Сыр доступен как добавка.",
+      "image": "/images/products/bbq-chicken.webp",
+      "photo": "thick grilled toasted chicken BBQ sandwich cut diagonally, juicy chicken, lettuce and tomatoes, toasted sourdough on a wooden board with dark forest green background",
+      "groups": [
+        {
+          "id": "size",
+          "label": "Размер",
+          "options": [
+            {
+              "id": "standard",
+              "label": "Стандарт",
+              "price": 0
+            },
+            {
+              "id": "large",
+              "label": "Большой",
+              "price": 130
+            }
+          ],
+          "defaults": [
+            "standard"
+          ],
+          "multiple": false,
+          "required": true
+        },
+        {
+          "id": "extras",
+          "label": "Дополнительно",
+          "options": [
+            {
+              "id": "cheese",
+              "label": "Добавить сыр",
+              "price": 60,
+              "addAllergens": [
+                "молоко"
+              ]
+            }
+          ],
+          "defaults": [],
+          "multiple": true,
+          "required": false
+        },
+        {
+          "id": "exclude",
+          "label": "Исключить ингредиенты",
+          "options": [
+            {
+              "id": "0",
+              "label": "Без лука",
+              "price": 0
+            },
+            {
+              "id": "1",
+              "label": "Без томатов",
+              "price": 0
+            }
+          ],
+          "defaults": [],
+          "multiple": true,
+          "required": false
+        },
+        {
+          "id": "sauce",
+          "label": "Соус",
+          "options": [
+            {
+              "id": "standard",
+              "label": "Стандартно",
+              "price": 0
+            },
+            {
+              "id": "apart",
+              "label": "Отдельно",
+              "price": 0
+            }
+          ],
+          "defaults": [
+            "standard"
+          ],
+          "multiple": false,
+          "required": true
+        }
+      ],
+      "allergens": [
+        "глютен"
+      ],
+      "popular": true,
+      "available": true
+    }
+  ]
+}

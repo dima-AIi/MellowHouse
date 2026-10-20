@@ -1,0 +1,4 @@
+@page "{section?}"
+@{ Layout="_AdminLayout"; ViewData["Title"]="Панель управления"; }
+<div id="admin-workspace" data-section="@(RouteData.Values["section"]??"Overview")"><div class="admin-loading" role="status">Загружаем рабочее пространство…</div></div>
+<noscript><p>Для работы панели включите JavaScript.</p></noscript>

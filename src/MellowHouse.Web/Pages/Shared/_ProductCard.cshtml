@@ -1,0 +1,6 @@
+@model MellowHouse.Web.Data.Product
+<article class="product-card" data-product="@Model.Id">
+    <a class="product-photo" href="/Product/@Model.Id" data-product-link><img src="@Model.Image" alt="@Model.Name" width="640" height="426" loading="lazy" /></a>
+    <div class="card-copy"><h3><a href="/Product/@Model.Id" data-product-link>@Model.Name</a></h3><p class="card-description">@Model.Description</p><p class="portion">@Model.Portion</p>
+    <div class="card-actions"><strong>@Model.Price.ToString("N0") ₽</strong><button class="icon-btn favorite" data-favorite="@Model.Id" aria-label="Добавить @Model.Name в избранное" aria-pressed="false"><svg aria-hidden="true"><use href="/images/icons.svg#heart" /></svg></button><button class="round-btn" data-add="@Model.Id" disabled="@(!Model.Available)" title="@(Model.Available?"Добавить":"Сейчас недоступно")" aria-label="Добавить @Model.Name в корзину">+</button></div></div>
+</article>

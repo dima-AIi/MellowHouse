@@ -1,0 +1,45 @@
+export const money=n=>new Intl.NumberFormat('ru-RU',{style:'currency',currency:'RUB',maximumFractionDigits:0}).format(n);
+export const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+export const icon=name=>`<svg aria-hidden="true"><use href="/images/icons.svg#${name}"></use></svg>`;
+export const app={state:null,catalog:null,method:localStorage.getItem('mh.method')==='delivery'?'delivery':'pickup'};
+export class ApiError extends Error{constructor(message,status,field){super(message);this.status=status;this.field=field;}}
+export async function request(path,body,method='GET'){
+ let response;
+ try{response=await fetch(path,{method,credentials:'same-origin',headers:{'Accept':'application/json',...(body!==undefined?{'Content-Type':'application/json'}:{}),...(method!=='GET'?{'X-CSRF-TOKEN':app.state?.csrfToken??''}:{})},...(body!==undefined?{body:JSON.stringify(body)}:{}),signal:AbortSignal.timeout(path==='/api/assistant'?55000:15000)});}
+ catch{throw new ApiError('Не удалось связаться с кафе. Проверьте соединение и повторите. Корзина сохранена.',0);}
+ const data=await response.json().catch(()=>({}));
+ if(!response.ok)throw new ApiError(data.error||(response.status===401?'Войдите, чтобы продолжить. Корзина сохранена.':response.status===429?'Слишком много попыток. Подождите минуту и повторите.':'Не удалось выполнить действие. Обновите страницу и повторите.'),response.status,data.field);
+ return data;
+}
+export async function refresh(){app.state=await request('/api/state');if(!['pickup','delivery'].includes(localStorage.getItem('mh.method'))&&['pickup','delivery'].includes(app.state.fulfillmentMethod))app.method=app.state.fulfillmentMethod;updateState();return app.state;}
+export function setCart(cart){app.state.cart=cart;updateState();document.dispatchEvent(new CustomEvent('mh:cart'));}
+export function updateState(){
+ if(!app.state)return;
+ document.querySelectorAll('[data-cart-total]').forEach(el=>el.textContent=money(app.state.cart.subtotal));
+ document.querySelectorAll('[data-cart-count]').forEach(el=>{el.textContent=app.state.cart.count;el.hidden=app.state.cart.count===0;});
+ document.querySelectorAll('[data-account-label]').forEach(el=>el.textContent=app.state.authenticated?'Профиль':'Войти');
+ document.querySelectorAll('[data-account]').forEach(el=>el.setAttribute('aria-label',app.state.authenticated?'Профиль':'Войти'));
+ document.querySelectorAll('[data-favorite]').forEach(el=>{const selected=app.state.favorites.includes(el.dataset.favorite);el.setAttribute('aria-pressed',String(selected));const p=app.catalog?.products.find(x=>x.id===el.dataset.favorite);el.setAttribute('aria-label',`${selected?'Убрать':'Добавить'} ${p?.name??'товар'} ${selected?'из избранного':'в избранное'}`);});
+ document.querySelectorAll('[data-method]').forEach(el=>{el.classList.toggle('active',el.dataset.method===app.method);el.setAttribute('aria-pressed',String(el.dataset.method===app.method));});
+ document.querySelectorAll('[data-admin-link]').forEach(el=>el.hidden=app.state.profile?.role!=='Admin');
+ document.querySelectorAll('[data-logout]').forEach(el=>el.hidden=!app.state.authenticated);
+}
+let toastTimer;export function toast(message,undo){
+ const host=document.querySelector('#toast');const modal=[...document.querySelectorAll('dialog[open]')].at(-1);(modal??document.body).append(host);host.querySelector('span').textContent=message;const button=host.querySelector('button');button.hidden=!undo;button.onclick=undo?async()=>{button.disabled=true;try{await undo();host.hidden=true;}catch(e){toast(e.message);}finally{button.disabled=false;}}:null;host.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>host.hidden=true,undo?10000:4200);
+}
+export async function busy(button,operation){if(button?.disabled)return;const old=button?.innerHTML;if(button){button.disabled=true;button.setAttribute('aria-busy','true');}try{return await operation();}finally{if(button){button.disabled=false;button.removeAttribute('aria-busy');if(old!==undefined&&button.dataset.loadingLabel==='true')button.innerHTML=old;}}}
+export function handle(selector,callback){document.addEventListener('click',async e=>{const b=e.target.closest(selector);if(!b)return;try{await busy(b,()=>callback(b,e));}catch(error){toast(error.message);}});}
+export const product=id=>app.catalog?.products.find(p=>p.id===id);
+export const defaults=p=>Object.fromEntries(p.groups.map(g=>[g.id,[...g.defaults]]));
+export function calculated(p,selection){let price=p.price;let allergens=new Set(p.allergens);let summary=[];for(const g of p.groups)for(const id of selection[g.id]??[]){const o=g.options.find(o=>o.id===id);if(!o)continue;price+=o.price;summary.push(o.label);for(const a of o.removeAllergens??[])allergens.delete(a);for(const a of o.addAllergens??[])allergens.add(a);}return{price,allergens:[...allergens],summary};}
+export function configure(host,p,selection,onChange){
+ const adjusted=n=>n>0?'+'+money(n):money(n);
+ host.innerHTML=p.groups.map(g=>`<fieldset><legend>${esc(g.label)}</legend><div class="${g.multiple?'option-checks':'option-grid'}" data-option-grid="${esc(g.id)}">${g.options.map(o=>{const selected=(selection[g.id]??[]).includes(o.id);const label=g.id==='size'?money(p.price+o.price):o.price?`+${money(o.price)}`:'0 ₽';return g.multiple?`<label class="option-check"><input type="checkbox" name="${host.id}-${esc(g.id)}" value="${esc(o.id)}" data-group="${esc(g.id)}" ${selected?'checked':''}/><span>${esc(o.label)}</span><small>${o.price?`+${money(o.price)}`:'0 ₽'}</small></label>`:`<label class="option-tile"><input type="radio" name="${host.id}-${esc(g.id)}" value="${esc(o.id)}" data-group="${esc(g.id)}" ${selected?'checked':''}/><span>${esc(o.label)}</span><small>${label}</small></label>`;}).join('')}</div></fieldset>`).join('');
+ host.querySelectorAll('.option-grid').forEach(el=>el.style.setProperty('--columns',String(Math.min(3,p.groups.find(g=>g.id===el.dataset.optionGrid).options.length))));
+ for(const g of p.groups){const grid=host.querySelector(`[data-option-grid="${CSS.escape(g.id)}"]`);const min=Math.max(g.min??0,g.required?1:0);if(!g.multiple&&min===0){const label=document.createElement('label');label.className='option-tile';label.innerHTML=`<input type="radio" name="${host.id}-${esc(g.id)}" value="" data-group="${esc(g.id)}" ${selection[g.id]?.length?'':'checked'}/><span>Без добавления</span><small>0 ₽</small>`;grid.prepend(label);}if(g.multiple){const note=document.createElement('p');note.className='small muted';note.textContent=`Выберите от ${min} до ${g.max??g.options.length}`;grid.before(note);}grid.querySelectorAll('small').forEach((small,i)=>{const input=small.closest('label').querySelector('input');const o=g.options.find(o=>o.id===input.value);if(o&&g.id!=='size')small.textContent=adjusted(o.price);});}
+ host.setAttribute('aria-busy','false');host.onchange=e=>{const g=p.groups.find(x=>x.id===e.target.dataset.group);if(!g)return;const chosen=[...host.querySelectorAll(`input[data-group="${CSS.escape(g.id)}"]:checked`)].map(x=>x.value).filter(Boolean);const min=Math.max(g.min??0,g.required?1:0),max=g.max??(g.multiple?g.options.length:1);if(chosen.length<min||chosen.length>max){e.target.checked=!e.target.checked;toast(`В группе «${g.label}» выберите от ${min} до ${max}.`);return;}selection[g.id]=chosen;onChange();};onChange();
+}
+export function card(p){return `<article class="product-card" data-product="${esc(p.id)}"><a class="product-photo" href="/Product/${esc(p.id)}" data-product-link><img src="${esc(p.image)}" alt="${esc(p.name)}" width="640" height="426" loading="lazy"/></a><div class="card-copy"><h3><a href="/Product/${esc(p.id)}" data-product-link>${esc(p.name)}</a></h3><p class="card-description">${esc(p.description)}</p><p class="portion">${esc(p.portion)}</p><div class="card-actions"><strong>${money(p.price)}</strong><button class="icon-btn favorite" data-favorite="${esc(p.id)}" aria-label="Добавить ${esc(p.name)} в избранное" aria-pressed="false">${icon('heart')}</button><button class="round-btn" data-add="${esc(p.id)}" ${p.available?'':'disabled title="Сейчас недоступно"'} aria-label="Добавить ${esc(p.name)} в корзину">+</button></div></div></article>`;}
+export function totals(subtotal,delivery){return `<div class="total-row"><span>Товары</span><strong>${money(subtotal)}</strong></div><div class="total-row"><span>${delivery?'Доставка':'Самовывоз'}</span><strong>${delivery?money(delivery):'Бесплатно'}</strong></div><div class="total-row grand"><span>Итого</span><strong>${money(subtotal+delivery)}</strong></div>`;}
+export function snapshotItems(items){return items.map(i=>`<div class="summary-line"><img src="${esc(i.image)}" alt="${esc(i.name)}" width="58" height="60"/><div><h3>${esc(i.name)}</h3><p>${esc(i.summary.join(', ')||i.portion)}</p><span>${i.quantity} шт.</span></div><strong>${money(i.total)}</strong></div>`).join('');}
+export const ready=Promise.all([refresh(),request('/api/catalog').then(c=>app.catalog=c)]).then(()=>{updateState();return app;});

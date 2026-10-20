@@ -1,0 +1,1571 @@
+[
+  {
+    "id": "syrniki",
+    "categoryId": "breakfast",
+    "name": "Сырники",
+    "price": 320,
+    "portion": "260 г",
+    "description": "Творожные сырники со сметаной и ягодным соусом.",
+    "ingredients": "Творог, яйцо, пшеничная мука, сахар, сметана, ягодный соус, мята.",
+    "image": "/images/products/syrniki.png",
+    "groups": [
+      {
+        "id": "sauce",
+        "label": "Соус",
+        "options": [
+          {
+            "id": "standard",
+            "label": "Стандартно",
+            "price": 0
+          },
+          {
+            "id": "apart",
+            "label": "Отдельно",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [
+      "молоко",
+      "яйцо",
+      "глютен"
+    ],
+    "popular": true,
+    "available": true,
+    "sortOrder": 0,
+    "recommended": true
+  },
+  {
+    "id": "egg-croissant",
+    "categoryId": "breakfast",
+    "name": "Круассан с яйцом",
+    "price": 350,
+    "portion": "200 г",
+    "description": "Горячий круассан, скрембл, салат и сливочный сыр.",
+    "ingredients": "Пшеничный круассан (сливочное масло, мука), яйца, сливочный сыр, шпинат.",
+    "image": "/images/products/egg-croissant.png",
+    "groups": [
+      {
+        "id": "exclude",
+        "label": "Исключить ингредиенты",
+        "options": [
+          {
+            "id": "0",
+            "label": "Без салата",
+            "price": 0
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      }
+    ],
+    "allergens": [
+      "глютен",
+      "яйцо",
+      "молоко"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 1,
+    "recommended": false
+  },
+  {
+    "id": "avocado-toast",
+    "categoryId": "breakfast",
+    "name": "Тост с авокадо",
+    "price": 360,
+    "portion": "240 г",
+    "description": "Цельнозерновой хлеб, авокадо, томаты и яйцо пашот.",
+    "ingredients": "Цельнозерновой пшеничный хлеб, авокадо, яйцо пашот, томаты, лимонный сок.",
+    "image": "/images/products/avocado-toast.png",
+    "groups": [
+      {
+        "id": "exclude",
+        "label": "Исключить ингредиенты",
+        "options": [
+          {
+            "id": "0",
+            "label": "Без яйца",
+            "price": 0
+          },
+          {
+            "id": "1",
+            "label": "Без томатов",
+            "price": 0
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      }
+    ],
+    "allergens": [
+      "глютен",
+      "яйцо"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 2,
+    "recommended": false
+  },
+  {
+    "id": "bacon-omelette",
+    "categoryId": "breakfast",
+    "name": "Омлет с беконом",
+    "price": 360,
+    "portion": "320 г",
+    "description": "Нежный омлет, хрустящий бекон, томаты и зелень.",
+    "ingredients": "Яйца, молоко, бекон, томаты, зелень, растительное масло.",
+    "image": "/images/products/bacon-omelette.png",
+    "groups": [
+      {
+        "id": "exclude",
+        "label": "Исключить ингредиенты",
+        "options": [
+          {
+            "id": "0",
+            "label": "Без томатов",
+            "price": 0
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      },
+      {
+        "id": "extras",
+        "label": "Дополнительно",
+        "options": [
+          {
+            "id": "cheese",
+            "label": "Добавить сыр",
+            "price": 60,
+            "addAllergens": [
+              "молоко"
+            ]
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      }
+    ],
+    "allergens": [
+      "яйцо",
+      "молоко"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 3,
+    "recommended": false
+  },
+  {
+    "id": "espresso",
+    "categoryId": "coffee",
+    "name": "Эспрессо",
+    "price": 180,
+    "portion": "40 мл",
+    "description": "Насыщенный эспрессо из свежеобжаренного зерна.",
+    "ingredients": "Насыщенный эспрессо из свежеобжаренного зерна.",
+    "image": "/images/products/espresso.png",
+    "groups": [
+      {
+        "id": "size",
+        "label": "Порция",
+        "options": [
+          {
+            "id": "single",
+            "label": "40 мл",
+            "price": 0
+          },
+          {
+            "id": "double",
+            "label": "80 мл",
+            "price": 60
+          }
+        ],
+        "defaults": [
+          "single"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [],
+    "popular": false,
+    "available": true,
+    "sortOrder": 4,
+    "recommended": false
+  },
+  {
+    "id": "americano",
+    "categoryId": "coffee",
+    "name": "Американо",
+    "price": 220,
+    "portion": "250 мл",
+    "description": "Двойной эспрессо и горячая вода. Чистый кофейный вкус.",
+    "ingredients": "Двойной эспрессо и горячая вода. Чистый кофейный вкус.",
+    "image": "/images/products/americano.png",
+    "groups": [
+      {
+        "id": "size",
+        "label": "Объём",
+        "options": [
+          {
+            "id": "250",
+            "label": "250 мл",
+            "price": 0
+          },
+          {
+            "id": "350",
+            "label": "350 мл",
+            "price": 40
+          }
+        ],
+        "defaults": [
+          "250"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "sweet",
+        "label": "Сладость",
+        "options": [
+          {
+            "id": "standard",
+            "label": "Стандартная",
+            "price": 0
+          },
+          {
+            "id": "none",
+            "label": "Без сахара",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [],
+    "popular": false,
+    "available": true,
+    "sortOrder": 5,
+    "recommended": false
+  },
+  {
+    "id": "cappuccino",
+    "categoryId": "coffee",
+    "name": "Капучино",
+    "price": 300,
+    "portion": "300 мл",
+    "description": "Эспрессо, молоко и бархатная молочная пена.",
+    "ingredients": "Эспрессо, молоко и бархатная молочная пена.",
+    "image": "/images/products/cappuccino.png",
+    "groups": [
+      {
+        "id": "size",
+        "label": "Объём",
+        "options": [
+          {
+            "id": "250",
+            "label": "250 мл",
+            "price": -40
+          },
+          {
+            "id": "300",
+            "label": "300 мл",
+            "price": 0
+          },
+          {
+            "id": "400",
+            "label": "400 мл",
+            "price": 40
+          }
+        ],
+        "defaults": [
+          "300"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "milk",
+        "label": "Молоко",
+        "options": [
+          {
+            "id": "regular",
+            "label": "Обычное",
+            "price": 0
+          },
+          {
+            "id": "oat",
+            "label": "Овсяное",
+            "price": 60,
+            "removeAllergens": [
+              "молоко"
+            ],
+            "addAllergens": [
+              "овёс"
+            ]
+          }
+        ],
+        "defaults": [
+          "regular"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "sweet",
+        "label": "Сладость",
+        "options": [
+          {
+            "id": "standard",
+            "label": "Стандартная",
+            "price": 0
+          },
+          {
+            "id": "none",
+            "label": "Без сахара",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "extras",
+        "label": "Дополнительно",
+        "options": [
+          {
+            "id": "espresso",
+            "label": "Дополнительный шот эспрессо",
+            "price": 50
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      }
+    ],
+    "allergens": [
+      "молоко"
+    ],
+    "popular": true,
+    "available": true,
+    "sortOrder": 6,
+    "recommended": true
+  },
+  {
+    "id": "latte",
+    "categoryId": "coffee",
+    "name": "Латте",
+    "price": 300,
+    "portion": "300 мл",
+    "description": "Мягкий эспрессо с большим количеством молока.",
+    "ingredients": "Мягкий эспрессо с большим количеством молока.",
+    "image": "/images/products/latte.png",
+    "groups": [
+      {
+        "id": "size",
+        "label": "Объём",
+        "options": [
+          {
+            "id": "250",
+            "label": "250 мл",
+            "price": -40
+          },
+          {
+            "id": "300",
+            "label": "300 мл",
+            "price": 0
+          },
+          {
+            "id": "400",
+            "label": "400 мл",
+            "price": 40
+          }
+        ],
+        "defaults": [
+          "300"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "milk",
+        "label": "Молоко",
+        "options": [
+          {
+            "id": "regular",
+            "label": "Обычное",
+            "price": 0
+          },
+          {
+            "id": "oat",
+            "label": "Овсяное",
+            "price": 60,
+            "removeAllergens": [
+              "молоко"
+            ],
+            "addAllergens": [
+              "овёс"
+            ]
+          }
+        ],
+        "defaults": [
+          "regular"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "sweet",
+        "label": "Сладость",
+        "options": [
+          {
+            "id": "standard",
+            "label": "Стандартная",
+            "price": 0
+          },
+          {
+            "id": "none",
+            "label": "Без сахара",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "extras",
+        "label": "Дополнительно",
+        "options": [
+          {
+            "id": "espresso",
+            "label": "Дополнительный шот эспрессо",
+            "price": 50
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      }
+    ],
+    "allergens": [
+      "молоко"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 7,
+    "recommended": false
+  },
+  {
+    "id": "chocolate-mocha",
+    "categoryId": "coffee",
+    "name": "Шоколадный мокко",
+    "price": 340,
+    "portion": "300 мл",
+    "description": "Эспрессо, молоко, тёмный шоколад и взбитые сливки.",
+    "ingredients": "Эспрессо, молоко, тёмный шоколад, взбитые сливки, какао.",
+    "image": "/images/products/chocolate-mocha.png",
+    "groups": [
+      {
+        "id": "size",
+        "label": "Объём",
+        "options": [
+          {
+            "id": "250",
+            "label": "250 мл",
+            "price": -40
+          },
+          {
+            "id": "300",
+            "label": "300 мл",
+            "price": 0
+          },
+          {
+            "id": "400",
+            "label": "400 мл",
+            "price": 40
+          }
+        ],
+        "defaults": [
+          "300"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "milk",
+        "label": "Молоко",
+        "options": [
+          {
+            "id": "regular",
+            "label": "Обычное",
+            "price": 0
+          },
+          {
+            "id": "oat",
+            "label": "Овсяное",
+            "price": 60,
+            "removeAllergens": [
+              "молоко"
+            ],
+            "addAllergens": [
+              "овёс"
+            ]
+          }
+        ],
+        "defaults": [
+          "regular"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "sweet",
+        "label": "Сладость",
+        "options": [
+          {
+            "id": "standard",
+            "label": "Стандартная",
+            "price": 0
+          },
+          {
+            "id": "none",
+            "label": "Без сахара",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "extras",
+        "label": "Дополнительно",
+        "options": [
+          {
+            "id": "espresso",
+            "label": "Дополнительный шот эспрессо",
+            "price": 50
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      }
+    ],
+    "allergens": [
+      "молоко"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 8,
+    "recommended": false
+  },
+  {
+    "id": "black-tea",
+    "categoryId": "tea",
+    "name": "Чёрный чай",
+    "price": 190,
+    "portion": "400 мл",
+    "description": "Листовой чёрный чай с насыщенным ароматом.",
+    "ingredients": "Листовой чёрный чай с насыщенным ароматом.",
+    "image": "/images/products/black-tea.png",
+    "groups": [
+      {
+        "id": "sweet",
+        "label": "Сладость",
+        "options": [
+          {
+            "id": "standard",
+            "label": "Стандартная",
+            "price": 0
+          },
+          {
+            "id": "none",
+            "label": "Без сахара",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [],
+    "popular": false,
+    "available": true,
+    "sortOrder": 9,
+    "recommended": false
+  },
+  {
+    "id": "matcha-latte",
+    "categoryId": "tea",
+    "name": "Матча-латте",
+    "price": 330,
+    "portion": "300 мл",
+    "description": "Японская матча и тёплое молоко.",
+    "ingredients": "Японская матча и тёплое молоко.",
+    "image": "/images/products/matcha-latte.png",
+    "groups": [
+      {
+        "id": "milk",
+        "label": "Молоко",
+        "options": [
+          {
+            "id": "regular",
+            "label": "Обычное",
+            "price": 0
+          },
+          {
+            "id": "oat",
+            "label": "Овсяное",
+            "price": 60,
+            "removeAllergens": [
+              "молоко"
+            ],
+            "addAllergens": [
+              "овёс"
+            ]
+          }
+        ],
+        "defaults": [
+          "regular"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "sweet",
+        "label": "Сладость",
+        "options": [
+          {
+            "id": "standard",
+            "label": "Стандартная",
+            "price": 0
+          },
+          {
+            "id": "none",
+            "label": "Без сахара",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [
+      "молоко"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 10,
+    "recommended": false
+  },
+  {
+    "id": "sea-buckthorn",
+    "categoryId": "tea",
+    "name": "Облепиховый чай",
+    "price": 290,
+    "portion": "400 мл",
+    "description": "Облепиха, апельсин, мёд и розмарин.",
+    "ingredients": "Облепиха, апельсин, мёд и розмарин.",
+    "image": "/images/products/sea-buckthorn.png",
+    "groups": [
+      {
+        "id": "sweet",
+        "label": "Сладость",
+        "options": [
+          {
+            "id": "standard",
+            "label": "Стандартная",
+            "price": 0
+          },
+          {
+            "id": "none",
+            "label": "Без сахара",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [],
+    "popular": false,
+    "available": true,
+    "sortOrder": 11,
+    "recommended": false
+  },
+  {
+    "id": "cherry-lemonade",
+    "categoryId": "cold",
+    "name": "Вишнёвый лимонад",
+    "price": 290,
+    "portion": "400 мл",
+    "description": "Вишня, лимон, газированная вода и мята.",
+    "ingredients": "Вишня, лимон, газированная вода, мятный сироп, лёд.",
+    "image": "/images/products/cherry-lemonade.png",
+    "groups": [
+      {
+        "id": "sweet",
+        "label": "Сладость",
+        "options": [
+          {
+            "id": "standard",
+            "label": "Стандартная",
+            "price": 0
+          },
+          {
+            "id": "none",
+            "label": "Без сахара",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [],
+    "popular": false,
+    "available": true,
+    "sortOrder": 12,
+    "recommended": false
+  },
+  {
+    "id": "orange-juice",
+    "categoryId": "cold",
+    "name": "Апельсиновый сок",
+    "price": 290,
+    "portion": "250 мл",
+    "description": "Свежевыжатый апельсиновый сок без добавленного сахара.",
+    "ingredients": "Свежевыжатый апельсиновый сок без добавленного сахара.",
+    "image": "/images/products/orange-juice.png",
+    "groups": [],
+    "allergens": [],
+    "popular": false,
+    "available": true,
+    "sortOrder": 13,
+    "recommended": false
+  },
+  {
+    "id": "iced-latte",
+    "categoryId": "coffee",
+    "name": "Айс-латте",
+    "price": 320,
+    "portion": "400 мл",
+    "description": "Охлаждённый эспрессо, молоко и кубики льда.",
+    "ingredients": "Охлаждённый эспрессо, молоко и кубики льда.",
+    "image": "/images/products/iced-latte.png",
+    "groups": [
+      {
+        "id": "milk",
+        "label": "Молоко",
+        "options": [
+          {
+            "id": "regular",
+            "label": "Обычное",
+            "price": 0
+          },
+          {
+            "id": "oat",
+            "label": "Овсяное",
+            "price": 60,
+            "removeAllergens": [
+              "молоко"
+            ],
+            "addAllergens": [
+              "овёс"
+            ]
+          }
+        ],
+        "defaults": [
+          "regular"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "sweet",
+        "label": "Сладость",
+        "options": [
+          {
+            "id": "standard",
+            "label": "Стандартная",
+            "price": 0
+          },
+          {
+            "id": "none",
+            "label": "Без сахара",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "extras",
+        "label": "Дополнительно",
+        "options": [
+          {
+            "id": "espresso",
+            "label": "Дополнительный шот эспрессо",
+            "price": 50
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      }
+    ],
+    "allergens": [
+      "молоко"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 14,
+    "recommended": false
+  },
+  {
+    "id": "strawberry-shake",
+    "categoryId": "shakes",
+    "name": "Клубничный коктейль",
+    "price": 340,
+    "portion": "400 мл",
+    "description": "Молоко, клубника, мороженое и взбитые сливки.",
+    "ingredients": "Молоко, клубника, мороженое и взбитые сливки.",
+    "image": "/images/products/strawberry-shake.png",
+    "groups": [
+      {
+        "id": "sweet",
+        "label": "Сладость",
+        "options": [
+          {
+            "id": "standard",
+            "label": "Стандартная",
+            "price": 0
+          },
+          {
+            "id": "none",
+            "label": "Без сахара",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [
+      "молоко"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 15,
+    "recommended": false
+  },
+  {
+    "id": "vanilla-shake",
+    "categoryId": "shakes",
+    "name": "Ванильный коктейль",
+    "price": 320,
+    "portion": "400 мл",
+    "description": "Молоко, ванильное мороженое и взбитые сливки.",
+    "ingredients": "Молоко, ванильное мороженое и взбитые сливки.",
+    "image": "/images/products/vanilla-shake.png",
+    "groups": [
+      {
+        "id": "sweet",
+        "label": "Сладость",
+        "options": [
+          {
+            "id": "standard",
+            "label": "Стандартная",
+            "price": 0
+          },
+          {
+            "id": "none",
+            "label": "Без сахара",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      }
+    ],
+    "allergens": [
+      "молоко"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 16,
+    "recommended": false
+  },
+  {
+    "id": "cheese-mushroom",
+    "categoryId": "sandwiches",
+    "name": "Горячий сэндвич с сыром и грибами",
+    "price": 390,
+    "portion": "260 г",
+    "description": "Хлеб на гриле, шампиньоны, сыр и сливочный соус.",
+    "ingredients": "Пшеничный хлеб, шампиньоны, сыр, сливочный соус.",
+    "image": "/images/products/cheese-mushroom.png",
+    "groups": [
+      {
+        "id": "size",
+        "label": "Размер",
+        "options": [
+          {
+            "id": "standard",
+            "label": "Стандарт",
+            "price": 0
+          },
+          {
+            "id": "large",
+            "label": "Большой",
+            "price": 130
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "exclude",
+        "label": "Исключить ингредиенты",
+        "options": [
+          {
+            "id": "0",
+            "label": "Без соуса",
+            "price": 0
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      }
+    ],
+    "allergens": [
+      "глютен",
+      "молоко"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 17,
+    "recommended": false
+  },
+  {
+    "id": "salmon-toast",
+    "categoryId": "sandwiches",
+    "name": "Тост с лососем",
+    "price": 460,
+    "portion": "220 г",
+    "description": "Поджаренный хлеб, слабосолёный лосось, сливочный сыр и огурец.",
+    "ingredients": "Пшеничный хлеб, слабосолёный лосось, сливочный сыр, огурец, укроп.",
+    "image": "/images/products/salmon-toast.png",
+    "groups": [
+      {
+        "id": "exclude",
+        "label": "Исключить ингредиенты",
+        "options": [
+          {
+            "id": "0",
+            "label": "Без огурца",
+            "price": 0
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      }
+    ],
+    "allergens": [
+      "глютен",
+      "молоко",
+      "рыба"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 18,
+    "recommended": false
+  },
+  {
+    "id": "caesar-chicken",
+    "categoryId": "salads",
+    "name": "Цезарь с курицей",
+    "price": 360,
+    "portion": "250 г",
+    "description": "Салат романо, куриная грудка, пармезан, сухарики и соус цезарь.",
+    "ingredients": "Романо, куриная грудка, пармезан, пшеничные сухарики, соус цезарь (яйцо, анчоусы, горчица).",
+    "image": "/images/products/caesar-chicken.png",
+    "groups": [
+      {
+        "id": "dressing",
+        "label": "Заправка",
+        "options": [
+          {
+            "id": "standard",
+            "label": "Стандартная",
+            "price": 0
+          },
+          {
+            "id": "apart",
+            "label": "Отдельно",
+            "price": 0
+          },
+          {
+            "id": "none",
+            "label": "Без заправки",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "exclude",
+        "label": "Исключить ингредиенты",
+        "options": [
+          {
+            "id": "0",
+            "label": "Без сухариков",
+            "price": 0
+          },
+          {
+            "id": "1",
+            "label": "Без пармезана",
+            "price": 0
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      }
+    ],
+    "allergens": [
+      "глютен",
+      "молоко",
+      "яйцо",
+      "рыба"
+    ],
+    "popular": true,
+    "available": true,
+    "sortOrder": 19,
+    "recommended": true
+  },
+  {
+    "id": "salmon-bowl",
+    "categoryId": "salads",
+    "name": "Боул с лососем",
+    "price": 590,
+    "portion": "280 г",
+    "description": "Лосось, киноа, авокадо, эдамаме, овощи и соус понзу.",
+    "ingredients": "Лосось, киноа, авокадо, эдамаме, овощи и соус понзу.",
+    "image": "/images/products/salmon-bowl.png",
+    "groups": [
+      {
+        "id": "dressing",
+        "label": "Заправка",
+        "options": [
+          {
+            "id": "standard",
+            "label": "Стандартная",
+            "price": 0
+          },
+          {
+            "id": "apart",
+            "label": "Отдельно",
+            "price": 0
+          },
+          {
+            "id": "none",
+            "label": "Без заправки",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "exclude",
+        "label": "Исключить ингредиенты",
+        "options": [
+          {
+            "id": "0",
+            "label": "Без томатов",
+            "price": 0
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      }
+    ],
+    "allergens": [
+      "рыба",
+      "соя"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 20,
+    "recommended": false
+  },
+  {
+    "id": "greek-salad",
+    "categoryId": "salads",
+    "name": "Греческий салат",
+    "price": 360,
+    "portion": "250 г",
+    "description": "Томаты, огурцы, фета, оливки, сладкий перец и орегано.",
+    "ingredients": "Томаты, огурцы, фета, оливки, сладкий перец, красный лук, орегано, оливковое масло.",
+    "image": "/images/products/greek-salad.png",
+    "groups": [
+      {
+        "id": "dressing",
+        "label": "Заправка",
+        "options": [
+          {
+            "id": "standard",
+            "label": "Стандартная",
+            "price": 0
+          },
+          {
+            "id": "apart",
+            "label": "Отдельно",
+            "price": 0
+          },
+          {
+            "id": "none",
+            "label": "Без заправки",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "exclude",
+        "label": "Исключить ингредиенты",
+        "options": [
+          {
+            "id": "0",
+            "label": "Без лука",
+            "price": 0
+          },
+          {
+            "id": "1",
+            "label": "Без феты",
+            "price": 0
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      }
+    ],
+    "allergens": [
+      "молоко"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 21,
+    "recommended": false
+  },
+  {
+    "id": "beef-medallions",
+    "categoryId": "hot",
+    "name": "Говяжьи медальоны",
+    "price": 790,
+    "portion": "320 г",
+    "description": "Говяжьи медальоны, картофель, овощи-гриль и демиглас.",
+    "ingredients": "Говяжьи медальоны, картофель, овощи-гриль и демиглас.",
+    "image": "/images/products/beef-medallions.png",
+    "groups": [
+      {
+        "id": "sauce",
+        "label": "Соус",
+        "options": [
+          {
+            "id": "standard",
+            "label": "Стандартно",
+            "price": 0
+          },
+          {
+            "id": "apart",
+            "label": "Отдельно",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "exclude",
+        "label": "Исключить ингредиенты",
+        "options": [
+          {
+            "id": "0",
+            "label": "Без соуса",
+            "price": 0
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      }
+    ],
+    "allergens": [],
+    "popular": false,
+    "available": true,
+    "sortOrder": 22,
+    "recommended": false
+  },
+  {
+    "id": "chicken-pasta",
+    "categoryId": "hot",
+    "name": "Паста с курицей и грибами",
+    "price": 490,
+    "portion": "320 г",
+    "description": "Тальятелле, курица, шампиньоны, сливочный соус и пармезан.",
+    "ingredients": "Тальятелле, курица, шампиньоны, сливочный соус и пармезан.",
+    "image": "/images/products/chicken-pasta.png",
+    "groups": [
+      {
+        "id": "exclude",
+        "label": "Исключить ингредиенты",
+        "options": [
+          {
+            "id": "0",
+            "label": "Без пармезана",
+            "price": 0
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      }
+    ],
+    "allergens": [
+      "глютен",
+      "молоко"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 23,
+    "recommended": false
+  },
+  {
+    "id": "salmon-vegetables",
+    "categoryId": "hot",
+    "name": "Лосось с овощами",
+    "price": 790,
+    "portion": "300 г",
+    "description": "Филе лосося, сезонные овощи и лимонный соус.",
+    "ingredients": "Филе лосося, сезонные овощи и лимонный соус.",
+    "image": "/images/products/salmon-vegetables.png",
+    "groups": [
+      {
+        "id": "sauce",
+        "label": "Соус",
+        "options": [
+          {
+            "id": "standard",
+            "label": "Стандартно",
+            "price": 0
+          },
+          {
+            "id": "apart",
+            "label": "Отдельно",
+            "price": 0
+          }
+        ],
+        "defaults": [
+          "standard"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "exclude",
+        "label": "Исключить ингредиенты",
+        "options": [
+          {
+            "id": "0",
+            "label": "Без соуса",
+            "price": 0
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      }
+    ],
+    "allergens": [
+      "рыба",
+      "молоко"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 24,
+    "recommended": false
+  },
+  {
+    "id": "margherita",
+    "categoryId": "pizza",
+    "name": "Пицца Маргарита",
+    "price": 520,
+    "portion": "25 см · 420 г",
+    "description": "Тонкое тесто, томатный соус, моцарелла и базилик.",
+    "ingredients": "Тонкое тесто, томатный соус, моцарелла и базилик.",
+    "image": "/images/products/margherita.png",
+    "groups": [
+      {
+        "id": "size",
+        "label": "Диаметр",
+        "options": [
+          {
+            "id": "25",
+            "label": "25 см",
+            "price": 0
+          },
+          {
+            "id": "30",
+            "label": "30 см",
+            "price": 180
+          }
+        ],
+        "defaults": [
+          "25"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "extras",
+        "label": "Дополнительно",
+        "options": [
+          {
+            "id": "cheese",
+            "label": "Добавить сыр",
+            "price": 60,
+            "addAllergens": [
+              "молоко"
+            ]
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      },
+      {
+        "id": "exclude",
+        "label": "Исключить ингредиенты",
+        "options": [
+          {
+            "id": "0",
+            "label": "Без соуса",
+            "price": 0
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      }
+    ],
+    "allergens": [
+      "глютен",
+      "молоко"
+    ],
+    "popular": true,
+    "available": true,
+    "sortOrder": 25,
+    "recommended": true
+  },
+  {
+    "id": "pepperoni",
+    "categoryId": "pizza",
+    "name": "Пицца Пепперони",
+    "price": 590,
+    "portion": "25 см · 450 г",
+    "description": "Тонкое тесто, томатный соус, моцарелла и пепперони.",
+    "ingredients": "Тонкое тесто, томатный соус, моцарелла и пепперони.",
+    "image": "/images/products/pepperoni.png",
+    "groups": [
+      {
+        "id": "size",
+        "label": "Диаметр",
+        "options": [
+          {
+            "id": "25",
+            "label": "25 см",
+            "price": 0
+          },
+          {
+            "id": "30",
+            "label": "30 см",
+            "price": 180
+          }
+        ],
+        "defaults": [
+          "25"
+        ],
+        "multiple": false,
+        "required": true
+      },
+      {
+        "id": "extras",
+        "label": "Дополнительно",
+        "options": [
+          {
+            "id": "cheese",
+            "label": "Добавить сыр",
+            "price": 60,
+            "addAllergens": [
+              "молоко"
+            ]
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      },
+      {
+        "id": "exclude",
+        "label": "Исключить ингредиенты",
+        "options": [
+          {
+            "id": "0",
+            "label": "Без соуса",
+            "price": 0
+          }
+        ],
+        "defaults": [],
+        "multiple": true,
+        "required": false
+      }
+    ],
+    "allergens": [
+      "глютен",
+      "молоко"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 26,
+    "recommended": false
+  },
+  {
+    "id": "chocolate-fondant",
+    "categoryId": "desserts",
+    "name": "Шоколадный фондан",
+    "price": 390,
+    "portion": "180 г",
+    "description": "Тёплый шоколадный кекс с жидкой серединой и ванильным мороженым.",
+    "ingredients": "Тёмный шоколад, сливочное масло, яйцо, сахар, пшеничная мука, ванильное мороженое, мята.",
+    "image": "/images/products/chocolate-fondant.png",
+    "groups": [],
+    "allergens": [
+      "глютен",
+      "яйцо",
+      "молоко"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 27,
+    "recommended": false
+  },
+  {
+    "id": "caramel-cheesecake",
+    "categoryId": "desserts",
+    "name": "Карамельный чизкейк",
+    "price": 320,
+    "portion": "160 г",
+    "description": "Сливочный чизкейк на песочной основе с солёной карамелью.",
+    "ingredients": "Сливочный сыр, сливки, яйцо, сахар, пшеничная песочная основа, солёная карамель.",
+    "image": "/images/products/caramel-cheesecake.png",
+    "groups": [],
+    "allergens": [
+      "глютен",
+      "яйцо",
+      "молоко"
+    ],
+    "popular": true,
+    "available": true,
+    "sortOrder": 28,
+    "recommended": true
+  },
+  {
+    "id": "almond-croissant",
+    "categoryId": "desserts",
+    "name": "Миндальный круассан",
+    "price": 270,
+    "portion": "120 г",
+    "description": "Слоёный круассан с миндальным кремом и лепестками миндаля.",
+    "ingredients": "Пшеничная мука, сливочное масло, сахар, яйцо, миндальный крем, миндальные лепестки, сахарная пудра.",
+    "image": "/images/products/almond-croissant.png",
+    "groups": [],
+    "allergens": [
+      "глютен",
+      "молоко",
+      "орехи"
+    ],
+    "popular": false,
+    "available": true,
+    "sortOrder": 29,
+    "recommended": false
+  }
+]

@@ -1,0 +1,963 @@
+[
+  {
+    "file": "images/products/vanilla-raf.webp",
+    "product": "Ванильный раф",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Сгенерировано для проекта; чужие фотографии не публикуются",
+    "prompt": "Edit this exact product photograph into a premium ecommerce product cutout. Keep the same appetizing vanilla raf coffee in its transparent glass with whipped cream, tiny caramel crumbs and vanilla bean. Remove the entire cafe background, table, plants, utensils and all surrounding objects. Isolate ONLY the complete glass and its contents with genuine alpha transparency. Keep the transparent glass edges realistic and all of the glass visible. No opaque backdrop, no checkerboard drawn into image, no text, no logos. Centre the glass with ample transparent breathing space on a square canvas. Preserve natural photographic lighting and realistic texture.",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\vanilla-raf-cutout.png",
+    "alpha": true
+  },
+  {
+    "file": "images/products/bbq-chicken.webp",
+    "product": "Сэндвич BBQ с курицей на тарелке",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Сгенерировано для проекта; чужие фотографии не публикуются",
+    "prompt": "Create a photorealistic ecommerce cutout based on this same BBQ chicken sandwich: two toasted sandwich halves, juicy grilled chicken, dark BBQ sauce, green lettuce and tomato, without cheese in the standard version. Place both halves on one simple neutral white ceramic plate. Remove the wood board and ALL cafe surroundings. Isolate the entire sandwich AND complete plate with genuine alpha transparency. All plate edges visible. No opaque background or baked checkerboard. No extra props, no text, no logos. Centre the plate with ample transparent breathing space in a square canvas, camera three-quarter angle, warm natural light, appetizing premium food photography.",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\bbq-chicken-cutout.png",
+    "alpha": true
+  },
+  {
+    "file": "images/hero-v2.webp",
+    "product": "Главная: кофе, сэндвич, салат, горячее",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Сгенерировано для проекта; чужие фотографии не публикуются",
+    "prompt": "Собственная фотография кафе по согласованному заданию",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\hero-v2.png",
+    "alpha": false
+  },
+  {
+    "file": "images/hero-mobile-v2.webp",
+    "product": "Главная, мобильная версия",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Сгенерировано для проекта; чужие фотографии не публикуются",
+    "prompt": "Собственная фотография кафе по согласованному заданию",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\hero-v2.png",
+    "alpha": false
+  },
+  {
+    "file": "images/barista.webp",
+    "product": "Бариста за приготовлением кофе",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Сгенерировано для проекта; чужие фотографии не публикуются",
+    "prompt": "Use case: photorealistic-natural. Wide editorial photograph for Mellow House cafe-bistro website. Close up of a barista's hands pouring steamed milk from a metal pitcher into a speckled ceramic mug of cappuccino, beautiful rosetta latte art, blurred green cafe plants behind and fresh croissants nearby. Forest green apron with NO writing or logos, face out of frame. Warm natural window lighting, real textures, no text no branding no watermark. Landscape 3:2, premium food photography.",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\barista.png",
+    "alpha": false
+  },
+  {
+    "file": "images/menu-banner.webp",
+    "product": "Капучино и карамельный чизкейк, рекламный блок",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Сгенерировано для проекта; чужие фотографии не публикуются",
+    "prompt": "Use case: photorealistic-natural. Wide landscape banner photograph 3:1 for Mellow House forest green and white cafe website. A speckled cappuccino cup with beautiful latte art and one slice of creamy salted caramel cheesecake on a white ceramic plate, set on a pale stone cafe table. Place the food toward the RIGHT two thirds, LEFT third is simple pale sage empty surface for separate HTML heading overlay. Tiny green leaves blurred behind, natural warm window lighting, realistic premium appetizing food photography, no text, no labels, no logos, no watermarks.",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\menu-banner.png",
+    "alpha": false
+  },
+  {
+    "file": "images/categories/egg-croissant.webp",
+    "product": "Фотокатегория: egg-croissant",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Сгенерировано для проекта; чужие фотографии не публикуются",
+    "prompt": "Use case: photorealistic-natural. Asset type: single product photograph for Mellow House cafe menu. Photograph ONLY this specific food or drink: golden flaky croissant sandwich filled with scrambled egg, soft cream cheese and fresh green lettuce. Professional editorial food photography, appetizing true-to-life textures, natural warm soft side window lighting, shallow depth of field, neutral white or dark ceramic dishes, pale stone or forest-green cafe table, hints of blurred cosy cafe plants. Landscape 3:2 photograph. Entire product is visible centred in frame with breathing room, suitable for rectangular catalog crop and larger detail view. This is the actual finished dish served ready to eat, not a recipe arrangement. No text, letters, logos, branded packaging, watermarks, graphic design or collage. One dish only. Keep the subject faithful to its ingredients.",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\egg-croissant.png",
+    "alpha": false
+  },
+  {
+    "file": "images/categories/roastbeef-mustard.webp",
+    "product": "Фотокатегория: roastbeef-mustard",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Сгенерировано для проекта; чужие фотографии не публикуются",
+    "prompt": "Use case: photorealistic-natural. Asset type: single product photograph for Mellow House cafe menu. Photograph ONLY this specific food or drink: grilled sourdough roast beef sandwich with pink sliced roastbeef, arugula, pickled red onion and mustard sauce. Professional editorial food photography, appetizing true-to-life textures, natural warm soft side window lighting, shallow depth of field, neutral white or dark ceramic dishes, pale stone or forest-green cafe table, hints of blurred cosy cafe plants. Landscape 3:2 photograph. Entire product is visible centred in frame with breathing room, suitable for rectangular catalog crop and larger detail view. This is the actual finished dish served ready to eat, not a recipe arrangement. No text, letters, logos, branded packaging, watermarks, graphic design or collage. One dish only. Keep the subject faithful to its ingredients.",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\roastbeef-mustard.png",
+    "alpha": false
+  },
+  {
+    "file": "images/categories/salmon-bowl.webp",
+    "product": "Фотокатегория: salmon-bowl",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Сгенерировано для проекта; чужие фотографии не публикуются",
+    "prompt": "Use case: photorealistic-natural. Asset type: single product photograph for Mellow House cafe menu. Photograph ONLY this specific food or drink: dark bowl with cooked salmon fillet, quinoa, avocado slices, edamame, cucumber and cherry tomatoes. Professional editorial food photography, appetizing true-to-life textures, natural warm soft side window lighting, shallow depth of field, neutral white or dark ceramic dishes, pale stone or forest-green cafe table, hints of blurred cosy cafe plants. Landscape 3:2 photograph. Entire product is visible centred in frame with breathing room, suitable for rectangular catalog crop and larger detail view. This is the actual finished dish served ready to eat, not a recipe arrangement. No text, letters, logos, branded packaging, watermarks, graphic design or collage. One dish only. Keep the subject faithful to its ingredients.",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\salmon-bowl.png",
+    "alpha": false
+  },
+  {
+    "file": "images/categories/beef-medallions.webp",
+    "product": "Фотокатегория: beef-medallions",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Сгенерировано для проекта; чужие фотографии не публикуются",
+    "prompt": "Use case: photorealistic-natural. Asset type: single product photograph for Mellow House cafe menu. Photograph ONLY this specific food or drink: three juicy grilled beef medallions with rich brown demi glace, roast potatoes and colorful grilled vegetables on dark plate. Professional editorial food photography, appetizing true-to-life textures, natural warm soft side window lighting, shallow depth of field, neutral white or dark ceramic dishes, pale stone or forest-green cafe table, hints of blurred cosy cafe plants. Landscape 3:2 photograph. Entire product is visible centred in frame with breathing room, suitable for rectangular catalog crop and larger detail view. This is the actual finished dish served ready to eat, not a recipe arrangement. No text, letters, logos, branded packaging, watermarks, graphic design or collage. One dish only. Keep the subject faithful to its ingredients.",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\beef-medallions.png",
+    "alpha": false
+  },
+  {
+    "file": "images/categories/cappuccino.webp",
+    "product": "Фотокатегория: cappuccino",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Сгенерировано для проекта; чужие фотографии не публикуются",
+    "prompt": "Use case: photorealistic-natural. Asset type: single product photograph for Mellow House cafe menu. Photograph ONLY this specific food or drink: speckled wide ceramic cappuccino cup on saucer with beautiful white rosetta latte art. Professional editorial food photography, appetizing true-to-life textures, natural warm soft side window lighting, shallow depth of field, neutral white or dark ceramic dishes, pale stone or forest-green cafe table, hints of blurred cosy cafe plants. Landscape 3:2 photograph. Entire product is visible centred in frame with breathing room, suitable for rectangular catalog crop and larger detail view. This is the actual finished dish served ready to eat, not a recipe arrangement. No text, letters, logos, branded packaging, watermarks, graphic design or collage. One dish only. Keep the subject faithful to its ingredients.",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\cappuccino.png",
+    "alpha": false
+  },
+  {
+    "file": "images/categories/cherry-lemonade.webp",
+    "product": "Фотокатегория: cherry-lemonade",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Сгенерировано для проекта; чужие фотографии не публикуются",
+    "prompt": "Use case: photorealistic-natural. Asset type: single product photograph for Mellow House cafe menu. Photograph ONLY this specific food or drink: tall glass of ruby red cherry lemonade with cherries, lemon slice, mint and ice. Professional editorial food photography, appetizing true-to-life textures, natural warm soft side window lighting, shallow depth of field, neutral white or dark ceramic dishes, pale stone or forest-green cafe table, hints of blurred cosy cafe plants. Landscape 3:2 photograph. Entire product is visible centred in frame with breathing room, suitable for rectangular catalog crop and larger detail view. This is the actual finished dish served ready to eat, not a recipe arrangement. No text, letters, logos, branded packaging, watermarks, graphic design or collage. One dish only. Keep the subject faithful to its ingredients.",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\cherry-lemonade.png",
+    "alpha": false
+  },
+  {
+    "file": "images/categories/strawberry-shake.webp",
+    "product": "Фотокатегория: strawberry-shake",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Сгенерировано для проекта; чужие фотографии не публикуются",
+    "prompt": "Use case: photorealistic-natural. Asset type: single product photograph for Mellow House cafe menu. Photograph ONLY this specific food or drink: pink strawberry milkshake in a tall clear glass topped with whipped cream, strawberries and berry crumbs. Professional editorial food photography, appetizing true-to-life textures, natural warm soft side window lighting, shallow depth of field, neutral white or dark ceramic dishes, pale stone or forest-green cafe table, hints of blurred cosy cafe plants. Landscape 3:2 photograph. Entire product is visible centred in frame with breathing room, suitable for rectangular catalog crop and larger detail view. This is the actual finished dish served ready to eat, not a recipe arrangement. No text, letters, logos, branded packaging, watermarks, graphic design or collage. One dish only. Keep the subject faithful to its ingredients.",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\strawberry-shake.png",
+    "alpha": false
+  },
+  {
+    "file": "images/categories/chocolate-fondant.webp",
+    "product": "Фотокатегория: chocolate-fondant",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Сгенерировано для проекта; чужие фотографии не публикуются",
+    "prompt": "Use case: photorealistic-natural. Asset type: single product photograph for Mellow House cafe menu. Photograph ONLY this specific food or drink: dark chocolate fondant lava cake cut open with flowing melted chocolate, vanilla ice cream scoop and berries on ceramic plate. Professional editorial food photography, appetizing true-to-life textures, natural warm soft side window lighting, shallow depth of field, neutral white or dark ceramic dishes, pale stone or forest-green cafe table, hints of blurred cosy cafe plants. Landscape 3:2 photograph. Entire product is visible centred in frame with breathing room, suitable for rectangular catalog crop and larger detail view. This is the actual finished dish served ready to eat, not a recipe arrangement. No text, letters, logos, branded packaging, watermarks, graphic design or collage. One dish only. Keep the subject faithful to its ingredients.",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\chocolate-fondant.png",
+    "alpha": false
+  },
+  {
+    "file": "images/pwa-192.png",
+    "product": "Иконка Mellow House",
+    "source": "Собственная геометрическая эмблема M",
+    "conditions": "Создана кодом в проекте",
+    "alpha": false
+  },
+  {
+    "file": "images/pwa-512.png",
+    "product": "Иконка Mellow House",
+    "source": "Собственная геометрическая эмблема M",
+    "conditions": "Создана кодом в проекте",
+    "alpha": false
+  },
+  {
+    "file": "videos/coffee.mp4",
+    "product": "Видео приготовления кофе / poster",
+    "source": "Pavel Danilyuk / Pexels 6602227",
+    "url": "https://www.pexels.com/video/barista-pouring-milk-on-coffee-6602227/",
+    "license": "https://www.pexels.com/license/",
+    "conditions": "Использование и модификация по Pexels License; локальная оптимизация, без чужих логотипов."
+  },
+  {
+    "file": "images/coffee-video-poster.webp",
+    "product": "Видео приготовления кофе / poster",
+    "source": "Pavel Danilyuk / Pexels 6602227",
+    "url": "https://www.pexels.com/video/barista-pouring-milk-on-coffee-6602227/",
+    "license": "https://www.pexels.com/license/",
+    "conditions": "Использование и модификация по Pexels License; локальная оптимизация, без чужих логотипов."
+  },
+  {
+    "file": "images/products/syrniki.png",
+    "product": "Сырники",
+    "source": "Собственная генерация built-in image_gen, 20.10.2026",
+    "conditions": "Создано для Mellow House; без чужих логотипов, прозрачность сгенерирована imagegen",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\syrniki-v3-cutout.png",
+    "alpha": true,
+    "optimization": "PNG RGBA, не более 840x640, без изменения содержимого"
+  },
+  {
+    "file": "images/products/egg-croissant.png",
+    "product": "Круассан с яйцом",
+    "source": "Собственная генерация built-in image_gen, 20.10.2026",
+    "conditions": "Создано для Mellow House; без чужих логотипов, прозрачность сгенерирована imagegen",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\egg-croissant-v3-cutout.png",
+    "alpha": true,
+    "optimization": "PNG RGBA, не более 840x640, без изменения содержимого"
+  },
+  {
+    "file": "images/products/avocado-toast.png",
+    "product": "Тост с авокадо",
+    "source": "Собственная генерация built-in image_gen, 20.10.2026",
+    "conditions": "Создано для Mellow House; без чужих логотипов, прозрачность сгенерирована imagegen",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\avocado-toast-v3-cutout.png",
+    "alpha": true,
+    "optimization": "PNG RGBA, не более 840x640, без изменения содержимого"
+  },
+  {
+    "file": "images/products/bacon-omelette.png",
+    "product": "Омлет с беконом",
+    "source": "Собственная генерация built-in image_gen, 20.10.2026",
+    "conditions": "Создано для Mellow House; без чужих логотипов, прозрачность сгенерирована imagegen",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\bacon-omelette-v3-cutout.png",
+    "alpha": true,
+    "optimization": "PNG RGBA, не более 840x640, без изменения содержимого"
+  },
+  {
+    "file": "images/products/espresso.png",
+    "product": "Эспрессо",
+    "source": "Собственная генерация built-in image_gen, 20.10.2026",
+    "conditions": "Создано для Mellow House; без чужих логотипов, прозрачность сгенерирована imagegen",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\espresso-v3-cutout.png",
+    "alpha": true,
+    "optimization": "PNG RGBA, не более 840x640, без изменения содержимого"
+  },
+  {
+    "file": "images/products/americano.png",
+    "product": "Американо",
+    "source": "Собственная генерация built-in image_gen, 20.10.2026",
+    "conditions": "Создано для Mellow House; без чужих логотипов, прозрачность сгенерирована imagegen",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\americano-v3-cutout.png",
+    "alpha": true,
+    "optimization": "PNG RGBA, не более 840x640, без изменения содержимого"
+  },
+  {
+    "file": "images/products/cappuccino.png",
+    "product": "Капучино",
+    "source": "Собственная генерация built-in image_gen, 20.10.2026",
+    "conditions": "Создано для Mellow House; без чужих логотипов, прозрачность сгенерирована imagegen",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\cappuccino-v3-cutout.png",
+    "alpha": true,
+    "optimization": "PNG RGBA, не более 840x640, без изменения содержимого"
+  },
+  {
+    "file": "images/products/latte.png",
+    "product": "Латте",
+    "source": "Собственная генерация built-in image_gen, 20.10.2026",
+    "conditions": "Создано для Mellow House; без чужих логотипов, прозрачность сгенерирована imagegen",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\latte-v3-cutout.png",
+    "alpha": true,
+    "optimization": "PNG RGBA, не более 840x640, без изменения содержимого"
+  },
+  {
+    "file": "images/products/chocolate-mocha.png",
+    "product": "Шоколадный мокко",
+    "source": "Собственная генерация built-in image_gen, 20.10.2026",
+    "conditions": "Создано для Mellow House; без чужих логотипов, прозрачность сгенерирована imagegen",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\chocolate-mocha-v3-cutout.png",
+    "alpha": true,
+    "optimization": "PNG RGBA, не более 840x640, без изменения содержимого"
+  },
+  {
+    "file": "images/products/black-tea.png",
+    "product": "Чёрный чай",
+    "source": "Собственная генерация built-in image_gen, 20.10.2026",
+    "conditions": "Создано для Mellow House; без чужих логотипов, прозрачность сгенерирована imagegen",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\black-tea-v3-cutout.png",
+    "alpha": true,
+    "optimization": "PNG RGBA, не более 840x640, без изменения содержимого"
+  },
+  {
+    "file": "images/products/matcha-latte.png",
+    "product": "Матча-латте",
+    "source": "Собственная генерация built-in image_gen, 20.10.2026",
+    "conditions": "Создано для Mellow House; без чужих логотипов, прозрачность сгенерирована imagegen",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\matcha-latte-v3-cutout.png",
+    "alpha": true,
+    "optimization": "PNG RGBA, не более 840x640, без изменения содержимого"
+  },
+  {
+    "file": "images/products/sea-buckthorn.png",
+    "product": "Облепиховый чай",
+    "source": "Собственная генерация built-in image_gen, 20.10.2026",
+    "conditions": "Создано для Mellow House; без чужих логотипов, прозрачность сгенерирована imagegen",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\sea-buckthorn-v3-cutout.png",
+    "alpha": true,
+    "optimization": "PNG RGBA, не более 840x640, без изменения содержимого"
+  },
+  {
+    "file": "images/products/cherry-lemonade.png",
+    "product": "Вишнёвый лимонад",
+    "source": "Собственная генерация built-in image_gen, 20.10.2026",
+    "conditions": "Создано для Mellow House; без чужих логотипов, прозрачность сгенерирована imagegen",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\cherry-lemonade-v3-cutout.png",
+    "alpha": true,
+    "optimization": "PNG RGBA, не более 840x640, без изменения содержимого"
+  },
+  {
+    "file": "images/products/orange-juice.png",
+    "product": "Апельсиновый сок",
+    "source": "Собственная генерация built-in image_gen, 20.10.2026",
+    "conditions": "Создано для Mellow House; без чужих логотипов, прозрачность сгенерирована imagegen",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\orange-juice-v3-cutout.png",
+    "alpha": true,
+    "optimization": "PNG RGBA, не более 840x640, без изменения содержимого"
+  },
+  {
+    "file": "images/products/iced-latte.png",
+    "product": "Айс-латте",
+    "source": "Собственная генерация built-in image_gen, 20.10.2026",
+    "conditions": "Создано для Mellow House; без чужих логотипов, прозрачность сгенерирована imagegen",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\iced-latte-v3-cutout.png",
+    "alpha": true,
+    "optimization": "PNG RGBA, не более 840x640, без изменения содержимого"
+  },
+  {
+    "file": "images/products/strawberry-shake.png",
+    "product": "Клубничный коктейль",
+    "source": "Собственная генерация built-in image_gen, 20.10.2026",
+    "conditions": "Создано для Mellow House; без чужих логотипов, прозрачность сгенерирована imagegen",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\strawberry-shake-v3-cutout.png",
+    "alpha": true,
+    "optimization": "PNG RGBA, не более 840x640, без изменения содержимого"
+  },
+  {
+    "file": "images/products/vanilla-shake.png",
+    "product": "Ванильный коктейль",
+    "source": "Собственная генерация built-in image_gen, 20.10.2026",
+    "conditions": "Создано для Mellow House; без чужих логотипов, прозрачность сгенерирована imagegen",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\vanilla-shake-v3-cutout.png",
+    "alpha": true,
+    "optimization": "PNG RGBA, не более 840x640, без изменения содержимого"
+  },
+  {
+    "file": "images/products/cheese-mushroom.png",
+    "product": "Горячий сэндвич с сыром и грибами",
+    "source": "Собственная генерация built-in image_gen, 20.10.2026",
+    "conditions": "Создано для Mellow House; без чужих логотипов, прозрачность сгенерирована imagegen",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\cheese-mushroom-v3-cutout.png",
+    "alpha": true,
+    "optimization": "PNG RGBA, не более 840x640, без изменения содержимого"
+  },
+  {
+    "file": "images/products/salmon-toast.png",
+    "product": "Тост с лососем",
+    "source": "Собственная генерация built-in image_gen, 20.10.2026",
+    "conditions": "Создано для Mellow House; без чужих логотипов, прозрачность сгенерирована imagegen",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\salmon-toast-v3-cutout.png",
+    "alpha": true,
+    "optimization": "PNG RGBA, не более 840x640, без изменения содержимого"
+  },
+  {
+    "file": "images/products/caesar-chicken.png",
+    "product": "Цезарь с курицей",
+    "source": "Собственная генерация built-in image_gen, 20.10.2026",
+    "conditions": "Создано для Mellow House; без чужих логотипов, прозрачность сгенерирована imagegen",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\caesar-chicken-v3-cutout.png",
+    "alpha": true,
+    "optimization": "PNG RGBA, не более 840x640, без изменения содержимого"
+  },
+  {
+    "file": "images/products/chocolate-fondant.png",
+    "product": "Шоколадный фондан",
+    "source": "Собственная генерация built-in image_gen, 20.10.2026",
+    "conditions": "Создано для Mellow House; без чужих логотипов, прозрачность сгенерирована imagegen",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\chocolate-fondant-v3-cutout.png",
+    "alpha": true,
+    "optimization": "PNG RGBA, не более 840x640, без изменения содержимого"
+  },
+  {
+    "file": "images/products/caramel-cheesecake.png",
+    "product": "Карамельный чизкейк",
+    "source": "Собственная генерация built-in image_gen, 20.10.2026",
+    "conditions": "Создано для Mellow House; без чужих логотипов, прозрачность сгенерирована imagegen",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\caramel-cheesecake-v3-cutout.png",
+    "alpha": true,
+    "optimization": "PNG RGBA, не более 840x640, без изменения содержимого"
+  },
+  {
+    "file": "images/products/almond-croissant.png",
+    "product": "Миндальный круассан",
+    "source": "Собственная генерация built-in image_gen, 20.10.2026",
+    "conditions": "Создано для Mellow House; без чужих логотипов, прозрачность сгенерирована imagegen",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\almond-croissant-v3-cutout.png",
+    "alpha": true,
+    "optimization": "PNG RGBA, не более 840x640, без изменения содержимого"
+  },
+  {
+    "file": "images/products/greek-salad.png",
+    "product": "Греческий салат",
+    "source": "Собственная генерация built-in image_gen, 20.10.2026",
+    "conditions": "Создано для Mellow House; без чужих логотипов, прозрачность сгенерирована imagegen",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\greek-salad-v3-cutout.png",
+    "alpha": true,
+    "optimization": "PNG RGBA, не более 840x640, без изменения содержимого"
+  },
+  {
+    "file": "images/products/beef-medallions.png",
+    "product": "Говяжьи медальоны",
+    "source": "Собственная генерация built-in image_gen, 20.10.2026",
+    "conditions": "Создано для Mellow House; без чужих логотипов, прозрачность сгенерирована imagegen",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\beef-medallions-v3-cutout.png",
+    "alpha": true,
+    "optimization": "PNG RGBA, не более 840x640, без изменения содержимого"
+  },
+  {
+    "file": "images/products/chicken-pasta.png",
+    "product": "Паста с курицей и грибами",
+    "source": "Собственная генерация built-in image_gen, 20.10.2026",
+    "conditions": "Создано для Mellow House; без чужих логотипов, прозрачность сгенерирована imagegen",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\chicken-pasta-v3-cutout.png",
+    "alpha": true,
+    "optimization": "PNG RGBA, не более 840x640, без изменения содержимого"
+  },
+  {
+    "file": "images/products/salmon-vegetables.png",
+    "product": "Лосось с овощами",
+    "source": "Собственная генерация built-in image_gen, 20.10.2026",
+    "conditions": "Создано для Mellow House; без чужих логотипов, прозрачность сгенерирована imagegen",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\salmon-vegetables-v3-cutout.png",
+    "alpha": true,
+    "optimization": "PNG RGBA, не более 840x640, без изменения содержимого"
+  },
+  {
+    "file": "images/products/margherita.png",
+    "product": "Пицца Маргарита",
+    "source": "Собственная генерация built-in image_gen, 20.10.2026",
+    "conditions": "Создано для Mellow House; без чужих логотипов, прозрачность сгенерирована imagegen",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\margherita-v3-cutout.png",
+    "alpha": true,
+    "optimization": "PNG RGBA, не более 840x640, без изменения содержимого"
+  },
+  {
+    "file": "images/products/pepperoni.png",
+    "product": "Пицца Пепперони",
+    "source": "Собственная генерация built-in image_gen, 20.10.2026",
+    "conditions": "Создано для Mellow House; без чужих логотипов, прозрачность сгенерирована imagegen",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\pepperoni-v3-cutout.png",
+    "alpha": true,
+    "optimization": "PNG RGBA, не более 840x640, без изменения содержимого"
+  },
+  {
+    "file": "images/products/salmon-bowl.png",
+    "product": "Боул с лососем",
+    "source": "Собственная генерация image_gen, с уточнением киноа вместо риса",
+    "conditions": "Создано для Mellow House, настоящая прозрачность",
+    "original": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\salmon-bowl-v3-cutout.png",
+    "alpha": true
+  },
+  {
+    "file": "videos/coffee-full-v4.mp4",
+    "product": "Полное приготовление кофе, включая готовую чашку",
+    "source": "Pavel Danilyuk / Pexels 6602227",
+    "url": "https://www.pexels.com/video/6602227/",
+    "conditions": "Pexels License; локальная адаптация разрешённого исходника, без чужих логотипов",
+    "adaptation": "1080x1080, полный процесс 31.56 с + 3 с финального кадра, H.264 CRF18; постер WebP90",
+    "original": "artifacts/assets-original/coffee-pexels-6602227.mp4"
+  },
+  {
+    "file": "images/coffee-final-v4.webp",
+    "product": "Финальный кадр полного видео",
+    "source": "Pavel Danilyuk / Pexels 6602227",
+    "url": "https://www.pexels.com/video/6602227/",
+    "conditions": "Pexels License; локальная адаптация разрешённого исходника, без чужих логотипов",
+    "adaptation": "1080x1080, полный процесс 31.56 с + 3 с финального кадра, H.264 CRF18; постер WebP90",
+    "original": "artifacts/assets-original/coffee-pexels-6602227.mp4"
+  },
+  {
+    "file": "images/mellow-emblem-v4.svg",
+    "source": "Собственная векторная монограмма Mellow House",
+    "conditions": "Создана для проекта"
+  },
+  {
+    "file": "videos/coffee-full-v5.mp4",
+    "source": "Pavel Danilyuk / Pexels6602227",
+    "url": "https://www.pexels.com/video/6602227/",
+    "conditions": "Pexels License; локальный полный ролик без добавленного удержания последнего кадра",
+    "adaptation": "1080x1080,H.264 CRF18,no audio,faststart,31.565 seconds"
+  },
+  {
+    "file": "images/products/potato-waffles-v6.png",
+    "product": "Картофельные вафли",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Use case: product-mockup. Asset type: one photorealistic premium cafe menu product cutout for Mellow House. Subject: two crispy golden potato waffles topped with poached egg and bacon, fresh herbs and a little sour cream. Show ONLY this complete product, with its whole neutral off-white ceramic plate or bowl when it is food, or its complete plain unbranded glass/cup when it is a drink. Preserve the specified food and toppings exactly. No table, no cafe background, no loose ingredients outside the vessel, no props, no utensils, no labels, no text, no logos. Genuine transparent alpha background, no opaque backdrop and no drawn checkerboard. Soft warm studio lighting from upper left, three-quarter front view, clean quiet premium bistro styling. Square composition, complete product centered with generous transparent padding all around. Realistic appetizing food photography, not illustration or a poster.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-88a5999d-872a-4e06-af63-9b24535abe05.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Already completed; preserved as requested"
+  },
+  {
+    "file": "images/products/berry-granola-v6.png",
+    "product": "Гранола с ягодами",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Use case: product-mockup. Asset type: one photorealistic premium cafe menu product cutout for Mellow House. Subject: white bowl of thick yogurt with golden oat granola, blueberries raspberries and honey. Show ONLY this complete product, with its whole neutral off-white ceramic plate or bowl when it is food, or its complete plain unbranded glass/cup when it is a drink. Preserve the specified food and toppings exactly. No table, no cafe background, no loose ingredients outside the vessel, no props, no utensils, no labels, no text, no logos. Genuine transparent alpha background, no opaque backdrop and no drawn checkerboard. Soft warm studio lighting from upper left, three-quarter front view, clean quiet premium bistro styling. Square composition, complete product centered with generous transparent padding all around. Realistic appetizing food photography, not illustration or a poster.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-0f26fcd4-04f0-45c1-a660-e6ce24f9002a.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Already completed; preserved as requested"
+  },
+  {
+    "file": "images/products/flat-white-v6.png",
+    "product": "Флэт уайт",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Use case: product-mockup. Asset type: one photorealistic premium cafe menu product cutout for Mellow House. Subject: small matte sage ceramic flat white coffee cup with fine microfoam heart latte art. Show ONLY this complete product, with its whole neutral off-white ceramic plate or bowl when it is food, or its complete plain unbranded glass/cup when it is a drink. Preserve the specified food and toppings exactly. No table, no cafe background, no loose ingredients outside the vessel, no props, no utensils, no labels, no text, no logos. Genuine transparent alpha background, no opaque backdrop and no drawn checkerboard. Soft warm studio lighting from upper left, three-quarter front view, clean quiet premium bistro styling. Square composition, complete product centered with generous transparent padding all around. Realistic appetizing food photography, not illustration or a poster.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-2d457677-8fe1-4828-a845-8f7ee3bbe21e.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Already completed; preserved as requested"
+  },
+  {
+    "file": "images/products/cold-brew-v6.png",
+    "product": "Колд-брю",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Use case: product-mockup. Asset type: one photorealistic premium cafe menu product cutout for Mellow House. Subject: clear tumbler of dark amber cold brew black coffee over ice cubes, coffee beans beside. Show ONLY this complete product, with its whole neutral off-white ceramic plate or bowl when it is food, or its complete plain unbranded glass/cup when it is a drink. Preserve the specified food and toppings exactly. No table, no cafe background, no loose ingredients outside the vessel, no props, no utensils, no labels, no text, no logos. Genuine transparent alpha background, no opaque backdrop and no drawn checkerboard. Soft warm studio lighting from upper left, three-quarter front view, clean quiet premium bistro styling. Square composition, complete product centered with generous transparent padding all around. Realistic appetizing food photography, not illustration or a poster.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-fb6ad003-105a-49be-adab-e4a89b09ca38.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Already completed; preserved as requested"
+  },
+  {
+    "file": "images/products/espresso-tonic-v6.png",
+    "product": "Эспрессо-тоник",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Use case: product-mockup. Asset type: one photorealistic premium cafe menu product cutout for Mellow House. Subject: tall glass espresso tonic, golden bubbly tonic at bottom and dark espresso layer above, orange slice and ice. Show ONLY this complete product, with its whole neutral off-white ceramic plate or bowl when it is food, or its complete plain unbranded glass/cup when it is a drink. Preserve the specified food and toppings exactly. No table, no cafe background, no loose ingredients outside the vessel, no props, no utensils, no labels, no text, no logos. Genuine transparent alpha background, no opaque backdrop and no drawn checkerboard. Soft warm studio lighting from upper left, three-quarter front view, clean quiet premium bistro styling. Square composition, complete product centered with generous transparent padding all around. Realistic appetizing food photography, not illustration or a poster.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-fba504f6-b3c9-4147-9516-a43ed7d4a952.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Already completed; preserved as requested"
+  },
+  {
+    "file": "images/products/jasmine-tea-v6.png",
+    "product": "Жасминовый чай",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Use case: product-mockup. Asset type: one photorealistic premium cafe menu product cutout for Mellow House. Subject: clear glass teapot of pale golden green jasmine tea with small white jasmine flowers. Show ONLY this complete product, with its whole neutral off-white ceramic plate or bowl when it is food, or its complete plain unbranded glass/cup when it is a drink. Preserve the specified food and toppings exactly. No table, no cafe background, no loose ingredients outside the vessel, no props, no utensils, no labels, no text, no logos. Genuine transparent alpha background, no opaque backdrop and no drawn checkerboard. Soft warm studio lighting from upper left, three-quarter front view, clean quiet premium bistro styling. Square composition, complete product centered with generous transparent padding all around. Realistic appetizing food photography, not illustration or a poster.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-5c94c1b5-12ef-4325-8de1-dbf98dd7e1c2.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Already completed; preserved as requested"
+  },
+  {
+    "file": "images/products/ginger-lemon-v6.png",
+    "product": "Имбирно-лимонный чай",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Use case: product-mockup. Asset type: one photorealistic premium cafe menu product cutout for Mellow House. Subject: glass mug of warm ginger lemon tea with lemon slices, ginger root and honey. Show ONLY this complete product, with its whole neutral off-white ceramic plate or bowl when it is food, or its complete plain unbranded glass/cup when it is a drink. Preserve the specified food and toppings exactly. No table, no cafe background, no loose ingredients outside the vessel, no props, no utensils, no labels, no text, no logos. Genuine transparent alpha background, no opaque backdrop and no drawn checkerboard. Soft warm studio lighting from upper left, three-quarter front view, clean quiet premium bistro styling. Square composition, complete product centered with generous transparent padding all around. Realistic appetizing food photography, not illustration or a poster.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-35812682-10ec-42be-8966-f8c686b3604b.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Already completed; preserved as requested"
+  },
+  {
+    "file": "images/products/cocoa-v6.png",
+    "product": "Классическое какао",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Use case: product-mockup. Asset type: one photorealistic premium cafe menu product cutout for Mellow House. Subject: round ceramic mug of hot chocolate cocoa with light milk foam and dark chocolate shavings. Show ONLY this complete product, with its whole neutral off-white ceramic plate or bowl when it is food, or its complete plain unbranded glass/cup when it is a drink. Preserve the specified food and toppings exactly. No table, no cafe background, no loose ingredients outside the vessel, no props, no utensils, no labels, no text, no logos. Genuine transparent alpha background, no opaque backdrop and no drawn checkerboard. Soft warm studio lighting from upper left, three-quarter front view, clean quiet premium bistro styling. Square composition, complete product centered with generous transparent padding all around. Realistic appetizing food photography, not illustration or a poster.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-3344a57a-255f-4537-8d97-31b313ccddff.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Already completed; preserved as requested"
+  },
+  {
+    "file": "images/products/berry-iced-tea-v6.png",
+    "product": "Холодный ягодный чай",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Use case: product-mockup. Asset type: one photorealistic premium cafe menu product cutout for Mellow House. Subject: tall clear glass of deep ruby iced berry tea with raspberries, blackcurrants and ice. Show ONLY this complete product, with its whole neutral off-white ceramic plate or bowl when it is food, or its complete plain unbranded glass/cup when it is a drink. Preserve the specified food and toppings exactly. No table, no cafe background, no loose ingredients outside the vessel, no props, no utensils, no labels, no text, no logos. Genuine transparent alpha background, no opaque backdrop and no drawn checkerboard. Soft warm studio lighting from upper left, three-quarter front view, clean quiet premium bistro styling. Square composition, complete product centered with generous transparent padding all around. Realistic appetizing food photography, not illustration or a poster.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-a1850650-ccb1-43f8-914d-e2750abdbc1a.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Already completed; preserved as requested"
+  },
+  {
+    "file": "images/products/lemon-mint-v6.png",
+    "product": "Лимонад лимон-мята",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Use case: product-mockup. Asset type: one photorealistic premium cafe menu product cutout for Mellow House. Subject: clear tall glass sparkling lemon mint lemonade, yellow lemon slices, lots of green mint and ice. Show ONLY this complete product, with its whole neutral off-white ceramic plate or bowl when it is food, or its complete plain unbranded glass/cup when it is a drink. Preserve the specified food and toppings exactly. No table, no cafe background, no loose ingredients outside the vessel, no props, no utensils, no labels, no text, no logos. Genuine transparent alpha background, no opaque backdrop and no drawn checkerboard. Soft warm studio lighting from upper left, three-quarter front view, clean quiet premium bistro styling. Square composition, complete product centered with generous transparent padding all around. Realistic appetizing food photography, not illustration or a poster.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-7982a5bd-7922-4c51-bd5e-5865d2363b50.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Already completed; preserved as requested"
+  },
+  {
+    "file": "images/products/mango-passion-v6.png",
+    "product": "Манго-маракуйя",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Use case: product-mockup. Asset type: one photorealistic premium cafe menu product cutout for Mellow House. Subject: tall glass of golden orange mango passionfruit lemonade, passion fruit half and mango cubes. Show ONLY this complete product, with its whole neutral off-white ceramic plate or bowl when it is food, or its complete plain unbranded glass/cup when it is a drink. Preserve the specified food and toppings exactly. No table, no cafe background, no loose ingredients outside the vessel, no props, no utensils, no labels, no text, no logos. Genuine transparent alpha background, no opaque backdrop and no drawn checkerboard. Soft warm studio lighting from upper left, three-quarter front view, clean quiet premium bistro styling. Square composition, complete product centered with generous transparent padding all around. Realistic appetizing food photography, not illustration or a poster.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-8757b2de-3844-44a6-92a8-6e3f82d4ac77.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Already completed; preserved as requested"
+  },
+  {
+    "file": "images/products/peach-iced-tea-v6.png",
+    "product": "Персиковый айс-ти",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Use case: product-mockup. Asset type: one photorealistic premium cafe menu product cutout for Mellow House. Subject: tall glass amber peach iced tea with peach slices lemon and clear ice. Show ONLY this complete product, with its whole neutral off-white ceramic plate or bowl when it is food, or its complete plain unbranded glass/cup when it is a drink. Preserve the specified food and toppings exactly. No table, no cafe background, no loose ingredients outside the vessel, no props, no utensils, no labels, no text, no logos. Genuine transparent alpha background, no opaque backdrop and no drawn checkerboard. Soft warm studio lighting from upper left, three-quarter front view, clean quiet premium bistro styling. Square composition, complete product centered with generous transparent padding all around. Realistic appetizing food photography, not illustration or a poster.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-478b9cda-5fe8-4fa4-83c4-4f9e5c264cf5.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Already completed; preserved as requested"
+  },
+  {
+    "file": "images/products/berry-smoothie-v6.png",
+    "product": "Ягодный смузи",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Use case: product-mockup. Asset type: one photorealistic premium cafe menu product cutout for Mellow House. Subject: tall glass of thick deep purple berry banana smoothie topped with raspberries and blueberries. Show ONLY this complete product, with its whole neutral off-white ceramic plate or bowl when it is food, or its complete plain unbranded glass/cup when it is a drink. Preserve the specified food and toppings exactly. No table, no cafe background, no loose ingredients outside the vessel, no props, no utensils, no labels, no text, no logos. Genuine transparent alpha background, no opaque backdrop and no drawn checkerboard. Soft warm studio lighting from upper left, three-quarter front view, clean quiet premium bistro styling. Square composition, complete product centered with generous transparent padding all around. Realistic appetizing food photography, not illustration or a poster.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-1d050f60-f377-4b37-b802-bae10a247454.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Already completed; preserved as requested"
+  },
+  {
+    "file": "images/products/tropical-smoothie-v6.png",
+    "product": "Тропический смузи",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Use case: product-mockup. Asset type: one photorealistic premium cafe menu product cutout for Mellow House. Subject: tall glass of thick golden tropical mango pineapple banana smoothie with pineapple wedge and mango cubes. Show ONLY this complete product, with its whole neutral off-white ceramic plate or bowl when it is food, or its complete plain unbranded glass/cup when it is a drink. Preserve the specified food and toppings exactly. No table, no cafe background, no loose ingredients outside the vessel, no props, no utensils, no labels, no text, no logos. Genuine transparent alpha background, no opaque backdrop and no drawn checkerboard. Soft warm studio lighting from upper left, three-quarter front view, clean quiet premium bistro styling. Square composition, complete product centered with generous transparent padding all around. Realistic appetizing food photography, not illustration or a poster.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-a484df2e-0c03-4525-a949-776d8d6e820a.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Already completed; preserved as requested"
+  },
+  {
+    "file": "images/products/chocolate-shake-v6.png",
+    "product": "Шоколадный коктейль",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Use case: product-mockup. Asset type: one photorealistic premium cafe menu product cutout for Mellow House. Subject: rich brown chocolate milkshake in a tall glass with whipped cream and chocolate drizzle. Show ONLY this complete product, with its whole neutral off-white ceramic plate or bowl when it is food, or its complete plain unbranded glass/cup when it is a drink. Preserve the specified food and toppings exactly. No table, no cafe background, no loose ingredients outside the vessel, no props, no utensils, no labels, no text, no logos. Genuine transparent alpha background, no opaque backdrop and no drawn checkerboard. Soft warm studio lighting from upper left, three-quarter front view, clean quiet premium bistro styling. Square composition, complete product centered with generous transparent padding all around. Realistic appetizing food photography, not illustration or a poster.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-7312d7ab-34dc-43d0-be62-f80eb1e426bf.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Already completed; preserved as requested"
+  },
+  {
+    "file": "images/products/caramel-shake-v6.png",
+    "product": "Солёная карамель",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Use case: product-mockup. Asset type: one photorealistic premium cafe menu product cutout for Mellow House. Subject: caramel milkshake in clear tall glass with whipped cream, golden caramel sauce and tiny sea salt flakes. Show ONLY this complete product, with its whole neutral off-white ceramic plate or bowl when it is food, or its complete plain unbranded glass/cup when it is a drink. Preserve the specified food and toppings exactly. No table, no cafe background, no loose ingredients outside the vessel, no props, no utensils, no labels, no text, no logos. Genuine transparent alpha background, no opaque backdrop and no drawn checkerboard. Soft warm studio lighting from upper left, three-quarter front view, clean quiet premium bistro styling. Square composition, complete product centered with generous transparent padding all around. Realistic appetizing food photography, not illustration or a poster.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-6245b90d-1251-4966-8238-1699523dbc77.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Already completed; preserved as requested"
+  },
+  {
+    "file": "images/products/mojito-v6.png",
+    "product": "Мохито без алкоголя",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Use case: product-mockup. Asset type: one photorealistic premium cafe menu product cutout for Mellow House. Subject: tall glass of nonalcoholic mojito with fresh lime wedges, green mint, crushed ice and soda. Show ONLY this complete product, with its whole neutral off-white ceramic plate or bowl when it is food, or its complete plain unbranded glass/cup when it is a drink. Preserve the specified food and toppings exactly. No table, no cafe background, no loose ingredients outside the vessel, no props, no utensils, no labels, no text, no logos. Genuine transparent alpha background, no opaque backdrop and no drawn checkerboard. Soft warm studio lighting from upper left, three-quarter front view, clean quiet premium bistro styling. Square composition, complete product centered with generous transparent padding all around. Realistic appetizing food photography, not illustration or a poster.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-30ff0ed5-7176-4e1d-9484-2bc18953bb17.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Already completed; preserved as requested"
+  },
+  {
+    "file": "images/products/pina-colada-v6.png",
+    "product": "Пина-колада без алкоголя",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Use case: product-mockup. Asset type: one photorealistic premium cafe menu product cutout for Mellow House. Subject: creamy white nonalcoholic pina colada in a curved clear glass, pineapple wedge and coconut flesh. Show ONLY this complete product, with its whole neutral off-white ceramic plate or bowl when it is food, or its complete plain unbranded glass/cup when it is a drink. Preserve the specified food and toppings exactly. No table, no cafe background, no loose ingredients outside the vessel, no props, no utensils, no labels, no text, no logos. Genuine transparent alpha background, no opaque backdrop and no drawn checkerboard. Soft warm studio lighting from upper left, three-quarter front view, clean quiet premium bistro styling. Square composition, complete product centered with generous transparent padding all around. Realistic appetizing food photography, not illustration or a poster.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-f7edd8eb-226f-46de-ae2b-a211451cf7f5.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Already completed; preserved as requested"
+  },
+  {
+    "file": "images/products/roastbeef-mustard-v6.png",
+    "product": "Ростбиф–горчица",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Use case: product-mockup. Asset type: one photorealistic premium cafe menu product cutout for Mellow House. Subject: grilled sourdough roast beef sandwich with pink sliced roastbeef, arugula, pickled red onion and mustard sauce. Show ONLY this complete product, with its whole neutral off-white ceramic plate or bowl when it is food, or its complete plain unbranded glass/cup when it is a drink. Preserve the specified food and toppings exactly. No table, no cafe background, no loose ingredients outside the vessel, no props, no utensils, no labels, no text, no logos. Genuine transparent alpha background, no opaque backdrop and no drawn checkerboard. Soft warm studio lighting from upper left, three-quarter front view, clean quiet premium bistro styling. Square composition, complete product centered with generous transparent padding all around. Realistic appetizing food photography, not illustration or a poster.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-1131007c-340f-4f80-abc5-55accb38c212.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Already completed; preserved as requested"
+  },
+  {
+    "file": "images/products/caprese-panini-v6.png",
+    "product": "Панини капрезе",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Use case: product-mockup. Asset type: one photorealistic premium cafe menu product cutout for Mellow House. Subject: grilled panini sandwich filled with fresh mozzarella, red tomatoes, basil and pesto. Show ONLY this complete product, with its whole neutral off-white ceramic plate or bowl when it is food, or its complete plain unbranded glass/cup when it is a drink. Preserve the specified food and toppings exactly. No table, no cafe background, no loose ingredients outside the vessel, no props, no utensils, no labels, no text, no logos. Genuine transparent alpha background, no opaque backdrop and no drawn checkerboard. Soft warm studio lighting from upper left, three-quarter front view, clean quiet premium bistro styling. Square composition, complete product centered with generous transparent padding all around. Realistic appetizing food photography, not illustration or a poster.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-b875f589-6aaf-4784-94dc-20e367222e8b.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Already completed; preserved as requested"
+  },
+  {
+    "file": "images/products/chicken-wrap-v6.png",
+    "product": "Ролл с курицей",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Use case: product-mockup. Asset type: one photorealistic premium cafe menu product cutout for Mellow House. Subject: chicken wrap tortilla cut in halves showing grilled chicken, green lettuce, tomatoes and yogurt sauce. Show ONLY this complete product, with its whole neutral off-white ceramic plate or bowl when it is food, or its complete plain unbranded glass/cup when it is a drink. Preserve the specified food and toppings exactly. No table, no cafe background, no loose ingredients outside the vessel, no props, no utensils, no labels, no text, no logos. Genuine transparent alpha background, no opaque backdrop and no drawn checkerboard. Soft warm studio lighting from upper left, three-quarter front view, clean quiet premium bistro styling. Square composition, complete product centered with generous transparent padding all around. Realistic appetizing food photography, not illustration or a poster.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-a3645611-8946-482c-bca4-b7e315c15169.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Already completed; preserved as requested"
+  },
+  {
+    "file": "images/products/cheese-sticks-v6.png",
+    "product": "Сырные палочки",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Create a single believable real-camera photograph of golden breaded mozzarella cheese sticks with one broken showing melting cheese and small tomato dip. This is an ordinary well-made dish or drink at a small neighborhood cafe, photographed for its menu, not a luxury advertising hero. Make it look like real food someone could receive: modest normal serving, slightly uneven natural shapes, a few incidental crumbs only on the plate if appropriate, restrained garnish, real porous baked textures, gentle folds, mild color variation. Use a plain everyday off-white ceramic plate/bowl for food, or a plain realistic glass/cup for drinks. Soft diffused window daylight from one side, neutral white balance, restrained saturation, realistic contrast and natural detail. 50mm lens, three-quarter view, enough depth of field to see the whole serving. Entire vessel in frame with transparent padding. Isolate ONLY the serving and its vessel on genuine transparent alpha; preserve natural edges and glass translucency. No opaque background, no cafe scene, no extra props, no text, no logo. Avoid computer-rendered surfaces, plastic textures, excessive gloss, neon colors, exaggerated toppings, perfect geometric symmetry, giant portions, oversharpening, dramatic studio rim lighting or decorative ingredient explosions. Keep it simple, honest, appetizing and consistent with a quiet white-and-forest-green cafe menu.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-6b979476-8278-41d6-9696-c2581befc76e.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Natural cafe photography after user feedback"
+  },
+  {
+    "file": "images/products/potato-wedges-v6.png",
+    "product": "Картофельные дольки",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Use case: product-mockup. Asset type: one photorealistic premium cafe menu product cutout for Mellow House. Subject: golden rustic roasted potato wedges with paprika, herbs and a small bowl of garlic dip. Show ONLY this complete product, with its whole neutral off-white ceramic plate or bowl when it is food, or its complete plain unbranded glass/cup when it is a drink. Preserve the specified food and toppings exactly. No table, no cafe background, no loose ingredients outside the vessel, no props, no utensils, no labels, no text, no logos. Genuine transparent alpha background, no opaque backdrop and no drawn checkerboard. Soft warm studio lighting from upper left, three-quarter front view, clean quiet premium bistro styling. Square composition, complete product centered with generous transparent padding all around. Realistic appetizing food photography, not illustration or a poster.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-4f2fe185-2dd7-4d0c-b0f2-eae7c15e59b5.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Already completed; preserved as requested"
+  },
+  {
+    "file": "images/products/warm-beef-salad-v6.png",
+    "product": "Тёплый салат с говядиной",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Use case: product-mockup. Asset type: one photorealistic premium cafe menu product cutout for Mellow House. Subject: dark ceramic bowl of warm beef salad with grilled beef slices, roasted peppers cherry tomatoes and mixed greens. Show ONLY this complete product, with its whole neutral off-white ceramic plate or bowl when it is food, or its complete plain unbranded glass/cup when it is a drink. Preserve the specified food and toppings exactly. No table, no cafe background, no loose ingredients outside the vessel, no props, no utensils, no labels, no text, no logos. Genuine transparent alpha background, no opaque backdrop and no drawn checkerboard. Soft warm studio lighting from upper left, three-quarter front view, clean quiet premium bistro styling. Square composition, complete product centered with generous transparent padding all around. Realistic appetizing food photography, not illustration or a poster.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-9813731e-b869-46ba-acc1-76a81c39e455.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Already completed; preserved as requested"
+  },
+  {
+    "file": "images/products/grilled-chicken-salad-v6.png",
+    "product": "Салат с курицей-гриль",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Create a single believable real-camera photograph of bowl of fresh mixed lettuce with sliced chargrilled chicken, tomatoes cucumber and nut dressing. This is an ordinary well-made dish or drink at a small neighborhood cafe, photographed for its menu, not a luxury advertising hero. Make it look like real food someone could receive: modest normal serving, slightly uneven natural shapes, a few incidental crumbs only on the plate if appropriate, restrained garnish, real porous baked textures, gentle folds, mild color variation. Use a plain everyday off-white ceramic plate/bowl for food, or a plain realistic glass/cup for drinks. Soft diffused window daylight from one side, neutral white balance, restrained saturation, realistic contrast and natural detail. 50mm lens, three-quarter view, enough depth of field to see the whole serving. Entire vessel in frame with transparent padding. Isolate ONLY the serving and its vessel on genuine transparent alpha; preserve natural edges and glass translucency. No opaque background, no cafe scene, no extra props, no text, no logo. Avoid computer-rendered surfaces, plastic textures, excessive gloss, neon colors, exaggerated toppings, perfect geometric symmetry, giant portions, oversharpening, dramatic studio rim lighting or decorative ingredient explosions. Keep it simple, honest, appetizing and consistent with a quiet white-and-forest-green cafe menu.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-5274cc80-7343-4b0c-8c46-910d5e1ea207.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Natural cafe photography after user feedback"
+  },
+  {
+    "file": "images/products/chicken-bowl-v6.png",
+    "product": "Боул с курицей",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Create a single believable real-camera photograph of bowl with grilled chicken strips, rice, sliced avocado, sweetcorn, tomato and cucumber. This is an ordinary well-made dish or drink at a small neighborhood cafe, photographed for its menu, not a luxury advertising hero. Make it look like real food someone could receive: modest normal serving, slightly uneven natural shapes, a few incidental crumbs only on the plate if appropriate, restrained garnish, real porous baked textures, gentle folds, mild color variation. Use a plain everyday off-white ceramic plate/bowl for food, or a plain realistic glass/cup for drinks. Soft diffused window daylight from one side, neutral white balance, restrained saturation, realistic contrast and natural detail. 50mm lens, three-quarter view, enough depth of field to see the whole serving. Entire vessel in frame with transparent padding. Isolate ONLY the serving and its vessel on genuine transparent alpha; preserve natural edges and glass translucency. No opaque background, no cafe scene, no extra props, no text, no logo. Avoid computer-rendered surfaces, plastic textures, excessive gloss, neon colors, exaggerated toppings, perfect geometric symmetry, giant portions, oversharpening, dramatic studio rim lighting or decorative ingredient explosions. Keep it simple, honest, appetizing and consistent with a quiet white-and-forest-green cafe menu.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-8a04b688-f9c8-4aa4-b348-9b5a25a6689a.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Natural cafe photography after user feedback"
+  },
+  {
+    "file": "images/products/vegetable-bowl-v6.png",
+    "product": "Овощной боул",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Create a single believable real-camera photograph of colorful dark bowl of quinoa, chickpeas, avocado, grilled zucchini, roasted carrots and tahini dressing. This is an ordinary well-made dish or drink at a small neighborhood cafe, photographed for its menu, not a luxury advertising hero. Make it look like real food someone could receive: modest normal serving, slightly uneven natural shapes, a few incidental crumbs only on the plate if appropriate, restrained garnish, real porous baked textures, gentle folds, mild color variation. Use a plain everyday off-white ceramic plate/bowl for food, or a plain realistic glass/cup for drinks. Soft diffused window daylight from one side, neutral white balance, restrained saturation, realistic contrast and natural detail. 50mm lens, three-quarter view, enough depth of field to see the whole serving. Entire vessel in frame with transparent padding. Isolate ONLY the serving and its vessel on genuine transparent alpha; preserve natural edges and glass translucency. No opaque background, no cafe scene, no extra props, no text, no logo. Avoid computer-rendered surfaces, plastic textures, excessive gloss, neon colors, exaggerated toppings, perfect geometric symmetry, giant portions, oversharpening, dramatic studio rim lighting or decorative ingredient explosions. Keep it simple, honest, appetizing and consistent with a quiet white-and-forest-green cafe menu.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-027126e1-cefa-42ca-a751-65adcc180e5e.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Natural cafe photography after user feedback"
+  },
+  {
+    "file": "images/products/shrimp-avocado-v6.png",
+    "product": "Салат с креветками и авокадо",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Create a single believable real-camera photograph of bowl of fresh salad with large pink cooked shrimp, avocado slices, cherry tomatoes and green leaves. This is an ordinary well-made dish or drink at a small neighborhood cafe, photographed for its menu, not a luxury advertising hero. Make it look like real food someone could receive: modest normal serving, slightly uneven natural shapes, a few incidental crumbs only on the plate if appropriate, restrained garnish, real porous baked textures, gentle folds, mild color variation. Use a plain everyday off-white ceramic plate/bowl for food, or a plain realistic glass/cup for drinks. Soft diffused window daylight from one side, neutral white balance, restrained saturation, realistic contrast and natural detail. 50mm lens, three-quarter view, enough depth of field to see the whole serving. Entire vessel in frame with transparent padding. Isolate ONLY the serving and its vessel on genuine transparent alpha; preserve natural edges and glass translucency. No opaque background, no cafe scene, no extra props, no text, no logo. Avoid computer-rendered surfaces, plastic textures, excessive gloss, neon colors, exaggerated toppings, perfect geometric symmetry, giant portions, oversharpening, dramatic studio rim lighting or decorative ingredient explosions. Keep it simple, honest, appetizing and consistent with a quiet white-and-forest-green cafe menu.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-6391dfbf-c4f5-4c5b-8967-d0d2c92a3829.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Natural cafe photography after user feedback"
+  },
+  {
+    "file": "images/products/chicken-steak-v6.png",
+    "product": "Куриный стейк",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Create a single believable real-camera photograph of juicy grilled chicken breast steak with grill marks, roasted vegetables potatoes and herb sauce on a ceramic plate. This is an ordinary well-made dish or drink at a small neighborhood cafe, photographed for its menu, not a luxury advertising hero. Make it look like real food someone could receive: modest normal serving, slightly uneven natural shapes, a few incidental crumbs only on the plate if appropriate, restrained garnish, real porous baked textures, gentle folds, mild color variation. Use a plain everyday off-white ceramic plate/bowl for food, or a plain realistic glass/cup for drinks. Soft diffused window daylight from one side, neutral white balance, restrained saturation, realistic contrast and natural detail. 50mm lens, three-quarter view, enough depth of field to see the whole serving. Entire vessel in frame with transparent padding. Isolate ONLY the serving and its vessel on genuine transparent alpha; preserve natural edges and glass translucency. No opaque background, no cafe scene, no extra props, no text, no logo. Avoid computer-rendered surfaces, plastic textures, excessive gloss, neon colors, exaggerated toppings, perfect geometric symmetry, giant portions, oversharpening, dramatic studio rim lighting or decorative ingredient explosions. Keep it simple, honest, appetizing and consistent with a quiet white-and-forest-green cafe menu.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-7d374e20-a39b-4cb6-92d4-5149189132e1.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Natural cafe photography after user feedback"
+  },
+  {
+    "file": "images/products/pork-steak-v6.png",
+    "product": "Свиной стейк",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Create a single believable real-camera photograph of grilled pork steak with golden potato wedges, roasted vegetables and pepper sauce on a ceramic plate. This is an ordinary well-made dish or drink at a small neighborhood cafe, photographed for its menu, not a luxury advertising hero. Make it look like real food someone could receive: modest normal serving, slightly uneven natural shapes, a few incidental crumbs only on the plate if appropriate, restrained garnish, real porous baked textures, gentle folds, mild color variation. Use a plain everyday off-white ceramic plate/bowl for food, or a plain realistic glass/cup for drinks. Soft diffused window daylight from one side, neutral white balance, restrained saturation, realistic contrast and natural detail. 50mm lens, three-quarter view, enough depth of field to see the whole serving. Entire vessel in frame with transparent padding. Isolate ONLY the serving and its vessel on genuine transparent alpha; preserve natural edges and glass translucency. No opaque background, no cafe scene, no extra props, no text, no logo. Avoid computer-rendered surfaces, plastic textures, excessive gloss, neon colors, exaggerated toppings, perfect geometric symmetry, giant portions, oversharpening, dramatic studio rim lighting or decorative ingredient explosions. Keep it simple, honest, appetizing and consistent with a quiet white-and-forest-green cafe menu.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-0714fd5c-4342-4504-93c9-1d5e8552d570.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Natural cafe photography after user feedback"
+  },
+  {
+    "file": "images/products/bbq-ribs-v6.png",
+    "product": "BBQ-рёбрышки",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Create a single believable real-camera photograph of sticky glazed BBQ pork ribs on a simple off-white ceramic plate with roasted potatoes and a small cabbage coleslaw. This is an ordinary well-made dish or drink at a small neighborhood cafe, photographed for its menu, not a luxury advertising hero. Make it look like real food someone could receive: modest normal serving, slightly uneven natural shapes, a few incidental crumbs only on the plate if appropriate, restrained garnish, real porous baked textures, gentle folds, mild color variation. Use a plain everyday off-white ceramic plate/bowl for food, or a plain realistic glass/cup for drinks. Soft diffused window daylight from one side, neutral white balance, restrained saturation, realistic contrast and natural detail. 50mm lens, three-quarter view, enough depth of field to see the whole serving. Entire vessel in frame with transparent padding. Isolate ONLY the serving and its vessel on genuine transparent alpha; preserve natural edges and glass translucency. No opaque background, no cafe scene, no extra props, no text, no logo. Avoid computer-rendered surfaces, plastic textures, excessive gloss, neon colors, exaggerated toppings, perfect geometric symmetry, giant portions, oversharpening, dramatic studio rim lighting or decorative ingredient explosions. Keep it simple, honest, appetizing and consistent with a quiet white-and-forest-green cafe menu.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-9f2f403a-9407-47de-88ba-6728cd8609c4.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Natural cafe photography after user feedback"
+  },
+  {
+    "file": "images/products/stuffed-potato-v6.png",
+    "product": "Запечённый картофель с начинкой",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Create a single believable real-camera photograph of large baked jacket potato split open filled with chicken, mushrooms and golden melted cheese, fresh dill. This is an ordinary well-made dish or drink at a small neighborhood cafe, photographed for its menu, not a luxury advertising hero. Make it look like real food someone could receive: modest normal serving, slightly uneven natural shapes, a few incidental crumbs only on the plate if appropriate, restrained garnish, real porous baked textures, gentle folds, mild color variation. Use a plain everyday off-white ceramic plate/bowl for food, or a plain realistic glass/cup for drinks. Soft diffused window daylight from one side, neutral white balance, restrained saturation, realistic contrast and natural detail. 50mm lens, three-quarter view, enough depth of field to see the whole serving. Entire vessel in frame with transparent padding. Isolate ONLY the serving and its vessel on genuine transparent alpha; preserve natural edges and glass translucency. No opaque background, no cafe scene, no extra props, no text, no logo. Avoid computer-rendered surfaces, plastic textures, excessive gloss, neon colors, exaggerated toppings, perfect geometric symmetry, giant portions, oversharpening, dramatic studio rim lighting or decorative ingredient explosions. Keep it simple, honest, appetizing and consistent with a quiet white-and-forest-green cafe menu.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-b7514313-1446-4ee0-b54c-f5bbe2eee20c.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Natural cafe photography after user feedback"
+  },
+  {
+    "file": "images/products/shrimp-pasta-v6.png",
+    "product": "Паста с креветками",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Create a single believable real-camera photograph of linguine pasta with large pink shrimp, cherry tomatoes, garlic and fresh basil in a ceramic bowl. This is an ordinary well-made dish or drink at a small neighborhood cafe, photographed for its menu, not a luxury advertising hero. Make it look like real food someone could receive: modest normal serving, slightly uneven natural shapes, a few incidental crumbs only on the plate if appropriate, restrained garnish, real porous baked textures, gentle folds, mild color variation. Use a plain everyday off-white ceramic plate/bowl for food, or a plain realistic glass/cup for drinks. Soft diffused window daylight from one side, neutral white balance, restrained saturation, realistic contrast and natural detail. 50mm lens, three-quarter view, enough depth of field to see the whole serving. Entire vessel in frame with transparent padding. Isolate ONLY the serving and its vessel on genuine transparent alpha; preserve natural edges and glass translucency. No opaque background, no cafe scene, no extra props, no text, no logo. Avoid computer-rendered surfaces, plastic textures, excessive gloss, neon colors, exaggerated toppings, perfect geometric symmetry, giant portions, oversharpening, dramatic studio rim lighting or decorative ingredient explosions. Keep it simple, honest, appetizing and consistent with a quiet white-and-forest-green cafe menu.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-11baf783-df88-496d-a8ed-93eefa1f5eea.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Natural cafe photography after user feedback"
+  },
+  {
+    "file": "images/products/chicken-rice-v6.png",
+    "product": "Рис с курицей и овощами",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Create a single believable real-camera photograph of bowl of rice with chicken pieces, broccoli, sweet peppers and glossy teriyaki sauce. This is an ordinary well-made dish or drink at a small neighborhood cafe, photographed for its menu, not a luxury advertising hero. Make it look like real food someone could receive: modest normal serving, slightly uneven natural shapes, a few incidental crumbs only on the plate if appropriate, restrained garnish, real porous baked textures, gentle folds, mild color variation. Use a plain everyday off-white ceramic plate/bowl for food, or a plain realistic glass/cup for drinks. Soft diffused window daylight from one side, neutral white balance, restrained saturation, realistic contrast and natural detail. 50mm lens, three-quarter view, enough depth of field to see the whole serving. Entire vessel in frame with transparent padding. Isolate ONLY the serving and its vessel on genuine transparent alpha; preserve natural edges and glass translucency. No opaque background, no cafe scene, no extra props, no text, no logo. Avoid computer-rendered surfaces, plastic textures, excessive gloss, neon colors, exaggerated toppings, perfect geometric symmetry, giant portions, oversharpening, dramatic studio rim lighting or decorative ingredient explosions. Keep it simple, honest, appetizing and consistent with a quiet white-and-forest-green cafe menu.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-05878474-d298-4058-ba93-8e01f83339d0.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Natural cafe photography after user feedback"
+  },
+  {
+    "file": "images/products/four-cheese-v6.png",
+    "product": "Пицца Четыре сыра",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Create a single believable real-camera photograph of whole four cheese pizza with creamy golden melted mozzarella cheddar parmesan and blue cheese on a simple off-white ceramic plate. This is an ordinary well-made dish or drink at a small neighborhood cafe, photographed for its menu, not a luxury advertising hero. Make it look like real food someone could receive: modest normal serving, slightly uneven natural shapes, a few incidental crumbs only on the plate if appropriate, restrained garnish, real porous baked textures, gentle folds, mild color variation. Use a plain everyday off-white ceramic plate/bowl for food, or a plain realistic glass/cup for drinks. Soft diffused window daylight from one side, neutral white balance, restrained saturation, realistic contrast and natural detail. 50mm lens, three-quarter view, enough depth of field to see the whole serving. Entire vessel in frame with transparent padding. Isolate ONLY the serving and its vessel on genuine transparent alpha; preserve natural edges and glass translucency. No opaque background, no cafe scene, no extra props, no text, no logo. Avoid computer-rendered surfaces, plastic textures, excessive gloss, neon colors, exaggerated toppings, perfect geometric symmetry, giant portions, oversharpening, dramatic studio rim lighting or decorative ingredient explosions. Keep it simple, honest, appetizing and consistent with a quiet white-and-forest-green cafe menu.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-259be657-45b8-4af2-9ed4-bb3e0578eac4.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Natural cafe photography after user feedback"
+  },
+  {
+    "file": "images/products/chicken-mushroom-pizza-v6.png",
+    "product": "Пицца Курица и грибы",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Create a single believable real-camera photograph of whole small pizza topped with chicken pieces, sliced mushrooms and golden melted mozzarella on a simple off-white ceramic plate. This is an ordinary well-made dish or drink at a small neighborhood cafe, photographed for its menu, not a luxury advertising hero. Make it look like real food someone could receive: modest normal serving, slightly uneven natural shapes, a few incidental crumbs only on the plate if appropriate, restrained garnish, real porous baked textures, gentle folds, mild color variation. Use a plain everyday off-white ceramic plate/bowl for food, or a plain realistic glass/cup for drinks. Soft diffused window daylight from one side, neutral white balance, restrained saturation, realistic contrast and natural detail. 50mm lens, three-quarter view, enough depth of field to see the whole serving. Entire vessel in frame with transparent padding. Isolate ONLY the serving and its vessel on genuine transparent alpha; preserve natural edges and glass translucency. No opaque background, no cafe scene, no extra props, no text, no logo. Avoid computer-rendered surfaces, plastic textures, excessive gloss, neon colors, exaggerated toppings, perfect geometric symmetry, giant portions, oversharpening, dramatic studio rim lighting or decorative ingredient explosions. Keep it simple, honest, appetizing and consistent with a quiet white-and-forest-green cafe menu.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-f20d8aaa-022f-419d-8a09-954dee61205c.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Natural cafe photography after user feedback"
+  },
+  {
+    "file": "images/products/apple-crumble-v6.png",
+    "product": "Яблочный крамбл",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Use case: background-extraction. Input image is the edit target for a Mellow House menu photograph. Extract the existing dessert AND its entire ceramic plate onto a genuinely transparent background. Preserve its actual uneven crumbs, layers, pores, serving size, asymmetry and camera angle. Do not redesign or beautify the food. Remove the cafe, table and all background props, with no grey halo or opaque shadow. Subdue the warm golden color cast slightly toward neutral daylight; keep believable quiet colors, not luminous or glossy. Leave space around the whole vessel. Keep existing photographic grain and imperfections; do not sharpen, smooth, add toppings or extra decoration. Output a transparent RGBA image, no text, no logos.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-def59c0a-8b77-4c6d-bf67-95319c2842de.png",
+    "reference": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\apple-crumble.png",
+    "alpha": true,
+    "style": "Reference-preserving dessert extraction with neutral daylight"
+  },
+  {
+    "file": "images/products/honey-cake-v6.png",
+    "product": "Медовик",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Use case: background-extraction. Input image is the edit target for a Mellow House menu photograph. Extract the existing dessert AND its entire ceramic plate onto a genuinely transparent background. Preserve its actual uneven crumbs, layers, pores, serving size, asymmetry and camera angle. Do not redesign or beautify the food. Remove the cafe, table and all background props, with no grey halo or opaque shadow. Subdue the warm golden color cast slightly toward neutral daylight; keep believable quiet colors, not luminous or glossy. Leave space around the whole vessel. Keep existing photographic grain and imperfections; do not sharpen, smooth, add toppings or extra decoration. Output a transparent RGBA image, no text, no logos.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-23d72934-3cb1-4a20-ab02-e361a54276d8.png",
+    "reference": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\honey-cake.png",
+    "alpha": true,
+    "style": "Reference-preserving dessert extraction with neutral daylight"
+  },
+  {
+    "file": "images/products/berry-tart-v6.png",
+    "product": "Ягодная тарталетка",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Use case: background-extraction. Asset: Mellow House menu cutout. Input image: edit target. Keep the exact single berry tart, custard, berries and entire ceramic plate. Only extract the dessert and plate; reduce the excessive warm color cast and berry gloss a little. Preserve pastry pores, ordinary imperfections and all ingredients. Output only the entire vessel and its contents on genuine transparent alpha with clear space around all edges. Remove the original cafe and table completely. No surrounding props, no fake grey checkerboard, no opaque halo, no text or logo. Preserve small real-camera imperfections and normal food textures; do not produce a 3D render or a luxury advertisement.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-af6e595b-b014-4715-8777-af6286da7168.png",
+    "reference": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\berry-tart.png",
+    "alpha": true,
+    "style": "Reference-led natural cafe photograph"
+  },
+  {
+    "file": "images/products/chocolate-cookie-v6.png",
+    "product": "Шоколадное печенье",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Use case: background-extraction. Asset: Mellow House menu cutout. Input image: edit target. Keep the existing two cookies and entire ceramic plate. Only extract them, preserving uneven edges, baked pores and irregular chocolate pieces. Tone down the golden color cast, without polishing or increasing contrast. Output only the entire vessel and its contents on genuine transparent alpha with clear space around all edges. Remove the original cafe and table completely. No surrounding props, no fake grey checkerboard, no opaque halo, no text or logo. Preserve small real-camera imperfections and normal food textures; do not produce a 3D render or a luxury advertisement.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-0a3afe05-f7bb-45d2-b09e-8efacc37c105.png",
+    "reference": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\chocolate-cookie.png",
+    "alpha": true,
+    "style": "Reference-led natural cafe photograph"
+  },
+  {
+    "file": "images/products/tiramisu-v6.png",
+    "product": "Тирамису",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Use case: background-extraction. Input image is the edit target for a Mellow House menu photograph. Extract the existing dessert AND its entire ceramic plate onto a genuinely transparent background. Preserve its actual uneven crumbs, layers, pores, serving size, asymmetry and camera angle. Do not redesign or beautify the food. Remove the cafe, table and all background props, with no grey halo or opaque shadow. Subdue the warm golden color cast slightly toward neutral daylight; keep believable quiet colors, not luminous or glossy. Leave space around the whole vessel. Keep existing photographic grain and imperfections; do not sharpen, smooth, add toppings or extra decoration. Output a transparent RGBA image, no text, no logos.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-21b10989-11b5-4da1-a314-8640ed3d7a6b.png",
+    "reference": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\tiramisu.png",
+    "alpha": true,
+    "style": "Reference-preserving dessert extraction with neutral daylight"
+  },
+  {
+    "file": "images/products/strawberry-matcha-v6.png",
+    "product": "Клубничная матча-латте",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Use case: precise-object-edit. Asset: Mellow House menu cutout. Input image: supporting photographic reference. Use the reference ONLY for its ordinary straight-sided cafe glass, serving size, photographic lighting and camera angle. Replace the coffee with iced strawberry matcha latte: a shallow imperfect pale strawberry-puree layer at the bottom, off-white milk in the middle and softly blending muted green matcha at the top, a few realistic irregular ice cubes. No coffee brown, no whipped cream, no fruit decoration, no sharp perfect horizontal bands. Natural slightly mixed boundaries, ordinary 400ml serving. Soft neutral daylight, restrained saturation and realistic glass reflections. Output only the entire vessel and its contents on genuine transparent alpha with clear space around all edges. Remove the original cafe and table completely. No surrounding props, no fake grey checkerboard, no opaque halo, no text or logo. Preserve small real-camera imperfections and normal food textures; do not produce a 3D render or a luxury advertisement.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-0e7385a8-72f8-42bc-933a-f7a5f250c258.png",
+    "reference": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\iced-latte.png",
+    "alpha": true,
+    "style": "Reference-led natural cafe photograph"
+  },
+  {
+    "file": "images/products/mango-matcha-v6.png",
+    "product": "Манговая матча-латте",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Use case: product-mockup. Create ONE premium photorealistic cafe menu product cutout: an iced mango matcha latte, 400 ml, in a plain tall clear straight-sided glass. Bottom layer vivid mango puree (no fruit pieces), middle cold milk with ice cubes, upper emerald green whisked matcha with a small natural creamy foam. Only this one complete glass and its beverage, no loose props or garnish, no straw, no logo, no lettering. Isolated on genuinely transparent alpha background, absolutely no opaque backdrop and no drawn checkerboard. Warm soft studio lighting from upper left, realistic glass refraction, premium appetizing natural photography, camera at low three-quarter front angle. Complete glass fits in a square composition with generous transparent padding all around, object centered, same quiet clean aesthetic as a white-and-forest-green bistro catalog. Asset is for Mellow House's own website, not a promotional poster.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-4dfb1562-7123-4f8b-8d23-3e56e6d2a4c4.png",
+    "reference": null,
+    "alpha": true,
+    "style": "Already completed; preserved as requested"
+  },
+  {
+    "file": "images/products/bubblegum-shake-v6.png",
+    "product": "Коктейль Бабл-гам",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Use case: precise-object-edit. Asset: Mellow House menu cutout. Input image: supporting photographic reference. Use the reference for the glass shape and camera angle. Make a simple bubblegum milkshake instead: very pale pastel pink milkshake with small air bubbles and a modest spoonful of softly whipped cream, slightly uneven rather than sculpted. Remove strawberry, fruit crumbs, syrup streaks and all decorations; do not add candy or bubblegum balls. Quiet neutral daylight, restrained colors, ordinary cafe portion. Avoid pink glow, shiny plastic surfaces, dramatic highlights or perfect cream geometry. Output only the entire vessel and its contents on genuine transparent alpha with clear space around all edges. Remove the original cafe and table completely. No surrounding props, no fake grey checkerboard, no opaque halo, no text or logo. Preserve small real-camera imperfections and normal food textures; do not produce a 3D render or a luxury advertisement.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-a1ba7a88-2ae8-4de2-9508-6dbce7513121.png",
+    "reference": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\strawberry-shake.png",
+    "alpha": true,
+    "style": "Reference-led natural cafe photograph"
+  },
+  {
+    "file": "images/products/taro-bubble-tea-v6.png",
+    "product": "Бабл-ти Таро",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Use case: precise-object-edit. Asset: Mellow House menu cutout. Input image: supporting photographic reference. Use the reference only for its plain cafe glass, believable serving size, camera angle and soft lighting. Replace the coffee with taro milk tea: lightly cloudy pale beige-lilac milk tea, one shallow uneven layer of dark cooked tapioca pearls at the bottom, several partly submerged irregular ice cubes. No coffee, whipped cream or toppings. A wide plain straw is acceptable. Very subdued purple tint as a real diluted taro drink, no bright violet, no perfect layered graphic. Keep slight natural unevenness, neutral daylight and soft realistic reflections. Output only the entire vessel and its contents on genuine transparent alpha with clear space around all edges. Remove the original cafe and table completely. No surrounding props, no fake grey checkerboard, no opaque halo, no text or logo. Preserve small real-camera imperfections and normal food textures; do not produce a 3D render or a luxury advertisement.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-73f4a95b-6808-4ade-a6fd-f7cd7f0ac190.png",
+    "reference": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\iced-latte.png",
+    "alpha": true,
+    "style": "Reference-led natural cafe photograph"
+  },
+  {
+    "file": "images/products/mango-bubble-tea-v6.png",
+    "product": "Бабл-ти Манго",
+    "source": "Собственная генерация built-in image_gen",
+    "conditions": "Создано для проекта; не является съёмкой реального кафе. Подтверждённый RGBA PNG.",
+    "prompt": "Use case: precise-object-edit. Asset: Mellow House menu cutout. Input image: supporting photographic reference. Use the reference only for its ordinary straight-sided glass, serving size and photo angle. Replace coffee and milk with mango jasmine bubble tea: cloudy muted yellow-orange fruit tea, some partly submerged ice, one shallow irregular layer of dark tapioca pearls at the bottom. No milk, cream, fruit slices or decorations. A wide plain straw is acceptable. Real diluted fruit tea colors, gentle daylight, subdued reflections, uneven natural pearl sizes and ordinary cafe presentation. No orange glow or saturated tropical advertising look. Output only the entire vessel and its contents on genuine transparent alpha with clear space around all edges. Remove the original cafe and table completely. No surrounding props, no fake grey checkerboard, no opaque halo, no text or logo. Preserve small real-camera imperfections and normal food textures; do not produce a 3D render or a luxury advertisement.",
+    "original": "C:\\Users\\dadim\\.codex\\generated_images\\01a150a0-9096-7153-9e30-4ba0888375db\\exec-141cee1e-2237-435f-9d1d-ddd55ac8fbf8.png",
+    "reference": "D:\\дима\\MellowHouse\\artifacts\\assets-original\\iced-latte.png",
+    "alpha": true,
+    "style": "Reference-led natural cafe photograph"
+  }
+]

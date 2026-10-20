@@ -1,0 +1,3 @@
+[
+  { "Name": "Mellow House — localhost", "Projects": [ { "Path": "src\\MellowHouse.Web\\MellowHouse.Web.csproj", "Action": "Start" } ] }
+]
