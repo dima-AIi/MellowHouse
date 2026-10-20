@@ -14,5 +14,9 @@ ENV ASPNETCORE_ENVIRONMENT=Production \
     PORT=8080
 EXPOSE 8080
 COPY --from=build /app/publish .
+COPY deploy/start-web.sh /app/start-web.sh
+RUN sed -i 's/\r$//' /app/start-web.sh \
+    && mkdir -p /app/wwwroot/uploads \
+    && chown -R "$APP_UID" /app/wwwroot/uploads
 USER $APP_UID
-ENTRYPOINT ["dotnet", "MellowHouse.Web.dll"]
+ENTRYPOINT ["/bin/sh", "/app/start-web.sh"]
