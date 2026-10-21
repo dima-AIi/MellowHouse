@@ -16,7 +16,6 @@
             @if(NutritionData.Read(p.Nutrition) is { } facts)
             {
                 <partial name="_Nutrition" model="facts"/>
-                <p class="small muted">На базовую порцию @p.Portion. Другой размер, молоко и добавки меняют пищевую ценность.</p>
             }
             else if(!string.IsNullOrWhiteSpace(p.Nutrition))
             {
