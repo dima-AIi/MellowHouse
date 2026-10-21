@@ -77,8 +77,9 @@ await using (var scope = app.Services.CreateAsyncScope())
     if((app.Environment.IsDevelopment()||args.Contains("--seed")) && builder.Configuration.GetValue("Catalog:Expanded",true))
         await CafeExpansion.SeedAsync(scope.ServiceProvider, app.Environment.ContentRootPath, includeSamples:!builder.Configuration.GetValue<bool>("Samples:Disabled"));
     if((app.Environment.IsDevelopment()||args.Contains("--seed")) && builder.Configuration.GetValue("Catalog:Expanded",true) && !builder.Configuration.GetValue<bool>("Samples:Disabled"))await SampleRevision.ApplyAsync(db,dataDir);
+    if(args.Contains("--refresh-demo"))await DemoBusiness.RefreshAsync(db,builder.Configuration["Demo:BackupDirectory"]??Path.Combine(dataDir,"backups"));
 }
-if (args.Contains("--migrate") || args.Contains("--seed")) return;
+if (args.Contains("--migrate") || args.Contains("--seed") || args.Contains("--refresh-demo")) return;
 app.UseForwardedHeaders();
 if (!app.Environment.IsDevelopment()) { app.UseExceptionHandler("/Error"); app.UseHsts(); }
 app.UseStaticFiles(new StaticFileOptions { OnPrepareResponse = ctx => {

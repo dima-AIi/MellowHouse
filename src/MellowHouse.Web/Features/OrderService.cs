@@ -54,7 +54,7 @@ public sealed class OrderService(ShopDbContext db,CartService carts,SiteService 
         await db.SaveChangesAsync(ct);await tx.CommitAsync(ct);return View(order);
     }
     public async Task<OrderView> GetAsync(Guid customer,Guid id,CancellationToken ct=default)=>await DetailedAsync(await FindAsync(customer,id,ct),ct);
-    public async Task<OrderView[]> HistoryAsync(Guid customer,CancellationToken ct=default)=>(await db.Orders.Where(x=>x.CustomerId==customer).OrderByDescending(x=>x.CreatedUtc).ThenByDescending(x=>x.Id).ToArrayAsync(ct)).Select(x=>View(x)).ToArray();
+    public async Task<OrderView[]> HistoryAsync(Guid customer,CancellationToken ct=default)=>(await db.Orders.Where(x=>x.CustomerId==customer&&x.Source!=DemoBusiness.ArchivedSource).OrderByDescending(x=>x.CreatedUtc).ThenByDescending(x=>x.Id).ToArrayAsync(ct)).Select(x=>View(x)).ToArray();
     public async Task<OrderView> DetailedAsync(Order o,CancellationToken ct)
     {
         var events=await db.OrderEvents.Where(x=>x.OrderId==o.Id).OrderBy(x=>x.Id).Select(x=>new OrderEventView(x.Status,x.Note,x.CreatedUtc)).ToArrayAsync(ct);
@@ -93,7 +93,7 @@ public sealed class OrderService(ShopDbContext db,CartService carts,SiteService 
         var o=await FindAsync(customer,id,ct);var warnings=new List<string>();await using var tx=await db.Database.BeginTransactionAsync(ct);
         foreach(var line in Lines(o)){try{await carts.AddAsync("u:"+customer,new(line.ProductId,Pricing.Parse(line.Configuration),line.Quantity),ct);}catch(ShopException e){warnings.Add($"{line.Name}: {e.Message}");}}await tx.CommitAsync(ct);return warnings.ToArray();
     }
-    public async Task<Order> AdminFindAsync(Guid id,CancellationToken ct)=>await db.Orders.SingleOrDefaultAsync(x=>x.PublicId==id,ct)??throw new ShopException("Заказ не найден.",404);
+    public async Task<Order> AdminFindAsync(Guid id,CancellationToken ct)=>await db.Orders.SingleOrDefaultAsync(x=>x.PublicId==id&&x.Source!=DemoBusiness.ArchivedSource,ct)??throw new ShopException("Заказ не найден.",404);
     public async Task TransitionAsync(Guid id,TransitionRequest r,Guid actor,CancellationToken ct)
     {
         var o=await AdminFindAsync(id,ct);if(o.Fulfillment==r.Status)return;
@@ -140,7 +140,7 @@ public sealed class OrderService(ShopDbContext db,CartService carts,SiteService 
         var owner="staff:"+actor+":"+r.Checkout.RequestKey;await carts.RemoveAsync(owner,null,ct);foreach(var line in r.Lines)await carts.AddAsync(owner,line,ct);
         var result=await CreateCoreAsync(customer,owner,r.Checkout,"Staff",ct);Audit.Log(db,actor,"order.manual",result.Id.ToString());await db.SaveChangesAsync(ct);return result;
     }
-    private async Task<Order> FindAsync(Guid customer,Guid id,CancellationToken ct)=>await db.Orders.SingleOrDefaultAsync(x=>x.PublicId==id&&x.CustomerId==customer,ct)??throw new ShopException("Заказ не найден.",404);
+    private async Task<Order> FindAsync(Guid customer,Guid id,CancellationToken ct)=>await db.Orders.SingleOrDefaultAsync(x=>x.PublicId==id&&x.CustomerId==customer&&x.Source!=DemoBusiness.ArchivedSource,ct)??throw new ShopException("Заказ не найден.",404);
     public static void ValidateKey(string? key){if(!Guid.TryParse(key,out _))throw new ShopException("Обновите страницу и повторите действие.");}
     private static void ValidateCheckout(CheckoutRequest r,CafeSettings s)
     {
