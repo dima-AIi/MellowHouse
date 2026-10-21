@@ -49,6 +49,7 @@ builder.Services.AddScoped<IPaymentProvider,LocalPaymentProvider>();
 builder.Services.AddScoped<FinanceService>();
 builder.Services.AddSingleton<AssistantHealth>();
 builder.Services.AddScoped<CafeAssistantService>();
+builder.Services.AddScoped<AssistantHistory>();
 builder.Services.AddScoped<LocalMenuAssistant>();
 builder.Services.AddHttpClient("Nvidia", client => { client.BaseAddress = new Uri("https://integrate.api.nvidia.com/v1/"); client.Timeout = TimeSpan.FromSeconds(45); });
 builder.Services.AddScoped<IMenuAssistant,NvidiaMenuAssistant>();

@@ -7,9 +7,24 @@ public sealed record CartItemView(Guid Id, ProductView Product, Dictionary<strin
 public sealed record CartView(CartItemView[] Items, int Subtotal, int Count, int Revision);
 public sealed record CartChange(string ProductId, Dictionary<string, string[]>? Selections, int Quantity = 1);
 public sealed record CartEdit(Dictionary<string, string[]>? Selections, int Quantity);
+public sealed record ProductQuantityChange(int Delta);
 
 public sealed class CartService(ShopDbContext db)
 {
+    // The API mutation gate serializes these changes. Keep each configured line intact.
+    public async Task AdjustProductAsync(string owner,string productId,int delta,CancellationToken ct)
+    {
+        if(delta is not (-1 or 1))throw new ShopException("Изменить количество можно на одну порцию.");
+        var cart=await GetAsync(owner,ct);
+        var lines=cart.Lines.Where(x=>x.ProductId==productId).OrderBy(x=>x.Id).ToArray();
+        if(lines.Length==0){if(delta>0)await AddAsync(owner,new(productId,null,1),ct);return;}
+        // Prefer a single configuration. With several variants the basket lets the customer choose.
+        if(lines.Length>1)throw new ShopException("В корзине несколько вариантов этого товара. Выберите нужный в корзине.",409,"configuration");
+        var line=lines[0];
+        if(delta<0&&line.Quantity==1)await RemoveAsync(owner,line.Id,ct);
+        else if(delta<0){line.Quantity--;cart.Revision++;await db.SaveChangesAsync(ct);}
+        else await EditAsync(owner,line.Id,new(null,line.Quantity+delta),ct);
+    }
     public async Task<ShoppingCart> GetAsync(string owner, CancellationToken ct = default)
     {
         var cart = await db.Carts.Include(x => x.Lines).SingleOrDefaultAsync(x => x.Owner == owner, ct);

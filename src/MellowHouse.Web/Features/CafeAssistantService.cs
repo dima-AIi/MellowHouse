@@ -4,8 +4,8 @@ using MellowHouse.Web.Data;
 using Microsoft.EntityFrameworkCore;
 namespace MellowHouse.Web.Features;
 
-public sealed record CafeAssistantReply(string Text,string[] ProductIds,string[] Suggestions,CartView? Cart=null,string[]? AddedProductIds=null);
-public sealed class CafeAssistantService(ShopDbContext db,IMenuAssistant assistant,CartService carts,MutationGate gate)
+public sealed record CafeAssistantReply(string Text,string[] ProductIds,string[] Suggestions,CartView? Cart=null,string[]? AddedProductIds=null,bool RequiresLogin=false);
+public sealed class CafeAssistantService(ShopDbContext db,IMenuAssistant assistant,CartService carts,MutationGate gate,AssistantHistory history)
 {
     private static readonly string[] MealCategories=["hot","pizza","sandwiches","salads","breakfast"];
     private static readonly string[] DrinkCategories=["coffee","tea","cold","shakes"];
@@ -45,6 +45,7 @@ public sealed class CafeAssistantService(ShopDbContext db,IMenuAssistant assista
     {
         var message=Inputs.Required(r.Message,"вопрос",500);var text=message.ToLowerInvariant();
         var all=await db.Products.Include(p=>p.Category).Where(p=>p.Available&&!p.Archived&&!p.Draft&&p.Category.Visible&&!p.Category.Archived).ToArrayAsync(ct);
+        if(AssistantHistory.IsQuestion(message)&&!Has(message,@"игнорир|промпт|забудь.*инструк"))return await history.ReplyAsync(message,owner,all,ct);
         var recent=NvidiaMenuAssistant.Recent(r.RecentQuestions);var lastIds=(r.LastProductIds??[]).Where(x=>x is {Length:<=80}).Distinct().Take(6).ToArray();
         var previousCategory=recent.Select(Category).LastOrDefault(x=>x is not null);var currentCategory=Category(text);
         if(previousCategory=="drinks"&&Has(text,@"^(?:хочу\s+)?горяч(?:ее|ий|его)[.!\s]*$"))currentCategory="warm-drinks";

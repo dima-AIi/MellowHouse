@@ -1,6 +1,6 @@
-import{validPhone,bindPhones}from'./forms.js?v=20261021-v8';
-import{app,request,setCart,updateState,money,esc,totals,icon,busy,toast}from'./core.js?v=20261021-v8';
-import{openAuth}from'./cart-auth.js?v=20261021-v8';
+import{validPhone,bindPhones}from'./forms.js?v=20261021-v9';
+import{app,request,setCart,updateState,money,esc,totals,icon,busy,toast}from'./core.js?v=20261021-v9';
+import{openAuth}from'./cart-auth.js?v=20261021-v9';
 export async function initCheckout(){
  const form=document.querySelector('#checkout-form');
  if(!app.state.authenticated){form.hidden=true;document.querySelector('#checkout-auth-notice').hidden=false;openAuth(()=>location.reload());return;}

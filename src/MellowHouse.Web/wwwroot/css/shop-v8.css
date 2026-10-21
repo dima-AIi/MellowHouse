@@ -43,3 +43,42 @@ html:has(dialog[open]),body:has(dialog[open]){overflow:hidden}
 .nutrition-editor legend{font:500 23px Oswald;padding:0 8px 0 0}
 @media(max-width:700px){.cart-drawer[open]{padding:16px 16px max(12px,env(safe-area-inset-bottom))}.card-actions{gap:4px}.add-control{gap:4px}.nutrition-values{gap:3px}.nutrition-values dd{font-size:13px}.nutrition-values dt{font-size:9px}.nutrition-caption{font-size:9px}.order-tracking{padding:16px}.order-progress{gap:14px 8px}}
 @media(max-height:540px){.cart-drawer .drawer-header h2{font-size:25px}.cart-drawer .drawer-header{margin-bottom:4px}.cart-drawer #cart-bottom{padding-top:7px}.cart-drawer #cart-bottom h3{display:none}.cart-drawer #cart-bottom .segmented{margin-bottom:4px}.cart-drawer .total-row:not(.grand){display:none}.cart-drawer .total-row.grand{margin:0;padding:5px 0}}
+
+/* Compact basket controls: reveal minus and quantity only after the first addition. */
+.add-control.has-items{gap:0;border-radius:24px;background:#edf4ef;padding:2px}
+.add-control.has-items .round-btn{width:32px;height:34px;margin:0;flex-shrink:0;font-size:23px;background:transparent;color:var(--forest)}
+.add-control.has-items .round-btn:hover{background:#dcebe1}
+.add-control.has-items .product-cart-count{min-width:22px;padding:0 2px;color:var(--forest)}
+.popular .add-control{margin-left:auto}
+.popular .add-control.has-items{background:#fff}
+.popular .add-control .round-btn{margin-left:0}
+.card-actions:has(.has-items){flex-wrap:wrap;row-gap:8px}
+.card-actions:has(.has-items) .add-control{margin-left:auto}
+.product-information{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-top:18px}
+.product-information details{border:0;border-radius:0;margin:0;padding:0 20px}
+.product-information details+details{border-top:1px solid var(--border)}
+.product-information summary{min-height:60px;padding:18px 0;gap:20px;align-items:center;font-size:14px;line-height:1.5}
+.product-information details>p,.product-information .accordion-content{margin:0;padding:0 0 20px;font-size:14px;line-height:1.7}
+.product-information details>p+p{padding-top:0}
+.product-information .nutrition{border:0;margin:0;padding:0}
+.product-information .nutrition-caption{font-size:12px;margin-bottom:12px}
+.product-information .nutrition-values dt{font-size:11px}
+.product-information .nutrition-values dd{font-size:21px}
+.product-information .small{margin-top:16px;max-width:55ch}
+.faq-column{min-width:0}
+.faq-list{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#fff}
+.faq-list details{border:0;border-radius:0;margin:0;padding:0 24px}
+.faq-list details+details{border-top:1px solid var(--border)}
+.faq-list summary{min-height:76px;display:flex;align-items:center;gap:24px;padding:22px 0;font-size:15px;font-weight:500;line-height:1.5;text-align:left}
+.faq-list summary::after,.product-information summary::after{content:'+';font:400 24px/1 Golos,sans-serif;display:grid;place-items:center;flex:0 0 28px;width:28px;height:28px;color:var(--forest);margin-left:auto}
+.faq-list details[open] summary::after,.product-information details[open] summary::after{content:'−'}
+.faq-list details[open]{background:#f5f9f6}
+.faq-list summary:hover{color:var(--action)}
+.faq-list details p{margin:0;padding:0 44px 24px 0;font-size:14px;line-height:1.8;color:#52665a;max-width:65ch}
+.faq-column .faq-help{font-size:13px;line-height:1.7;margin:20px 0 0;max-width:52ch}
+@media(max-width:700px){.faq-list details{padding:0 18px}.faq-list summary{min-height:70px;padding:18px 0;gap:14px;font-size:14px}.faq-list details p{padding:0 0 20px}.product-information details{padding:0 16px}.product-page .product-information details{margin:0}.card-actions:has(.has-items) .favorite{margin-left:auto}.card-actions:has(.has-items) .add-control{margin-left:auto}.add-control.has-items .round-btn{width:30px;height:32px}.add-control.has-items .product-cart-count{min-width:20px}.popular .card-actions:has(.has-items){gap:6px}.popular .card-actions:has(.has-items) .add-control{margin-left:0}.product-information .nutrition-values dd{font-size:19px}}
+
+@media(max-width:700px){.card-actions:has(.has-items) .add-control{flex-basis:100%;justify-content:space-between;margin-left:0}.add-control.has-items .round-btn{width:44px;height:38px}.card-actions:has(.has-items){row-gap:6px}.popular .card-actions:has(.has-items) .add-control{margin-left:0}}
+
+.assistant-section,.assistant-card{scroll-margin-top:calc(var(--header) + 20px)}
+.assistant-card .chat-messages{min-height:260px;max-height:clamp(260px,46dvh,430px)}

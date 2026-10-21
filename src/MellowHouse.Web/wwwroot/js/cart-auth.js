@@ -1,5 +1,5 @@
-import{validPhone}from'./forms.js?v=20261021-v8';
-import{app,ready,request,refresh,setCart,updateState,money,esc,icon,product,calculated,configure,toast,busy,handle,totals}from'./core.js?v=20261021-v8';
+import{validPhone}from'./forms.js?v=20261021-v9';
+import{app,ready,request,refresh,setCart,updateState,money,esc,icon,product,calculated,configure,toast,busy,handle,totals}from'./core.js?v=20261021-v9';
 const cartDialog=document.querySelector('#cart-dialog'),authDialog=document.querySelector('#auth-dialog'),editDialog=document.querySelector('#edit-dialog');
 let afterAuth=null,channel='phone',challengeId=null,editing=null,register=false;
 export function openAuth(callback){afterAuth=callback;document.querySelector('#auth-title').innerHTML='Добро пожаловать<br>в Mellow House';switchChannel(channel);document.querySelectorAll('#auth-dialog .form-error').forEach(x=>x.textContent='');if(!authDialog.open)authDialog.showModal();}
@@ -25,6 +25,8 @@ handle('[data-account]',async()=>{await ready;if(app.state.authenticated)locatio
 handle('[data-logout]',async()=>{await request('/api/auth/logout',{},'POST');location.href='/';});
 handle('#checkout-button',()=>beginCheckout());
 let methodSaves=Promise.resolve();handle('[data-method]',async b=>{await ready;const method=b.dataset.method;app.method=method;localStorage.setItem('mh.method',method);updateState();renderCart();document.dispatchEvent(new CustomEvent('mh:method'));methodSaves=methodSaves.catch(()=>{}).then(()=>request('/api/fulfillment',{method},'PUT'));await methodSaves;});
+let productChanges=Promise.resolve();
+handle('[data-product-delta]',b=>{const id=b.dataset.cartProduct,delta=Number(b.dataset.productDelta);productChanges=productChanges.catch(()=>{}).then(async()=>{await ready;try{setCart(await request('/api/cart/product/'+encodeURIComponent(id),{delta},'POST'));renderCart();}catch(e){if(e.field==='configuration'){renderCart();if(!cartDialog.open)cartDialog.showModal();toast(e.message);return;}throw e;}});return productChanges;});
 handle('[data-add]',async b=>{await ready;const p=product(b.dataset.add);setCart(await request('/api/cart',{productId:p.id,quantity:1},'POST'));renderCart();toast(`${p.name} — в корзине`);});
 handle('[data-favorite]',async b=>{await ready;const id=b.dataset.favorite;const selected=!app.state.favorites.includes(id);await request(`/api/favorites/${id}`,{selected},'PUT');app.state.favorites=selected?[...app.state.favorites,id]:app.state.favorites.filter(x=>x!==id);updateState();document.dispatchEvent(new CustomEvent('mh:favorites'));toast(selected?'Добавлено в избранное':'Удалено из избранного');});
 async function remove(id){const line=app.state.cart.items.find(i=>i.id===id);setCart(await request('/api/cart/'+id,undefined,'DELETE'));renderCart();toast('Позиция удалена',async()=>{setCart(await request('/api/cart',{productId:line.product.id,selections:line.selections,quantity:line.quantity},'POST'));renderCart();});}

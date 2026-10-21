@@ -1,4 +1,5 @@
-import{app,ready,request,setCart,money,esc,product,defaults,calculated,configure,busy,toast,handle}from'./core.js?v=20261021-v8';
+import{openAuth}from'./cart-auth.js?v=20261021-v9';
+import{app,ready,request,setCart,money,esc,product,defaults,calculated,configure,busy,toast,handle}from'./core.js?v=20261021-v9';
 const reduce=matchMedia('(prefers-reduced-motion: reduce)');
 const video=document.querySelector('#menu-video');
 if(video){let userPaused=false,inView=false;const status=document.querySelector('#video-status');
@@ -28,10 +29,12 @@ async function ask(message,offeredIds, retryBody){
    const answer=await request('/api/assistant',body,'POST');waiting.classList.remove('chat-typing');waiting.removeAttribute('aria-label');waiting.textContent=answer.text;
    recentQuestions.push(message);lastProductIds=(answer.productIds??[]).slice(0,6);suggestions(answer.suggestions);
    if(answer.cart)setCart(answer.cart);
+   if(answer.requiresLogin){const login=document.createElement('button');login.type='button';login.className='btn btn-outline chat-history-login';login.textContent='Войти и посмотреть историю';login.onclick=()=>openAuth(()=>ask(message));chat.append(login);}
    for(const id of lastProductIds){const p=product(id);if(!p?.available)continue;const added=answer.addedProductIds?.includes(id);const card=document.createElement('div');card.className='chat-product';card.innerHTML=`<img src="${esc(p.image)}" alt="" width="64" height="64"/><div><strong>${esc(p.name)}</strong><span>${money(p.price)} · ${esc(p.portion)}</span><small>${esc(p.description)}</small></div><div class="chat-product-actions">${added?'<span class="chat-added">В корзине ✓</span>':`<button type="button" data-assistant-add="${esc(p.id)}">Добавить</button>`}<button type="button" data-assistant-configure="${esc(p.id)}">Настроить</button></div>`;chat.append(card);}
    if(answer.cart){const b=document.createElement('button');b.type='button';b.className='btn btn-outline chat-open-cart';b.dataset.openCart='';b.textContent='Проверить корзину · '+money(answer.cart.subtotal);chat.append(b);}
   }catch(error){waiting.classList.remove('chat-typing');waiting.removeAttribute('aria-label');waiting.textContent=error.message;if(!error.status||error.status>=500){const retry=document.createElement('button');retry.type='button';retry.className='text-button';retry.textContent='Повторить сообщение';retry.onclick=()=>{if(chatBusy)return;retry.remove();ask(message,undefined,body);};waiting.append(document.createElement('br'),retry);}}
-  chat.scrollTop=chat.scrollHeight;
+  chat.scrollTop+=waiting.getBoundingClientRect().top-chat.getBoundingClientRect().top-8;
+  chat.closest('.assistant-card').scrollIntoView({block:'nearest',behavior:'instant'});
  });}catch(error){toast(error.message);}finally{chatBusy=false;}
 }
 document.querySelector('#chat-form')?.addEventListener('submit',e=>{e.preventDefault();const value=document.querySelector('#chat-input').value.trim();if(value)ask(value);});handle('[data-chat-quick]',b=>ask(b.dataset.chatQuick));
