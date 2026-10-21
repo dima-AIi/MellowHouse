@@ -73,5 +73,8 @@ public sealed class CustomerJourneyTests
         Assert.DoesNotContain("nutrition-values",Encoding.UTF8.GetString((await b.Raw("/Menu")).Bytes));
         var home=Encoding.UTF8.GetString((await b.Raw("/")).Bytes);Assert.DoesNotContain("nutrition-values",home);Assert.Contains("faq-list",home);
         var detail=Encoding.UTF8.GetString((await b.Raw("/Product/syrniki")).Bytes);Assert.Contains("<summary>КБЖУ и пищевая ценность</summary>",detail);Assert.Contains("nutrition-values",detail);
+        var allergens=System.Net.WebUtility.HtmlDecode(Encoding.UTF8.GetString((await b.Raw("/Allergens")).Bytes));
+        Assert.Contains("КБЖУ на порцию",allergens);Assert.Contains("Белки, г",allergens);Assert.Contains("Жиры, г",allergens);Assert.Contains("Угл., г",allergens);
+        Assert.DoesNotContain("\"calories\"",allergens);Assert.DoesNotContain("\"estimated\"",allergens);
     }
 }

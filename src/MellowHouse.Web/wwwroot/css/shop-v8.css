@@ -10,6 +10,10 @@
 .product-cart-count[hidden]{display:none}
 .detail-cart-count{display:block;margin:10px 0 0;font-size:13px;color:var(--forest)}
 .detail-copy>.nutrition{max-width:410px;margin:18px 0}
+.allergen-item .nutrition{max-width:480px}
+.allergen-item .nutrition-caption{font-size:12px}
+.allergen-item .nutrition-values dt{font-size:12px}
+.allergen-item .nutrition-values dd{font-size:20px}
 html:has(dialog[open]),body:has(dialog[open]){overflow:hidden}
 .cart-drawer[open]{display:flex;flex-direction:column;box-sizing:border-box;top:0;bottom:0;height:100dvh;max-height:100dvh;overflow:hidden;padding:20px 24px max(16px,env(safe-area-inset-bottom));gap:0}
 .cart-drawer .drawer-header{flex:none;margin:0 0 12px}
