@@ -1,5 +1,6 @@
-import{validPhone}from'./forms.js?v=20261021-v9';
-import{app,ready,request,refresh,setCart,updateState,money,esc,icon,product,calculated,configure,toast,busy,handle,totals}from'./core.js?v=20261021-v9';
+import{clearChat}from'./chat-session.js?v=20261022-v10';
+import{validPhone}from'./forms.js?v=20261022-v10';
+import{app,ready,request,refresh,setCart,updateState,money,esc,icon,product,calculated,configure,toast,busy,handle,totals}from'./core.js?v=20261022-v10';
 const cartDialog=document.querySelector('#cart-dialog'),authDialog=document.querySelector('#auth-dialog'),editDialog=document.querySelector('#edit-dialog');
 let afterAuth=null,channel='phone',challengeId=null,editing=null,register=false;
 export function openAuth(callback){afterAuth=callback;document.querySelector('#auth-title').innerHTML='Добро пожаловать<br>в Mellow House';switchChannel(channel);document.querySelectorAll('#auth-dialog .form-error').forEach(x=>x.textContent='');if(!authDialog.open)authDialog.showModal();}
@@ -22,7 +23,7 @@ handle('[data-open-cart]',async()=>{await ready;renderCart();if(!cartDialog.open
 handle('[data-close]',b=>document.getElementById(b.dataset.close).close());
 document.querySelectorAll('dialog').forEach(d=>d.addEventListener('click',e=>{if(e.target===d){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}}));
 handle('[data-account]',async()=>{await ready;if(app.state.authenticated)location.href='/Account';else openAuth(()=>{location.href='/Account';});});
-handle('[data-logout]',async()=>{await request('/api/auth/logout',{},'POST');location.href='/';});
+handle('[data-logout]',async()=>{await request('/api/auth/logout',{},'POST');clearChat(sessionStorage);location.href='/';});
 handle('#checkout-button',()=>beginCheckout());
 let methodSaves=Promise.resolve();handle('[data-method]',async b=>{await ready;const method=b.dataset.method;app.method=method;localStorage.setItem('mh.method',method);updateState();renderCart();document.dispatchEvent(new CustomEvent('mh:method'));methodSaves=methodSaves.catch(()=>{}).then(()=>request('/api/fulfillment',{method},'PUT'));await methodSaves;});
 let productChanges=Promise.resolve();

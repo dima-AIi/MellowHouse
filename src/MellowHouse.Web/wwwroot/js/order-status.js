@@ -1,9 +1,11 @@
+export function fulfillmentLabel(stage,method){return {New:'Заказ получен',Accepted:'Принят',Preparing:'Готовится',Ready:method==='delivery'?'Готов к отправке':'Готов к выдаче',OutForDelivery:'У курьера',Completed:method==='delivery'?'Доставлен':'Выдан',Rejected:'Отклонён'}[stage]??stage;}
 // Fulfillment comes from the saved order. Time never advances an order's stage.
 export function orderStatus(order){
  const delivery=order.checkout.method==='delivery';
  const receipt=['cash','terminal'].includes(order.paymentMethod);
  const paid=['Paid','PartiallyRefunded','Refunded'].includes(order.status);
  if(order.fulfillment==='Rejected')return{title:'Заказ отклонён',note:'Причина указана в истории ниже. Свяжитесь с кафе, если нужна помощь.',steps:[]};
+ if(order.status==='Refunded')return{title:'Оплата возвращена',note:'Полный возврат оплаты отмечен. Подробности указаны в истории заказа.',steps:[]};
  if(!paid&&!receipt){
   const failed=['Failed','Cancelled'].includes(order.status);
   return{title:failed?'Оплата не завершена':'Ожидает оплаты',note:'Заказ сохранён. Кафе начнёт его готовить после подтверждения оплаты.',steps:[{code:'Payment',label:'Оплата',state:'current'},{code:'Preparing',label:'Приготовление',state:'next'},{code:'Completed',label:delivery?'Доставка':'Получение',state:'next'}]};

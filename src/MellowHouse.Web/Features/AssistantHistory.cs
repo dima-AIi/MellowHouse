@@ -9,7 +9,14 @@ namespace MellowHouse.Web.Features;
 public sealed class AssistantHistory(ShopDbContext db)
 {
     private static bool Has(string text,string pattern)=>Regex.IsMatch(text,pattern,RegexOptions.IgnoreCase|RegexOptions.CultureInvariant);
-    public static bool IsQuestion(string text)=>Has(text,@"^\s*(?:а\s+)?(?:вчера|позавчера|сегодня|(?:в|во)\s+(?:понедельник|вторник|среду|четверг|пятницу|субботу|воскресенье))\s*[?!.]*$|истори[яию]|мои[хм]?\s+заказ|последн[а-я]*\s+заказ|повтор[а-я]*.*заказ|что\s+я\s+(?:ел[аи]?|пил[аи]?|заказывал[аи]?|брал[аи]?)|что\s+(?:ел[аи]?|пил[аи]?|заказывал[аи]?|брал[аи]?|было)\b|(?:как|так[а-я]*|то\s+же|повтор[а-я]*|заказ[а-я]*)\s+(?:в\s+|во\s+)?(?:прошл|последн|вчера|позавчера|сегодня|понедельник|вторник|сред|четверг|пятниц|суббот|воскресень)|(?:хочу|повтори|покажи|напомни).*\b(?:вчера|позавчера|среду|вторник|понедельник|четверг|пятницу|субботу|воскресенье|последний\s+заказ)\b");
+    public static bool IsQuestion(string text)=>OrderNumber(text).HasValue||Has(text,@"^\s*(?:а\s+)?(?:вчера|позавчера|сегодня|(?:в|во)\s+(?:понедельник|вторник|среду|четверг|пятницу|субботу|воскресенье))\s*[?!.]*$|истори[яию]|мои[хм]?\s+заказ|последн[а-я]*\s+заказ|повтор[а-я]*.*заказ|что\s+я\s+(?:ел[аи]?|пил[аи]?|заказывал[аи]?|брал[аи]?)|что\s+(?:ел[аи]?|пил[аи]?|заказывал[аи]?|брал[аи]?|было)\b|(?:как|так[а-я]*|то\s+же|повтор[а-я]*|заказ[а-я]*)\s+(?:в\s+|во\s+)?(?:прошл|последн|вчера|позавчера|сегодня|понедельник|вторник|сред|четверг|пятниц|суббот|воскресень)|(?:хочу|повтори|покажи|напомни).*\b(?:вчера|позавчера|среду|вторник|понедельник|четверг|пятницу|субботу|воскресенье|последний\s+заказ)\b");
+
+    public static long? OrderNumber(string text)
+    {
+        var match=Regex.Match(text,@"(?<![\p{L}\d])(?:[mм][hн]\s*[-–—№#]?\s*|(?:заказ(?:а|у|ом)?|номер(?:ом)?)\s*[№#]?\s*|[№#]\s*)(\d{1,12})(?!\d|[./-]\d)|^\s*(\d{4,12})\s*[.!?]?\s*$",RegexOptions.IgnoreCase|RegexOptions.CultureInvariant);
+        var digits=match.Groups[1].Success?match.Groups[1].Value:match.Groups[2].Value;
+        return long.TryParse(digits,out var number)?number:null;
+    }
 
     public static DateOnly? Day(string message,DateOnly today)
     {
@@ -40,13 +47,17 @@ public sealed class AssistantHistory(ShopDbContext db)
     {
         if(!owner.StartsWith("u:",StringComparison.Ordinal)||!Guid.TryParse(owner[2..],out var customer))
             return new("Войдите в профиль, чтобы я нашёл ваши прошлые заказы. После входа продолжу с этим вопросом. Пока могу помочь выбрать из меню.",[],["Подобрать кофе","Что перекусить?"],RequiresLogin:true);
-        var today=DateOnly.FromDateTime(DateTime.UtcNow.AddHours(3));var day=Day(message,today);
-        if(day is null&&Has(message,@"\b\d{1,2}[./]\d{1,2}|\b\d{4}-\d{2}-\d{2}"))return new("Не получилось разобрать дату. Напишите её как 21.10.2026, либо укажите «вчера» или день недели.",[],["Покажи мой последний заказ"]);
+        var number=OrderNumber(message);
+        var today=DateOnly.FromDateTime(DateTime.UtcNow.AddHours(3));var day=number.HasValue?null:Day(message,today);
+        if(!number.HasValue&&day is null&&Has(message,@"\b\d{1,2}[./]\d{1,2}|\b\d{4}-\d{2}-\d{2}"))return new("Не получилось разобрать дату. Напишите её как 21.10.2026, либо укажите «вчера» или день недели.",[],["Покажи мой последний заказ"]);
         // Use the same owner and archive boundary as the customer's history API.
-        var query=db.Orders.AsNoTracking().Where(o=>o.CustomerId==customer&&o.Source!=DemoBusiness.ArchivedSource&&o.Fulfillment!="Rejected");
+        var query=db.Orders.AsNoTracking().Where(o=>o.CustomerId==customer&&o.Source!=DemoBusiness.ArchivedSource);
+        if(number is {} requested)query=query.Where(o=>o.Id==requested-1040);
+        else query=query.Where(o=>o.Fulfillment!="Rejected");
         if(day is {} selected){var start=selected.ToDateTime(TimeOnly.MinValue,DateTimeKind.Utc).AddHours(-3);var end=start.AddDays(1);query=query.Where(o=>o.CreatedUtc>=start&&o.CreatedUtc<end);}
         var orders=await query.OrderByDescending(o=>o.CreatedUtc).ThenByDescending(o=>o.Id).ToArrayAsync(ct);
-        var placed=orders.Where(o=>(o.Status is "Paid" or "PartiallyRefunded" or "Refunded")||o.Fulfillment=="Completed"||o.Status=="Pending"&&(o.PaymentMethod is "cash" or "terminal")).ToArray();
+        if(number.HasValue&&orders.Length==0)return new($"Заказ MH-{number} не найден в вашей истории. Проверьте номер в профиле. Другой заказ вместо него не выбираю.",[],["Покажи мой последний заказ"]);
+        var placed=number.HasValue?orders:orders.Where(o=>(o.Status is "Paid" or "PartiallyRefunded" or "Refunded")||o.Fulfillment=="Completed"||o.Status=="Pending"&&(o.PaymentMethod is "cash" or "terminal")).ToArray();
         if(placed.Length==0)
         {
             var when=day is {} d?" за "+d.ToString("dd.MM.yyyy"):"";
@@ -58,6 +69,7 @@ public sealed class AssistantHistory(ShopDbContext db)
         foreach(var order in selectedOrders)
         {
             rows.Add($"{order.CreatedUtc.AddHours(3):dd.MM.yyyy}, заказ MH-{order.Id+1040}:");
+            if(number.HasValue){var view=OrderService.View(order);rows.Add("Статус: "+OrderWorkflow.Label(order.Fulfillment,view.Checkout.Method)+". Оплата: "+(order.Status switch{"Paid"=>"оплачен","PartiallyRefunded"=>"частичный возврат","Refunded"=>"полный возврат","Failed"=>"ошибка оплаты","Cancelled"=>"оплата отменена",_=>PaymentMethods.AtPickup(order.PaymentMethod)?"при получении":"ожидает оплаты"})+".");}
             foreach(var line in OrderService.Lines(order))
             {
                 var current=available.FirstOrDefault(p=>p.Id==line.ProductId);

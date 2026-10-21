@@ -36,7 +36,7 @@ public sealed class IterationFourTests
     {
         using var f=new ShopFactory();using var buyer=new Buyer(f);await buyer.SignIn();await buyer.Add("vanilla-raf");var order=await buyer.Checkout("pickup","cash");var id=order["id"]!.GetValue<string>();
         using var admin=new Buyer(f);await LoginAdmin(admin,f);
-        Assert.Equal(HttpStatusCode.OK,(await admin.Send($"/api/admin/orders/{id}/status",new{status="Ready"},"PUT")).Status);
+        foreach(var stage in new[]{"Accepted","Preparing","Ready"})Assert.Equal(HttpStatusCode.OK,(await admin.Send($"/api/admin/orders/{id}/status",new{status=stage},"PUT")).Status);
         Assert.Equal(HttpStatusCode.Conflict,(await admin.Send($"/api/admin/orders/{id}/status",new{status="OutForDelivery"},"PUT")).Status);
         Assert.Equal(HttpStatusCode.Conflict,(await admin.Send($"/api/admin/orders/{id}/status",new{status="Completed"},"PUT")).Status);
         Assert.Equal(HttpStatusCode.OK,(await admin.Send($"/api/admin/orders/{id}/receipt",new{requestKey=Guid.NewGuid(),method="cash"},"POST")).Status);

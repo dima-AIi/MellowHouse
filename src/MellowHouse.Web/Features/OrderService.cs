@@ -8,7 +8,7 @@ public sealed record OrderLineSnapshot(string ProductId,string Name,string Image
 public sealed record OrderEventView(string Status,string Note,DateTime CreatedUtc);
 public sealed record RefundLine(int Index,int Quantity);
 public sealed record RefundView(Guid Id,int Amount,int Delivery,string Reason,RefundLine[] Lines,DateTime CreatedUtc);
-public sealed record OrderView(Guid Id,string Number,string Status,OrderLineSnapshot[] Items,CheckoutRequest Checkout,int Subtotal,int Delivery,int Total,DateTime CreatedUtc,string PaymentMethod,string Fulfillment="New",int Refunded=0,OrderEventView[]? Events=null,RefundView[]? Refunds=null,string Source="Web");
+public sealed record OrderView(Guid Id,string Number,string Status,OrderLineSnapshot[] Items,CheckoutRequest Checkout,int Subtotal,int Delivery,int Total,DateTime CreatedUtc,string PaymentMethod,string Fulfillment="New",int Refunded=0,OrderEventView[]? Events=null,RefundView[]? Refunds=null,string Source="Web",string[]? AllowedTransitions=null);
 public sealed record PaymentRequest(string AttemptKey,string Result);
 public sealed record TransitionRequest(string Status,string? Reason);
 public sealed record RefundRequest(string RequestKey,string Reason,RefundLine[] Lines,bool Delivery);
@@ -26,7 +26,11 @@ public sealed class OrderService(ShopDbContext db,CartService carts,SiteService 
     // StudioV2 added this column with an empty default for older paid orders.
     // Their historic cost is unknown, rather than zero or today's product cost.
     public static int?[] Costs(Order o)=>string.IsNullOrWhiteSpace(o.CostsJson)?[]:JsonSerializer.Deserialize<int?[]>(o.CostsJson,JsonDefaults.Options)??[];
-    public static OrderView View(Order o,OrderEventView[]? events=null,RefundView[]? refunds=null)=>new(o.PublicId,$"MH-{o.Id+1040}",o.Status,Lines(o),JsonSerializer.Deserialize<CheckoutRequest>(o.CheckoutJson,JsonDefaults.Options)!,o.Subtotal,o.Delivery,o.Total,o.CreatedUtc,o.PaymentMethod,o.Fulfillment,o.Refunded,events,refunds,o.Source);
+    public static OrderView View(Order o,OrderEventView[]? events=null,RefundView[]? refunds=null)
+    {
+        var checkout=JsonSerializer.Deserialize<CheckoutRequest>(o.CheckoutJson,JsonDefaults.Options)!;
+        return new(o.PublicId,$"MH-{o.Id+1040}",o.Status,Lines(o),checkout,o.Subtotal,o.Delivery,o.Total,o.CreatedUtc,o.PaymentMethod,o.Fulfillment,o.Refunded,events,refunds,o.Source,OrderWorkflow.Next(o,checkout?.Method));
+    }
     public async Task<OrderView> CreateAsync(Guid customer,CheckoutRequest r,CancellationToken ct=default)=>await CreateCoreAsync(customer,"u:"+customer,r,"Web",ct);
     private async Task<OrderView> CreateCoreAsync(Guid customer,string owner,CheckoutRequest request,string source,CancellationToken ct)
     {
@@ -103,6 +107,7 @@ public sealed class OrderService(ShopDbContext db,CartService carts,SiteService 
         if(r.Status=="OutForDelivery"&&checkout.Method!="delivery")throw new ShopException("Самовывоз не передают курьеру.",409);
         if(r.Status!="Rejected"&&o.PaidUtc is null&&!PaymentMethods.AtPickup(o.PaymentMethod))throw new ShopException("Сначала дождитесь оплаты заказа.",409);
         if(r.Status=="Completed"&&o.PaidUtc is null)throw new ShopException("Перед завершением отметьте оплату при получении.",409);
+        if(!OrderWorkflow.Next(o,checkout.Method).Contains(r.Status))throw new ShopException("Этот переход недоступен. Двигайтесь по этапам заказа без пропусков и возврата назад.",409);
         var reason=r.Status=="Rejected"?Inputs.Required(r.Reason,"причину отказа",300):"";
         o.Fulfillment=r.Status;o.Revision++;db.OrderEvents.Add(new(){OrderId=o.Id,ActorId=actor,Status=r.Status,Note=reason});Audit.Log(db,actor,"order.status",o.PublicId.ToString(),r.Status);await db.SaveChangesAsync(ct);
     }

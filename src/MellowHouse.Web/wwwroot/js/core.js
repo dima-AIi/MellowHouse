@@ -1,3 +1,4 @@
+import{syncChatOwner}from'./chat-session.js?v=20261022-v10';
 export const money=n=>new Intl.NumberFormat('ru-RU',{style:'currency',currency:'RUB',maximumFractionDigits:0}).format(n);
 export const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const icon=name=>`<svg aria-hidden="true"><use href="/images/icons.svg#${name}"></use></svg>`;
@@ -11,7 +12,7 @@ export async function request(path,body,method='GET'){
  if(!response.ok)throw new ApiError(data.error||(response.status===401?'Войдите, чтобы продолжить. Корзина сохранена.':response.status===429?'Слишком много попыток. Подождите минуту и повторите.':'Не удалось выполнить действие. Обновите страницу и повторите.'),response.status,data.field);
  return data;
 }
-export async function refresh(){app.state=await request('/api/state');if(!['pickup','delivery'].includes(localStorage.getItem('mh.method'))&&['pickup','delivery'].includes(app.state.fulfillmentMethod))app.method=app.state.fulfillmentMethod;updateState();return app.state;}
+export async function refresh(){app.state=await request('/api/state');if(syncChatOwner(sessionStorage,app.state.authenticated?'u:'+app.state.profile.id:'guest'))document.dispatchEvent(new CustomEvent('mh:chat-reset'));if(!['pickup','delivery'].includes(localStorage.getItem('mh.method'))&&['pickup','delivery'].includes(app.state.fulfillmentMethod))app.method=app.state.fulfillmentMethod;updateState();return app.state;}
 export function setCart(cart){app.state.cart=cart;updateState();document.dispatchEvent(new CustomEvent('mh:cart'));}
 export function updateState(){
  if(!app.state)return;

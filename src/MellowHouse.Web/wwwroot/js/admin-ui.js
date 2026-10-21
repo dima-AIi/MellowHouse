@@ -1,11 +1,13 @@
-import{app,request,money,esc,toast,busy,configure,defaults,calculated}from'./core.js?v=20261021-v9';
+import{fulfillmentLabel}from'./order-status.js?v=20261022-v10';
+export{fulfillmentLabel};
+import{app,request,money,esc,toast,busy,configure,defaults,calculated}from'./core.js?v=20261022-v10';
 export{app,request,money,esc,toast,busy,configure,defaults,calculated};
 let serial=0;
 export const date=value=>value?new Intl.DateTimeFormat('ru-RU',{dateStyle:'short',timeStyle:'short',timeZone:'Europe/Moscow'}).format(new Date(value.endsWith('Z')?value:value+'Z')):'—';
 export const today=()=>new Date().toLocaleDateString('en-CA',{timeZone:'Europe/Moscow'});
 export const paymentLabel=m=>({card:'Банковская карта',sbp:'СБП',yoomoney:'ЮMoney',cash:'Наличные',terminal:'Терминал'}[m]??m);
 export const status=s=>({New:'Новый',Accepted:'Принят',Preparing:'Готовится',Ready:'Готов',OutForDelivery:'У курьера',Completed:'Завершён',Rejected:'Отклонён',Pending:'Ожидает оплаты',Paid:'Оплачен',Failed:'Ошибка оплаты',Cancelled:'Оплата отменена',Refunded:'Возвращён',PartiallyRefunded:'Частичный возврат'}[s]??s);
-export const badge=(s)=>`<span class="admin-badge status-${esc(s.toLowerCase())}">${esc(status(s))}</span>`;
+export const badge=(s,method)=>`<span class="admin-badge status-${esc(s.toLowerCase())}">${esc(method?fulfillmentLabel(s,method):status(s))}</span>`;
 export function field(label,name,value='',type='text',extra=''){const id='af-'+(++serial);return `<div class="field"><label for="${id}">${esc(label)}</label>${type==='textarea'?`<textarea id="${id}" name="${esc(name)}" rows="3" ${extra}>${esc(value??'')}</textarea>`:`<input id="${id}" name="${esc(name)}" type="${type}" value="${esc(value??'')}" ${extra}/>`}</div>`;}
 export function select(label,name,options,value,extra=''){const id='af-'+(++serial);return `<div class="field"><label for="${id}">${esc(label)}</label><select id="${id}" name="${esc(name)}" ${extra}>${options.map(o=>`<option value="${esc(o[0])}" ${String(o[0])===String(value)?'selected':''}>${esc(o[1])}</option>`).join('')}</select></div>`;}
 export const check=(label,name,value=false,extra='')=>`<label class="choice"><input type="checkbox" name="${esc(name)}" ${value?'checked':''} ${extra}/>${esc(label)}</label>`;

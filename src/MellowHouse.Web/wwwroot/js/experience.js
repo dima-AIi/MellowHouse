@@ -1,5 +1,6 @@
-import{openAuth}from'./cart-auth.js?v=20261021-v9';
-import{app,ready,request,setCart,money,esc,product,defaults,calculated,configure,busy,toast,handle}from'./core.js?v=20261021-v9';
+import{readChat,writeChat}from'./chat-session.js?v=20261022-v10';
+import{openAuth}from'./cart-auth.js?v=20261022-v10';
+import{app,ready,request,setCart,money,esc,product,defaults,calculated,configure,busy,toast,handle}from'./core.js?v=20261022-v10';
 const reduce=matchMedia('(prefers-reduced-motion: reduce)');
 const video=document.querySelector('#menu-video');
 if(video){let userPaused=false,inView=false;const status=document.querySelector('#video-status');
@@ -15,28 +16,38 @@ if(video){let userPaused=false,inView=false;const status=document.querySelector(
 document.querySelector('[data-go-catalog]')?.addEventListener('click',e=>{e.preventDefault();document.querySelector('#catalog-start').scrollIntoView({behavior:reduce.matches?'instant':'smooth'});document.querySelector('#menu-search').focus({preventScroll:true});});
 const search=document.querySelector('#menu-search');
 if(search){let timer;const results=document.querySelector('#search-results'),status=document.querySelector('#search-status'),clear=document.querySelector('#menu-search-clear');async function renderSearch(){await ready;const query=search.value.trim().toLowerCase(),words=query.split(/\s+/).filter(Boolean);clear.hidden=!query;results.hidden=!query;if(!query){results.replaceChildren();status.textContent='';return;}const found=app.catalog.products.filter(p=>words.every(w=>(p.name+' '+p.ingredients).toLowerCase().includes(w)));status.textContent=found.length?'Найдено: '+found.length:'Ничего не найдено';results.innerHTML=found.length?found.map(p=>`<a href="/Product/${esc(p.id)}" data-product-link><img src="${esc(p.image)}" alt="" width="60" height="60"/><span><strong>${esc(p.name)}</strong><small>${esc(p.portion)}</small></span><b>${money(p.price)}</b></a>`).join(''):'<p>Попробуйте другое название или ингредиент. Все разделы меню остаются ниже.</p>';sessionStorage.setItem('mh.menu-query',search.value);}search.addEventListener('input',()=>{clearTimeout(timer);timer=setTimeout(renderSearch,120);});clear.addEventListener('click',()=>{search.value='';renderSearch();search.focus();});if(sessionStorage.getItem('mh.restore-menu')==='1'){search.value=sessionStorage.getItem('mh.menu-query')??'';renderSearch();}}
-const recentQuestions=[];let assistantSelection=null,lastProductIds=[],chatBusy=false;const chat=document.querySelector('#chat-messages');
-function appendMessage(text,role){const node=document.createElement('div');node.className='chat-message '+role;node.textContent=text;chat.append(node);chat.scrollTop=chat.scrollHeight;return node;}
+const recentQuestions=[];let assistantSelection=null,lastProductIds=[],chatBusy=false,entries=[],pending=null,chatInitialized=false;const chat=document.querySelector('#chat-messages');
+const chatOwner=()=>app.state?.authenticated?'u:'+app.state.profile.id:'guest';
+function saveChat(){if(!chat||!chatInitialized)return;writeChat(sessionStorage,{owner:chatOwner(),entries,recentQuestions:recentQuestions.slice(-4),lastProductIds,draft:document.querySelector('#chat-input').value,suggestions:[...document.querySelectorAll('.chat-suggestions button')].map(x=>x.textContent),scroll:chat.scrollTop,pending});}
+function appendMessage(text,role,persist=true){const node=document.createElement('div');node.className='chat-message '+role;node.textContent=text;chat.append(node);chat.scrollTop=chat.scrollHeight;if(persist){entries.push({text,role});saveChat();}return node;}
 function suggestions(values){const host=document.querySelector('.chat-suggestions');if(!host)return;host.replaceChildren();for(const value of values??[]){const b=document.createElement('button');b.type='button';b.dataset.chatQuick=value;b.textContent=value;host.append(b);}}
-async function ask(message,offeredIds, retryBody){
- if(chatBusy||!chat)return;chatBusy=true;
- const form=document.querySelector('#chat-form'),button=form.querySelector('button');
- try{await ready;await busy(button,async()=>{
+function answerExtras(answer,message){
+ if(answer.requiresLogin){const login=document.createElement('button');login.type='button';login.className='btn btn-outline chat-history-login';login.textContent='Войти и посмотреть историю';login.onclick=()=>openAuth(()=>ask(message));chat.append(login);}
+ for(const id of (answer.productIds??[]).slice(0,6)){const p=product(id);if(!p?.available)continue;const added=answer.addedProductIds?.includes(id);const node=document.createElement('div');node.className='chat-product';node.innerHTML=`<img src="${esc(p.image)}" alt="" width="64" height="64"/><div><strong>${esc(p.name)}</strong><span>${money(p.price)} · ${esc(p.portion)}</span><small>${esc(p.description)}</small></div><div class="chat-product-actions">${added?'<span class="chat-added">Было добавлено ✓</span>':`<button type="button" data-assistant-add="${esc(p.id)}">Добавить</button>`}<button type="button" data-assistant-configure="${esc(p.id)}">Настроить</button></div>`;chat.append(node);}
+ if(answer.cartTotal!==undefined){const b=document.createElement('button');b.type='button';b.className='btn btn-outline chat-open-cart';b.dataset.openCart='';b.textContent='Проверить корзину';chat.append(b);}
+}
+function retryMessage(body){const retry=document.createElement('button');retry.type='button';retry.className='text-button';retry.textContent='Повторить сообщение';retry.onclick=()=>{if(chatBusy)return;retry.remove();ask(body.message,undefined,body);};chat.append(retry);}
+const chatReady=ready.then(()=>{if(!chat)return;const saved=readChat(sessionStorage);chatInitialized=true;if(saved?.owner===chatOwner()){
+ entries=saved.entries.filter(x=>x&&['assistant','customer'].includes(x.role)&&typeof x.text==='string');chat.replaceChildren();for(const entry of entries){appendMessage(entry.text,entry.role,false);if(entry.answer)answerExtras(entry.answer,entry.question);}
+ recentQuestions.push(...(saved.recentQuestions??[]).slice(-4));lastProductIds=(saved.lastProductIds??[]).slice(0,6);suggestions(saved.suggestions);document.querySelector('#chat-input').value=typeof saved.draft==='string'?saved.draft:'';pending=saved.pending;if(pending)retryMessage(pending);chat.scrollTop=saved.scroll??chat.scrollHeight;
+ }else{entries=[{role:'assistant',text:chat.querySelector('.chat-message').textContent}];saveChat();}});
+if(chat){document.querySelector('#chat-input').addEventListener('input',saveChat);chat.addEventListener('scroll',saveChat,{passive:true});window.addEventListener('pagehide',saveChat);document.addEventListener('mh:chat-reset',()=>{entries=[];pending=null;recentQuestions.length=0;lastProductIds=[];chat.replaceChildren();document.querySelector('#chat-input').value='';appendMessage('Помогу выбрать из меню и найти ваши заказы. Чем помочь?','assistant');});}
+async function ask(message,offeredIds,retryBody){
+ if(chatBusy||!chat)return;chatBusy=true;const form=document.querySelector('#chat-form'),button=form.querySelector('button');
+ try{await chatReady;await busy(button,async()=>{
   const body=retryBody??{message,recentQuestions:recentQuestions.slice(-4),lastProductIds:offeredIds??lastProductIds,requestId:crypto.randomUUID()};
-  if(!retryBody){appendMessage(message,'customer');document.querySelector('#chat-input').value='';}
-  const waiting=appendMessage('','assistant');waiting.classList.add('chat-typing');waiting.setAttribute('aria-label','Помощник отвечает');waiting.innerHTML='<span></span><span></span><span></span>';
+  if(!retryBody){appendMessage(message,'customer');document.querySelector('#chat-input').value='';}pending=body;saveChat();
+  const waiting=appendMessage('','assistant',false);waiting.classList.add('chat-typing');waiting.setAttribute('aria-label','Помощник отвечает');waiting.innerHTML='<span></span><span></span><span></span>';
   try{
    const answer=await request('/api/assistant',body,'POST');waiting.classList.remove('chat-typing');waiting.removeAttribute('aria-label');waiting.textContent=answer.text;
-   recentQuestions.push(message);lastProductIds=(answer.productIds??[]).slice(0,6);suggestions(answer.suggestions);
-   if(answer.cart)setCart(answer.cart);
-   if(answer.requiresLogin){const login=document.createElement('button');login.type='button';login.className='btn btn-outline chat-history-login';login.textContent='Войти и посмотреть историю';login.onclick=()=>openAuth(()=>ask(message));chat.append(login);}
-   for(const id of lastProductIds){const p=product(id);if(!p?.available)continue;const added=answer.addedProductIds?.includes(id);const card=document.createElement('div');card.className='chat-product';card.innerHTML=`<img src="${esc(p.image)}" alt="" width="64" height="64"/><div><strong>${esc(p.name)}</strong><span>${money(p.price)} · ${esc(p.portion)}</span><small>${esc(p.description)}</small></div><div class="chat-product-actions">${added?'<span class="chat-added">В корзине ✓</span>':`<button type="button" data-assistant-add="${esc(p.id)}">Добавить</button>`}<button type="button" data-assistant-configure="${esc(p.id)}">Настроить</button></div>`;chat.append(card);}
-   if(answer.cart){const b=document.createElement('button');b.type='button';b.className='btn btn-outline chat-open-cart';b.dataset.openCart='';b.textContent='Проверить корзину · '+money(answer.cart.subtotal);chat.append(b);}
-  }catch(error){waiting.classList.remove('chat-typing');waiting.removeAttribute('aria-label');waiting.textContent=error.message;if(!error.status||error.status>=500){const retry=document.createElement('button');retry.type='button';retry.className='text-button';retry.textContent='Повторить сообщение';retry.onclick=()=>{if(chatBusy)return;retry.remove();ask(message,undefined,body);};waiting.append(document.createElement('br'),retry);}}
-  chat.scrollTop+=waiting.getBoundingClientRect().top-chat.getBoundingClientRect().top-8;
-  chat.closest('.assistant-card').scrollIntoView({block:'nearest',behavior:'instant'});
+   recentQuestions.push(message);lastProductIds=(answer.productIds??[]).slice(0,6);suggestions(answer.suggestions);if(answer.cart)setCart(answer.cart);
+   const stored={productIds:lastProductIds,addedProductIds:answer.addedProductIds,requiresLogin:answer.requiresLogin,...(answer.cart?{cartTotal:answer.cart.subtotal}:{})};
+   entries.push({role:'assistant',text:answer.text,answer:stored,question:message});pending=null;answerExtras(stored,message);
+  }catch(error){waiting.classList.remove('chat-typing');waiting.removeAttribute('aria-label');waiting.textContent=error.message;entries.push({role:'assistant',text:error.message});if(!error.status||error.status>=500)retryMessage(body);else pending=null;}
+  chat.scrollTop+=waiting.getBoundingClientRect().top-chat.getBoundingClientRect().top-8;chat.closest('.assistant-card').scrollIntoView({block:'nearest',behavior:'instant'});saveChat();
  });}catch(error){toast(error.message);}finally{chatBusy=false;}
 }
+
 document.querySelector('#chat-form')?.addEventListener('submit',e=>{e.preventDefault();const value=document.querySelector('#chat-input').value.trim();if(value)ask(value);});handle('[data-chat-quick]',b=>ask(b.dataset.chatQuick));
 handle('[data-assistant-add]',b=>ask('Добавь этот товар в корзину',[b.dataset.assistantAdd]));
 handle('[data-assistant-configure]',b=>{const p=product(b.dataset.assistantConfigure);assistantSelection={p,selections:defaults(p)};document.querySelector('#assistant-product-summary').innerHTML=`<div class="edit-preview"><img src="${esc(p.image)}" alt="${esc(p.name)}" width="90" height="90"/><div><h3>${esc(p.name)}</h3><p>${esc(p.portion)}</p></div></div>`;configure(document.querySelector('#assistant-product-options'),p,assistantSelection.selections,()=>{const price=money(calculated(p,assistantSelection.selections).price);document.querySelector('#assistant-product-price').textContent=price;document.querySelector('#assistant-product-add').textContent='Добавить в корзину · '+price;});document.querySelector('#assistant-product-dialog').showModal();});
