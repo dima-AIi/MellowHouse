@@ -4,17 +4,15 @@
   "installCommand": "",
   "buildCommand": "",
   "outputDirectory": ".",
-  "rewrites": [
-    { "source": "/:path*", "destination": "https://mellow-house.onrender.com/:path*" }
-  ],
-  "headers": [
+  "routes": [
     {
-      "source": "/:path*",
-      "headers": [
-        { "key": "Cache-Control", "value": "private, no-store, max-age=0" },
-        { "key": "CDN-Cache-Control", "value": "no-store" },
-        { "key": "Vercel-CDN-Cache-Control", "value": "no-store" }
-      ]
+      "src": "/(.*)",
+      "dest": "https://mellow-house.onrender.com/$1",
+      "headers": {
+        "Cache-Control": "private, no-store, max-age=0",
+        "CDN-Cache-Control": "no-store",
+        "Vercel-CDN-Cache-Control": "no-store"
+      }
     }
   ]
 }
