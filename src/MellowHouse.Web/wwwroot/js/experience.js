@@ -1,4 +1,4 @@
-import{app,ready,request,setCart,money,esc,product,defaults,calculated,configure,busy,toast,handle}from'./core.js?v=20261021-v5';
+import{app,ready,request,setCart,money,esc,product,defaults,calculated,configure,busy,toast,handle}from'./core.js?v=20261021-v8';
 const reduce=matchMedia('(prefers-reduced-motion: reduce)');
 const video=document.querySelector('#menu-video');
 if(video){let userPaused=false,inView=false;const status=document.querySelector('#video-status');

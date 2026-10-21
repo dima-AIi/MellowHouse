@@ -78,8 +78,9 @@ await using (var scope = app.Services.CreateAsyncScope())
         await CafeExpansion.SeedAsync(scope.ServiceProvider, app.Environment.ContentRootPath, includeSamples:!builder.Configuration.GetValue<bool>("Samples:Disabled"));
     if((app.Environment.IsDevelopment()||args.Contains("--seed")) && builder.Configuration.GetValue("Catalog:Expanded",true) && !builder.Configuration.GetValue<bool>("Samples:Disabled"))await SampleRevision.ApplyAsync(db,dataDir);
     if(args.Contains("--refresh-demo"))await DemoBusiness.RefreshAsync(db,builder.Configuration["Demo:BackupDirectory"]??Path.Combine(dataDir,"backups"));
+    if(app.Environment.IsDevelopment()||args.Contains("--seed")||args.Contains("--nutrition"))await NutritionData.SeedAsync(db,app.Environment.ContentRootPath);
 }
-if (args.Contains("--migrate") || args.Contains("--seed") || args.Contains("--refresh-demo")) return;
+if (args.Contains("--migrate") || args.Contains("--seed") || args.Contains("--refresh-demo") || args.Contains("--nutrition")) return;
 app.UseForwardedHeaders();
 if (!app.Environment.IsDevelopment()) { app.UseExceptionHandler("/Error"); app.UseHsts(); }
 app.UseStaticFiles(new StaticFileOptions { OnPrepareResponse = ctx => {
@@ -121,6 +122,10 @@ app.Use(async (http, next) =>
     finally { if (serializedMutation) gate.Semaphore.Release(); }
 });
 app.MapGet("/health", async (ShopDbContext db, CancellationToken ct) => await db.Database.CanConnectAsync(ct) ? Results.Ok(new { status = "healthy" }) : Results.StatusCode(503));
+app.MapGet("/media/{name}",async(string name,MediaService media,CancellationToken ct)=>{
+    var file=await media.GetAsync("/media/"+name,ct);
+    return file is null?Results.NotFound():Results.File(file.Bytes,file.ContentType);
+});
 ApiEndpoints.Map(app);
 app.MapRazorPages();
 app.Run();

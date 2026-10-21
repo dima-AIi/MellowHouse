@@ -3,7 +3,6 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using MellowHouse.Web.Data;
 using Microsoft.EntityFrameworkCore;
-using StbImageSharp;
 
 namespace MellowHouse.Web.Features;
 
@@ -12,13 +11,13 @@ public static class Audit
     public static void Log(ShopDbContext db, Guid actor, string action, string target, string detail="") => db.AuditEntries.Add(new(){ActorId=actor,Action=action,Target=target,Detail=detail});
 }
 public sealed record ProductInput(string Name, string CategoryId, int Price, string Portion, string Description, string Ingredients, string Image,
-    bool Available, bool Popular, bool Recommended, bool Draft, int SortOrder, int? Cost, decimal? Serving, string Unit, string Nutrition, string[] Allergens, OptionGroup[] Groups);
+    bool Available, bool Popular, bool Recommended, bool Draft, int SortOrder, int? Cost, decimal? Serving, string Unit, string Nutrition, string[] Allergens, OptionGroup[] Groups, NutritionFacts? NutritionFacts=null);
 public sealed record CategoryInput(string Name, int SortOrder, bool Visible, string Image, bool OnHome);
 public sealed record ArchiveCategoryRequest(string? TransferTo, bool WithProducts);
 public sealed class CatalogAdminService(ShopDbContext db, MediaService media)
 {
     public async Task<object> CatalogAsync(CancellationToken ct) => new { categories=await db.Categories.OrderBy(x=>x.SortOrder).Select(x=>new{x.Id,x.Name,x.SortOrder,x.Visible,x.Archived,x.Image,x.OnHome}).ToArrayAsync(ct),
-        products=(await db.Products.OrderBy(x=>x.SortOrder).ToArrayAsync(ct)).Select(p=>new {p.Id,p.Name,p.CategoryId,p.Price,p.Portion,p.Description,p.Ingredients,p.Image,p.Available,p.Popular,p.Recommended,p.Draft,p.Archived,p.SortOrder,p.Cost,p.Serving,p.Unit,p.Nutrition,groups=JsonSerializer.Deserialize<OptionGroup[]>(p.GroupsJson,JsonDefaults.Options),allergens=JsonSerializer.Deserialize<string[]>(p.AllergensJson,JsonDefaults.Options)}) };
+        products=(await db.Products.OrderBy(x=>x.SortOrder).ToArrayAsync(ct)).Select(p=>new {p.Id,p.Name,p.CategoryId,p.Price,p.Portion,p.Description,p.Ingredients,p.Image,p.Available,p.Popular,p.Recommended,p.Draft,p.Archived,p.SortOrder,p.Cost,p.Serving,p.Unit,p.Nutrition,nutritionFacts=NutritionData.Read(p.Nutrition),groups=JsonSerializer.Deserialize<OptionGroup[]>(p.GroupsJson,JsonDefaults.Options),allergens=JsonSerializer.Deserialize<string[]>(p.AllergensJson,JsonDefaults.Options)}) };
     public async Task<Product> SaveProductAsync(string? id, ProductInput r, Guid actor, CancellationToken ct)
     {
         if(r.Allergens is null||r.Groups is null||new[]{r.CategoryId,r.Name,r.Portion,r.Description,r.Ingredients,r.Image,r.Unit,r.Nutrition}.Any(x=>x is null))throw new ShopException("Заполните сведения о товаре и его настройках.");
@@ -32,7 +31,8 @@ public sealed class CatalogAdminService(ShopDbContext db, MediaService media)
         else if(!string.IsNullOrWhiteSpace(r.Image))await media.ValidateProductAsync(r.Image,ct);
         ValidateGroups(r.Groups);
         if(r.Price+r.Groups.Sum(g=>g.Multiple?g.Options.Where(o=>o.Price<0).Sum(o=>o.Price):Math.Min(0,g.Options.Min(o=>o.Price)))<0)throw new ShopException("Настройки не должны приводить к отрицательной цене.");
-        p.Name=name;p.CategoryId=r.CategoryId;p.Price=r.Price;p.Portion=r.Portion.Trim();p.Description=r.Description.Trim();p.Ingredients=r.Ingredients.Trim();p.Image=r.Image;p.Available=r.Available;p.Popular=r.Popular;p.Recommended=r.Recommended;p.Draft=r.Draft;p.SortOrder=r.SortOrder;p.Cost=r.Cost;p.Serving=r.Serving;p.Unit=r.Unit;p.Nutrition=r.Nutrition.Trim();
+        if(r.NutritionFacts is not null)NutritionData.Validate(r.NutritionFacts);
+        p.Name=name;p.CategoryId=r.CategoryId;p.Price=r.Price;p.Portion=r.Portion.Trim();p.Description=r.Description.Trim();p.Ingredients=r.Ingredients.Trim();p.Image=r.Image;p.Available=r.Available;p.Popular=r.Popular;p.Recommended=r.Recommended;p.Draft=r.Draft;p.SortOrder=r.SortOrder;p.Cost=r.Cost;p.Serving=r.Serving;p.Unit=r.Unit;p.Nutrition=r.NutritionFacts is null?r.Nutrition.Trim():JsonSerializer.Serialize(r.NutritionFacts,JsonDefaults.Options);
         p.GroupsJson=JsonSerializer.Serialize(r.Groups,JsonDefaults.Options);p.AllergensJson=JsonSerializer.Serialize(r.Allergens.Distinct().ToArray(),JsonDefaults.Options);
         if(id is null)db.Products.Add(p);Audit.Log(db,actor,id is null?"product.created":"product.updated",p.Id,p.Name);await db.SaveChangesAsync(ct);return p;
     }
@@ -75,38 +75,5 @@ public sealed class CatalogAdminService(ShopDbContext db, MediaService media)
             else throw new ShopException("В категории есть товары. Выберите перенос либо архивирование вместе с товарами.");
         }
         c.Archived=archived;Audit.Log(db,actor,archived?"category.archived":"category.restored",id,c.Name);await db.SaveChangesAsync(ct);
-    }
-}
-public sealed class MediaService(IWebHostEnvironment env)
-{
-    public static bool SafePath(string path, params string[] prefixes)=>!string.IsNullOrEmpty(path)&&path.Length<220&&!path.Contains("..")&&!path.Contains('\\')&&Regex.IsMatch(path,@"^/[a-zA-Z0-9_./-]+$")&&prefixes.Any(path.StartsWith);
-    public bool Exists(string path)=>SafePath(path,"/images/","/uploads/")&&File.Exists(Path.Combine(env.WebRootPath,path.TrimStart('/')));
-    public bool AssetExists(string path)=>SafePath(path,"/images/","/uploads/","/videos/")&&File.Exists(Path.Combine(env.WebRootPath,path.TrimStart('/')));
-    public async Task ValidateProductAsync(string path,CancellationToken ct)
-    {
-        if(!Exists(path))throw new ShopException("Добавьте фотографию товара с прозрачным фоном.");
-        if(path is "/images/products/vanilla-raf.webp" or "/images/products/bbq-chicken.webp")return;
-        if(Path.GetExtension(path)!=".png")throw new ShopException("Для товара загрузите PNG с настоящим прозрачным фоном.");
-        var data=await File.ReadAllBytesAsync(Path.Combine(env.WebRootPath,path.TrimStart('/')),ct);Decode(data,true);
-    }
-    public async Task<object> UploadAsync(IFormFile file,bool product,CancellationToken ct)
-    {
-        if(file.Length is <32 or >8388608)throw new ShopException("Фотография должна быть меньше 8 МБ.");
-        using var stream=new MemoryStream();await file.CopyToAsync(stream,ct);var data=stream.ToArray();
-        var png=data.AsSpan().StartsWith(new byte[]{137,80,78,71,13,10,26,10});var jpeg=data.Length>3&&data[0]==255&&data[1]==216&&data[2]==255;
-        if(!png&&!jpeg)throw new ShopException("Загрузите PNG или JPG. Для товара нужен прозрачный PNG.");
-        if(product&&!png)throw new ShopException("Для товара нужен PNG с прозрачным фоном.");
-        var dimensions=Decode(data,product);var name=Guid.NewGuid().ToString("N")+(png?".png":".jpg");var dir=Path.Combine(env.WebRootPath,"uploads");Directory.CreateDirectory(dir);await File.WriteAllBytesAsync(Path.Combine(dir,name),data,ct);
-        return new {path="/uploads/"+name,width=dimensions.Item1,height=dimensions.Item2,transparent=product};
-    }
-    private static (int,int) Decode(byte[] data,bool requireAlpha)
-    {
-        try{
-            using var infoStream=new MemoryStream(data);var info=ImageInfo.FromStream(infoStream)??throw new ShopException("Не удалось прочитать фотографию.");
-            if(info.Width is <32 or >4096 || info.Height is <32 or >4096 || (long)info.Width*info.Height>12000000)throw new ShopException("Размер фотографии: от 32 px, не более 4096 px и 12 млн пикселей.");
-            var image=ImageResult.FromMemory(data,ColorComponents.RedGreenBlueAlpha);var transparent=0;var visible=0;
-            for(var i=3;i<image.Data.Length;i+=4){if(image.Data[i]==0)transparent++;if(image.Data[i]>0)visible++;}
-            if(requireAlpha&&(transparent<image.Width*image.Height/100||visible<image.Width*image.Height/100))throw new ShopException("Нужны видимый товар и настоящий прозрачный фон. Белый фон не подходит.");return(image.Width,image.Height);
-        }catch(ShopException){throw;}catch{throw new ShopException("Файл повреждён или формат не поддерживается.");}
     }
 }

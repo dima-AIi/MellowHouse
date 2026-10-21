@@ -1,8 +1,8 @@
-import{app,ready,request,refresh,setCart,updateState,money,esc,product,defaults,calculated,configure,card,toast,handle}from'./core.js?v=20261021-v5';
-import'./cart-auth.js?v=20261021-v5';
-import{bindPhones,bindPasswordButtons}from'./forms.js?v=20261021-v5';
+import{app,ready,request,refresh,setCart,updateState,money,esc,product,defaults,calculated,configure,card,toast,handle}from'./core.js?v=20261021-v8';
+import'./cart-auth.js?v=20261021-v8';
+import{bindPhones,bindPasswordButtons}from'./forms.js?v=20261021-v8';
 bindPhones();bindPasswordButtons();
-import'./experience.js?v=20261021-v5';
+import'./experience.js?v=20261021-v8';
 document.documentElement.classList.add('js-ready');
 const reduce=matchMedia('(prefers-reduced-motion: reduce)');
 const menuButton=document.querySelector('#mobile-menu-button'),mobileNav=document.querySelector('#mobile-nav');
@@ -52,6 +52,6 @@ handle('#detail-add',async()=>{await ready;const cart=await request('/api/cart',
 let installPrompt;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;});
 handle('#install-app',async()=>{if(installPrompt){await installPrompt.prompt();const result=await installPrompt.userChoice;document.querySelector('#install-status').textContent=result.outcome==='accepted'?'Приложение добавлено.':'Можно установить приложение позже.';installPrompt=null;}else{document.querySelector('#install-instructions').scrollIntoView({behavior:reduce.matches?'instant':'smooth'});document.querySelector('#install-status').textContent='Следуйте инструкции ниже для вашего браузера.';}});
 if('serviceWorker'in navigator)navigator.serviceWorker.register('/sw.js').catch(()=>{});
-ready.then(async()=>{renderSpecial();renderDetail();if(new URLSearchParams(location.search).get('cart')==='1'){document.querySelector('[data-open-cart]').click();history.replaceState(null,'',location.pathname+location.hash);}if(document.querySelector('#reset-password-form'))await(await import('./experience.js?v=20261021-v5')).initReset();if(document.querySelector('#checkout-form'))await(await import('./checkout.js?v=20261021-v5')).initCheckout();if(document.querySelector('#payment-page')||document.querySelector('#order-page')||document.querySelector('#account-content'))await(await import('./orders.js?v=20261021-v5')).initOrders();}).catch(e=>toast(e.message));
+ready.then(async()=>{renderSpecial();renderDetail();if(new URLSearchParams(location.search).get('cart')==='1'){document.querySelector('[data-open-cart]').click();history.replaceState(null,'',location.pathname+location.hash);}if(document.querySelector('#reset-password-form'))await(await import('./experience.js?v=20261021-v8')).initReset();if(document.querySelector('#checkout-form'))await(await import('./checkout.js?v=20261021-v8')).initCheckout();if(document.querySelector('#payment-page')||document.querySelector('#order-page')||document.querySelector('#account-content'))await(await import('./orders.js?v=20261021-v8')).initOrders();}).catch(e=>toast(e.message));
 
 ready.then(()=>{if(location.pathname!=='/Menu'||!['recommended','favorites'].includes(new URLSearchParams(location.search).get('tab'))||new URLSearchParams(location.search).has('cart'))return;let interrupted=false;const align=()=>{const target=document.querySelector('#special-products');if(!target||interrupted)return;const header=document.querySelector('.site-header')?.getBoundingClientRect().height??80;const toolbar=document.querySelector('.catalog-toolbar')?.getBoundingClientRect().height??60;scrollTo({top:Math.max(0,scrollY+target.getBoundingClientRect().top-header-toolbar-20),behavior:'instant'});};for(const event of['wheel','touchstart'])window.addEventListener(event,()=>{interrupted=true;},{once:true,passive:true});requestAnimationFrame(align);if(document.readyState!=='complete')window.addEventListener('load',align,{once:true});});

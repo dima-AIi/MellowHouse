@@ -154,9 +154,8 @@ public sealed class StudioV2Tests
         Assert.Equal(HttpStatusCode.BadRequest,(await a.Upload(Encoding.UTF8.GetBytes("<svg onload='alert(1)'>not an image</svg>"),"photo.png")).Status);
         Assert.Equal(HttpStatusCode.BadRequest,(await a.Upload(new byte[]{137,80,78,71,13,10,26,10}.Concat(new byte[100]).ToArray(),"broken.png")).Status);
         var valid=await a.Upload(await File.ReadAllBytesAsync(Path.Combine(fixtures,"alpha.png")),"../../escape.png");Assert.Equal(HttpStatusCode.OK,valid.Status);
-        var saved=valid.Json["path"]!.GetValue<string>();Assert.StartsWith("/uploads/",saved);Assert.DoesNotContain("escape",saved);Assert.DoesNotContain("..",saved);
-        var target=Path.Combine(ShopFactory.FindRoot(),"src/MellowHouse.Web/wwwroot",saved.TrimStart('/'));
-        Assert.True(File.Exists(target));File.Delete(target);
+        var saved=valid.Json["path"]!.GetValue<string>();Assert.StartsWith("/media/",saved);Assert.DoesNotContain("escape",saved);Assert.DoesNotContain("..",saved);
+        var download=await a.Raw(saved);Assert.Equal(HttpStatusCode.OK,download.Status);Assert.Equal(await File.ReadAllBytesAsync(Path.Combine(fixtures,"alpha.png")),download.Bytes);
     }
 
 }

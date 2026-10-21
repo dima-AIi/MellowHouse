@@ -43,11 +43,11 @@ public sealed class Product
     public ProductView View() => new(Id, CategoryId, Name, Price, Portion, Description, Ingredients, Image,
         Available && !Archived && !Draft && (Category is null || (!Category.Archived && Category.Visible)), Popular,
         JsonSerializer.Deserialize<OptionGroup[]>(GroupsJson, JsonDefaults.Options) ?? [],
-        JsonSerializer.Deserialize<string[]>(AllergensJson, JsonDefaults.Options) ?? [], Recommended, Nutrition);
+        JsonSerializer.Deserialize<string[]>(AllergensJson, JsonDefaults.Options) ?? [], Recommended, Nutrition, NutritionData.Read(Nutrition));
 }
 
 public sealed record ProductView(string Id, string CategoryId, string Name, int Price, string Portion, string Description,
-    string Ingredients, string Image, bool Available, bool Popular, OptionGroup[] Groups, string[] Allergens, bool Recommended = false, string Nutrition = "");
+    string Ingredients, string Image, bool Available, bool Popular, OptionGroup[] Groups, string[] Allergens, bool Recommended = false, string Nutrition = "", NutritionFacts? NutritionFacts = null);
 public sealed record OptionGroup(string Id, string Label, ProductOption[] Options, string[] Defaults, bool Multiple, bool Required, int? Min = null, int? Max = null);
 public sealed record ProductOption(string Id, string Label, int Price, string[]? AddAllergens = null, string[]? RemoveAllergens = null, int? Cost = null);
 public static class JsonDefaults { public static readonly JsonSerializerOptions Options = new(JsonSerializerDefaults.Web); }

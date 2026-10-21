@@ -1,0 +1,45 @@
+/* Portion information and explicit cart quantities share the existing cafe palette. */
+.nutrition{margin:12px 0 14px;padding-top:10px;border-top:1px solid #dce6df}
+.nutrition-caption{font-size:10px;color:#68776e;margin:0 0 6px}
+.nutrition-values{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:0}
+.nutrition-values>div{display:flex;flex-direction:column-reverse;gap:2px}
+.nutrition-values dt{font-size:10px;color:#68776e;white-space:nowrap}
+.nutrition-values dd{font-size:14px;font-weight:600;margin:0;font-variant-numeric:tabular-nums}
+.add-control{display:flex;align-items:center;gap:7px;margin-left:3px}
+.product-cart-count{font-size:14px;min-width:18px;text-align:center;font-weight:600;font-variant-numeric:tabular-nums}
+.product-cart-count[hidden]{display:none}
+.detail-cart-count{display:block;margin:10px 0 0;font-size:13px;color:var(--forest)}
+.detail-copy>.nutrition{max-width:410px;margin:18px 0}
+html:has(dialog[open]),body:has(dialog[open]){overflow:hidden}
+.cart-drawer[open]{display:flex;flex-direction:column;box-sizing:border-box;top:0;bottom:0;height:100dvh;max-height:100dvh;overflow:hidden;padding:20px 24px max(16px,env(safe-area-inset-bottom));gap:0}
+.cart-drawer .drawer-header{flex:none;margin:0 0 12px}
+.cart-drawer #cart-lines{flex:1 1 auto;min-height:0;overflow:auto;overscroll-behavior:contain;margin:0;padding-right:5px;scrollbar-gutter:stable}
+.cart-drawer #cart-bottom{flex:none;padding-top:12px;border-top:1px solid #dce6df;background:#fff}
+.cart-drawer #cart-bottom[hidden]{display:none}
+.cart-drawer #cart-bottom h3{font-size:18px;margin:0 0 8px}
+.cart-drawer #cart-bottom .segmented{margin-bottom:10px}
+.cart-drawer #cart-bottom .segmented button{min-height:40px;padding:8px 12px}
+.cart-drawer .cart-totals{margin:8px 0 10px}
+.cart-drawer .total-row{padding:4px 0;font-size:12px;line-height:1.4}
+.cart-drawer .total-row.grand{margin-top:5px;padding:8px 0;font-size:23px}
+.cart-drawer .total-row.grand strong{font-size:26px}
+.cart-drawer #checkout-button{min-height:46px;font-size:15px;margin-top:4px}
+.cart-drawer .cart-line{padding:16px 0}
+.platform-badges{display:grid;grid-template-columns:160px;gap:8px;max-width:100%}
+.site-footer .platform-badge{width:160px;max-width:100%;height:58px;min-height:58px;box-sizing:border-box;justify-content:flex-start;gap:12px;padding:10px 16px}
+.platform-badge>span{text-align:left;white-space:nowrap}
+.order-tracking{margin:24px 0;padding:20px;border:1px solid #d9e4dd;border-radius:10px;background:#fff}
+.order-tracking h2{font-size:25px;margin:0 0 7px}
+.order-tracking>p{font-size:13px;margin:5px 0;color:#52675b}
+.order-progress{list-style:none;margin:20px 0 12px;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 12px}
+.order-progress li{font-size:11px;color:#7b867e;border-top:3px solid #e0e8e2;padding-top:7px}
+.order-progress li.complete{border-color:#86b59b;color:#456b55}
+.order-progress li[aria-current=step]{border-color:var(--action);color:var(--forest);font-weight:700}
+.order-update{font-size:11px!important;color:#6b7d71!important}
+.order-tracking .text-button{font-size:12px;text-decoration:underline;margin-top:5px}
+.media-status{font-size:13px;min-height:20px;color:var(--forest);margin:8px 0}
+.media-status.error{color:#a13427}
+.nutrition-editor{margin:20px 0;border:0;border-top:1px solid #dce6df;padding:18px 0 0}
+.nutrition-editor legend{font:500 23px Oswald;padding:0 8px 0 0}
+@media(max-width:700px){.cart-drawer[open]{padding:16px 16px max(12px,env(safe-area-inset-bottom))}.card-actions{gap:4px}.add-control{gap:4px}.nutrition-values{gap:3px}.nutrition-values dd{font-size:13px}.nutrition-values dt{font-size:9px}.nutrition-caption{font-size:9px}.order-tracking{padding:16px}.order-progress{gap:14px 8px}}
+@media(max-height:540px){.cart-drawer .drawer-header h2{font-size:25px}.cart-drawer .drawer-header{margin-bottom:4px}.cart-drawer #cart-bottom{padding-top:7px}.cart-drawer #cart-bottom h3{display:none}.cart-drawer #cart-bottom .segmented{margin-bottom:4px}.cart-drawer .total-row:not(.grand){display:none}.cart-drawer .total-row.grand{margin:0;padding:5px 0}}

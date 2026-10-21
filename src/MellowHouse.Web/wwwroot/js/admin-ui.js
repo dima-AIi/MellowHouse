@@ -1,4 +1,4 @@
-import{app,request,money,esc,toast,busy,configure,defaults,calculated}from'./core.js?v=20261021-v5';
+import{app,request,money,esc,toast,busy,configure,defaults,calculated}from'./core.js?v=20261021-v8';
 export{app,request,money,esc,toast,busy,configure,defaults,calculated};
 let serial=0;
 export const date=value=>value?new Intl.DateTimeFormat('ru-RU',{dateStyle:'short',timeStyle:'short',timeZone:'Europe/Moscow'}).format(new Date(value.endsWith('Z')?value:value+'Z')):'—';

@@ -1,0 +1,7 @@
+@model MellowHouse.Web.Data.NutritionFacts
+@using System.Globalization
+@{ string N(decimal value)=>value.ToString("0.#",CultureInfo.GetCultureInfo("ru-RU")); }
+<div class="nutrition" aria-label="Пищевая ценность на базовую порцию">
+    <p class="nutrition-caption">КБЖУ на порцию@(Model.Estimated?" · ориентировочно":"")</p>
+    <dl class="nutrition-values"><div><dt>ккал</dt><dd>@N(Model.Calories)</dd></div><div><dt>Белки, г</dt><dd>@N(Model.Protein)</dd></div><div><dt>Жиры, г</dt><dd>@N(Model.Fat)</dd></div><div><dt>Угл., г</dt><dd>@N(Model.Carbs)</dd></div></dl>
+</div>

@@ -12,11 +12,13 @@
     <PackageReference Include="Microsoft.AspNetCore.DataProtection.EntityFrameworkCore" Version="10.0.13" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.2" />
     <PackageReference Include="QRCoder" Version="1.8.1" />
-    <PackageReference Include="StbImageSharp" Version="2.30.16" />
+    <PackageReference Include="SkiaSharp" Version="4.153.1" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="4.153.1" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="App_Data/**" />
     <None Remove="App_Data/**" />
+    <Content Update="Data/nutrition-estimates.json" CopyToOutputDirectory="PreserveNewest" />
     <Content Update="Data/catalog.json" CopyToOutputDirectory="PreserveNewest" />
     <Content Update="Data/catalog-completion.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>

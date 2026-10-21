@@ -1,5 +1,5 @@
-import{validPhone}from'./forms.js?v=20261021-v5';
-import{app,ready,request,refresh,setCart,updateState,money,esc,icon,product,calculated,configure,toast,busy,handle,totals}from'./core.js?v=20261021-v5';
+import{validPhone}from'./forms.js?v=20261021-v8';
+import{app,ready,request,refresh,setCart,updateState,money,esc,icon,product,calculated,configure,toast,busy,handle,totals}from'./core.js?v=20261021-v8';
 const cartDialog=document.querySelector('#cart-dialog'),authDialog=document.querySelector('#auth-dialog'),editDialog=document.querySelector('#edit-dialog');
 let afterAuth=null,channel='phone',challengeId=null,editing=null,register=false;
 export function openAuth(callback){afterAuth=callback;document.querySelector('#auth-title').innerHTML='Добро пожаловать<br>в Mellow House';switchChannel(channel);document.querySelectorAll('#auth-dialog .form-error').forEach(x=>x.textContent='');if(!authDialog.open)authDialog.showModal();}
