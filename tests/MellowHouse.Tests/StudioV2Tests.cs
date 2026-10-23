@@ -135,9 +135,21 @@ public sealed class StudioV2Tests
     [Fact] public async Task Qr_IsDecodablePlainText_AndPrivate()
     {
         using var f=new ShopFactory();using var b=new Buyer(f);await b.SignIn();await b.Add("vanilla-raf");var o=await b.Checkout("pickup","sbp");var id=Id(o);var qr=await b.Raw($"/api/orders/{id}/qr");Assert.Equal(HttpStatusCode.OK,qr.Status);
-        var pixels=ImageResult.FromMemory(qr.Bytes,ColorComponents.RedGreenBlueAlpha);var reader=new BarcodeReaderGeneric();var decoded=reader.Decode(pixels.Data,pixels.Width,pixels.Height,RGBLuminanceSource.BitmapFormat.RGBA32);
+        var pixels=ImageResult.FromMemory(qr.Bytes,ColorComponents.RedGreenBlueAlpha);var reader=new BarcodeReaderGeneric();reader.Options.TryHarder=true;reader.Options.PureBarcode=true;var decoded=reader.Decode(pixels.Data,pixels.Width,pixels.Height,RGBLuminanceSource.BitmapFormat.RGBA32);
         Assert.NotNull(decoded);Assert.Equal("MELLOWHOUSE:ORDER:"+Guid.Parse(id).ToString("N")+":TEST",decoded.Text);Assert.DoesNotContain("http",decoded.Text,StringComparison.OrdinalIgnoreCase);
         using var c=new Buyer(f);await c.SignIn();Assert.Equal(HttpStatusCode.NotFound,(await c.Raw($"/api/orders/{id}/qr")).Status);
+    }
+    [Fact] public void GeneratedQr_RemainsReadableAcrossDifferentPayloadPatterns()
+    {
+        var reader=new BarcodeReaderGeneric();reader.Options.TryHarder=true;reader.Options.PureBarcode=true;
+        for(var i=0;i<64;i++)
+        {
+            var payload="MELLOWHOUSE:ORDER:"+Guid.NewGuid().ToString("N")+":TEST";
+            var png=QRCoder.PngByteQRCodeHelper.GetQRCode(payload,QRCoder.QRCodeGenerator.ECCLevel.Q,6);
+            var pixels=ImageResult.FromMemory(png,ColorComponents.RedGreenBlueAlpha);
+            var decoded=reader.Decode(pixels.Data,pixels.Width,pixels.Height,RGBLuminanceSource.BitmapFormat.RGBA32);
+            Assert.NotNull(decoded);Assert.Equal(payload,decoded.Text);
+        }
     }
     [Fact] public async Task Assistant_OnlySuggestsLiveCatalog_AndHonorsBudgetAndArchive()
     {

@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddSingleton(TimeProvider.System);
 builder.Configuration.AddJsonFile(Path.Combine(builder.Environment.ContentRootPath, "App_Data", "assistant-secrets.json"), optional: true, reloadOnChange: true);
 builder.Configuration.AddEnvironmentVariables();
 var provider = builder.Configuration["Database:Provider"] ?? "Sqlite";

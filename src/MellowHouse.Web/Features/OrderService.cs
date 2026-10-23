@@ -20,7 +20,7 @@ public sealed class LocalPaymentProvider:IPaymentProvider
     public Task<string> ResolveAsync(string result,CancellationToken ct)
     {ct.ThrowIfCancellationRequested();if(result is not("success" or "error" or "cancel"))throw new ShopException("Неизвестный результат оплаты.");return Task.FromResult(result);}
 }
-public sealed class OrderService(ShopDbContext db,CartService carts,SiteService site,IPaymentProvider payments)
+public sealed class OrderService(ShopDbContext db,CartService carts,SiteService site,IPaymentProvider payments,TimeProvider clock)
 {
     public static OrderLineSnapshot[] Lines(Order o)=>JsonSerializer.Deserialize<OrderLineSnapshot[]>(o.LinesJson,JsonDefaults.Options)??[];
     // StudioV2 added this column with an empty default for older paid orders.
@@ -36,7 +36,7 @@ public sealed class OrderService(ShopDbContext db,CartService carts,SiteService 
     {
         ValidateKey(request.RequestKey);
         var old=await db.Orders.SingleOrDefaultAsync(x=>x.CustomerId==customer&&x.RequestKey==request.RequestKey,ct);if(old is not null)return View(old);
-        var settings=await site.GetAsync(ct);ValidateCheckout(request,settings);request=request with{Phone="+"+Inputs.Phone(request.Phone),Name=request.Name!.Trim()};
+        var settings=await site.GetAsync(ct);ValidateCheckout(request,settings);FulfillmentPolicy.Validate(request,settings,FulfillmentPolicy.LocalNow(clock));request=request with{Phone="+"+Inputs.Phone(request.Phone),Name=request.Name!.Trim()};
         await using var tx=await db.Database.BeginTransactionAsync(ct);
         var cart=await carts.ViewAsync(owner,ct);
         if(cart.Items.Length==0)throw new ShopException("Корзина пуста. Добавьте любимые блюда.",409);
@@ -154,7 +154,6 @@ public sealed class OrderService(ShopDbContext db,CartService carts,SiteService 
         if(r.Method=="pickup"&&r.Cafe is not("demo-house" or "mellow-house"))throw new ShopException("Выберите кафе Mellow House.",field:"cafe");
         if(r.Method=="delivery"){Inputs.Required(r.City,"город",80,"city");if(r.City!.Trim().Equals("вне зоны",StringComparison.OrdinalIgnoreCase))throw new ShopException("Адрес вне зоны доставки. Выберите самовывоз.",field:"city");Inputs.Required(r.Street,"улицу и дом",160,"street");if(r.Apartment?.Length>30)throw new ShopException("Номер квартиры слишком длинный.",field:"apartment");}
         if(r.Timing is not("asap" or "scheduled"))throw new ShopException("Выберите время.",field:"timing");
-        if(r.Timing=="scheduled"){if(!DateTime.TryParse(r.ScheduledLocal,System.Globalization.CultureInfo.InvariantCulture,System.Globalization.DateTimeStyles.None,out var date))throw new ShopException("Укажите дату и время.",field:"scheduledLocal");var moscow=DateTime.UtcNow.AddHours(3);if(date<moscow.AddMinutes(30)||date>moscow.AddDays(7))throw new ShopException("Выберите время от 30 минут до 7 дней вперёд (МСК).",field:"scheduledLocal");}
         if(r.Comment?.Length>500)throw new ShopException("Комментарий должен быть короче 500 символов.",field:"comment");
         if(!s.PaymentMethods.Contains(r.PaymentMethod))throw new ShopException("Выберите доступный способ оплаты.",field:"paymentMethod");
         if(!r.Consent)throw new ShopException("Примите условия оформления заказа.",field:"consent");

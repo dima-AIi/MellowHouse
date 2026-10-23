@@ -20,8 +20,10 @@ public sealed class ShopFactory : WebApplicationFactory<Program>
     private readonly bool samples;
     public ShopFactory(string? path = null, string environment = "Development", bool samples=false) { this.environment = environment; this.samples=samples; DataPath = path ?? Path.Combine(FindRoot(), "artifacts", "test-data", Guid.NewGuid().ToString("N")); }
     public static string FindRoot() { var dir = new DirectoryInfo(AppContext.BaseDirectory); while (dir is not null && !File.Exists(Path.Combine(dir.FullName, "MellowHouse.sln"))) dir = dir.Parent; return dir?.FullName ?? throw new InvalidOperationException("Solution not found"); }
-    protected override void ConfigureWebHost(IWebHostBuilder builder) => builder.UseEnvironment(environment).UseSetting("Database:DataDirectory", DataPath).UseSetting("Database:ApplyMigrations", "true").UseSetting("Samples:Disabled", (!samples).ToString()).UseSetting("Catalog:Expanded",samples.ToString()).ConfigureAppConfiguration((_,c)=>c.AddInMemoryCollection(new Dictionary<string,string?>{{"Assistant:ApiKey",""}}));
+    protected override void ConfigureWebHost(IWebHostBuilder builder) => builder.ConfigureServices(services=>services.AddSingleton<TimeProvider>(new ShopTestClock())).UseEnvironment(environment).UseSetting("Database:DataDirectory", DataPath).UseSetting("Database:ApplyMigrations", "true").UseSetting("Samples:Disabled", (!samples).ToString()).UseSetting("Catalog:Expanded",samples.ToString()).ConfigureAppConfiguration((_,c)=>c.AddInMemoryCollection(new Dictionary<string,string?>{{"Assistant:ApiKey",""}}));
 }
+
+public sealed class ShopTestClock:TimeProvider { public override DateTimeOffset GetUtcNow()=>new(DateTime.UtcNow.Date.AddHours(9),TimeSpan.Zero); }
 
 public sealed class Buyer(ShopFactory factory, CookieContainer? cookies = null) : IDisposable
 {
@@ -71,7 +73,7 @@ public sealed class Buyer(ShopFactory factory, CookieContainer? cookies = null) 
     {
         var result = await Send("/api/orders", Details(method, payment, key), "POST"); Assert.Equal(HttpStatusCode.OK, result.Status); return result.Json;
     }
-    public static object Details(string method = "delivery", string payment = "card", string? key = null) => new { requestKey = key ?? Guid.NewGuid().ToString(), method, city = "Демо-город", street = "Тестовая, 10", apartment = "12", name = "Тестовый покупатель", phone = "+79990000000", cafe = "demo-house", timing = "asap", scheduledLocal = "", comment = "Тест без реальной доставки", paymentMethod = payment, consent = true };
+    public static object Details(string method = "delivery", string payment = "card", string? key = null) => new { requestKey = key ?? Guid.NewGuid().ToString(), method, city = "Москва", street = "Тестовая, 10", apartment = "12", name = "Тестовый покупатель", phone = "+79990000000", cafe = "demo-house", timing = "asap", scheduledLocal = "", comment = "Тест без реальной доставки", paymentMethod = payment, consent = true };
     public void Dispose() => client.Dispose();
 }
 

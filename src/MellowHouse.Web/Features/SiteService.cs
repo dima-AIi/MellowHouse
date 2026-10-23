@@ -15,6 +15,11 @@ public sealed class CafeSettings
     public string Email { get; set; } = "";
     public string Address { get; set; } = "";
     public string Hours { get; set; } = "";
+    public string OpeningTime { get; set; } = "08:00";
+    public string ClosingTime { get; set; } = "22:00";
+    public string[] DeliveryCities { get; set; } = ["Москва"];
+    public int[] ClosedWeekdays { get; set; } = [];
+    public string[] ClosedDates { get; set; } = [];
     public string CafeName { get; set; } = "Mellow House";
     public int DeliveryPrice { get; set; } = 190;
     public string[] PaymentMethods { get; set; } = ["card", "sbp", "yoomoney", "cash", "terminal"];
@@ -27,9 +32,16 @@ public sealed class CafeSettings
 }
 public sealed class SiteService(ShopDbContext db, MediaService media)
 {
-    public async Task<CafeSettings> GetAsync(CancellationToken ct = default) => JsonSerializer.Deserialize<CafeSettings>((await db.SiteSettings.FindAsync(["site"], ct))?.Json ?? "{}", JsonDefaults.Options) ?? new();
+    public async Task<CafeSettings> GetAsync(CancellationToken ct = default)
+    {
+        var settings=JsonSerializer.Deserialize<CafeSettings>((await db.SiteSettings.FindAsync(["site"],ct))?.Json??"{}",JsonDefaults.Options)??new();
+        settings.Hours=FulfillmentPolicy.Hours(settings);return settings;
+    }
     public async Task SaveAsync(CafeSettings s, Guid actor, CancellationToken ct)
     {
+        FulfillmentPolicy.ValidateSettings(s);
+        s.DeliveryCities=s.DeliveryCities.Select(x=>x.Trim()).Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
+        s.Hours=FulfillmentPolicy.Hours(s);
         if(s.PaymentMethods is null||s.Faq is null||s.Faq.Any(x=>x is null)||new[]{s.Phone,s.Email,s.Address,s.Hours,s.MarketingTitle,s.MenuTitle,s.MenuText,s.Video,s.Poster}.Any(x=>x is null))throw new ShopException("Заполните поля настроек; для неизвестных данных оставьте пустую строку.");
         s.Name = Inputs.Required(s.Name, "название", 80); s.CafeName = Inputs.Required(s.CafeName, "название кафе", 100);
         if(s.DeliveryPrice is < 0 or > 10000) throw new ShopException("Стоимость доставки: от 0 до 10 000 ₽.");
