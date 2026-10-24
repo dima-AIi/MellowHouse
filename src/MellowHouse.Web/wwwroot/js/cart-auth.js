@@ -1,7 +1,7 @@
-import{image,imageSet}from'./product-images.js?v=20261023-v12';
-import{clearChat}from'./chat-session.js?v=20261023-v12';
-import{validPhone}from'./forms.js?v=20261023-v12';
-import{app,ready,request,refresh,setCart,updateState,money,esc,icon,product,calculated,configure,toast,busy,handle,totals}from'./core.js?v=20261023-v12';
+import{image,imageSet}from'./product-images.js?v=20261024-v13';
+import{clearChat}from'./chat-session.js?v=20261024-v13';
+import{validPhone}from'./forms.js?v=20261024-v13';
+import{app,ready,request,refresh,setCart,updateState,money,esc,icon,product,calculated,configure,toast,busy,handle,totals}from'./core.js?v=20261024-v13';
 const cartDialog=document.querySelector('#cart-dialog'),authDialog=document.querySelector('#auth-dialog'),editDialog=document.querySelector('#edit-dialog');
 let afterAuth=null,channel='phone',challengeId=null,editing=null,register=false;
 export function openAuth(callback){afterAuth=callback;document.querySelector('#auth-title').innerHTML='Добро пожаловать<br>в Mellow House';switchChannel(channel);document.querySelectorAll('#auth-dialog .form-error').forEach(x=>x.textContent='');if(!authDialog.open)authDialog.showModal();}

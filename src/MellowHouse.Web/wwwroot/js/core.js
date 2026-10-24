@@ -1,5 +1,6 @@
-import{image,imageSet}from'./product-images.js?v=20261023-v12';
-import{syncChatOwner}from'./chat-session.js?v=20261023-v12';
+import{image,imageSet}from'./product-images.js?v=20261024-v13';
+import{syncChatOwner}from'./chat-session.js?v=20261024-v13';
+import{readWhenReady,isJsonResponse}from'./server-connection.js?v=20261024-v13';
 export const money=n=>new Intl.NumberFormat('ru-RU',{style:'currency',currency:'RUB',maximumFractionDigits:0}).format(n);
 export const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const icon=name=>`<svg aria-hidden="true"><use href="/images/icons.svg#${name}"></use></svg>`;
@@ -9,7 +10,8 @@ export async function request(path,body,method='GET'){
  let response;
  try{response=await fetch(path,{method,credentials:'same-origin',headers:{'Accept':'application/json',...(body!==undefined?{'Content-Type':'application/json'}:{}),...(method!=='GET'?{'X-CSRF-TOKEN':app.state?.csrfToken??''}:{})},...(body!==undefined?{body:JSON.stringify(body)}:{}),signal:AbortSignal.timeout(path==='/api/assistant'?55000:15000)});}
  catch{throw new ApiError('Не удалось связаться с кафе. Проверьте соединение и повторите. Корзина сохранена.',0);}
- const data=await response.json().catch(()=>({}));
+ if(!isJsonResponse(response))throw new ApiError('Кафе подключается. Меню доступно, подключение повторится автоматически.',response.ok?503:response.status);
+ const data=await response.json();
  if(!response.ok)throw new ApiError(data.error||(response.status===401?'Войдите, чтобы продолжить. Корзина сохранена.':response.status===429?'Слишком много попыток. Подождите минуту и повторите.':'Не удалось выполнить действие. Обновите страницу и повторите.'),response.status,data.field);
  return data;
 }
@@ -47,4 +49,22 @@ export function configure(host,p,selection,onChange){
 export function card(p){const count=app.state?.cart.items.filter(i=>i.product.id===p.id).reduce((sum,i)=>sum+i.quantity,0)??0;return `<article class="product-card" data-product="${esc(p.id)}"><a class="product-photo" href="/Product/${esc(p.id)}" data-product-link><img src="${esc(image(p.image))}" srcset="${esc(imageSet(p.image))}" sizes="(max-width:700px) 46vw, (max-width:1100px) 30vw, 320px" alt="${esc(p.name)}" width="640" height="426" loading="lazy"/></a><div class="card-copy"><h3><a href="/Product/${esc(p.id)}" data-product-link>${esc(p.name)}</a></h3><p class="card-description">${esc(p.description)}</p><p class="portion">${esc(p.portion)}</p><div class="card-actions"><strong>${money(p.price)}</strong><button class="icon-btn favorite" data-favorite="${esc(p.id)}" aria-label="Добавить ${esc(p.name)} в избранное" aria-pressed="false">${icon('heart')}</button><div class="add-control" data-product-stepper="${esc(p.id)}"><button class="round-btn product-minus" data-product-delta="-1" data-cart-product="${esc(p.id)}" aria-label="Убрать одну порцию: ${esc(p.name)}" ${count?'':'hidden'}>−</button><output class="product-cart-count" data-product-count="${esc(p.id)}" aria-label="В корзине: ${esc(p.name)}" ${count?'':'hidden'}>${count}</output><button class="round-btn" data-cart-product="${esc(p.id)}" data-product-delta="1" ${p.available?'':'disabled title="Сейчас недоступно"'} aria-label="Добавить ${esc(p.name)} в корзину">+</button></div></div></div></article>`;}
 export function totals(subtotal,delivery){return `<div class="total-row"><span>Товары</span><strong>${money(subtotal)}</strong></div><div class="total-row"><span>${delivery?'Доставка':'Самовывоз'}</span><strong>${delivery?money(delivery):'Бесплатно'}</strong></div><div class="total-row grand"><span>Итого</span><strong>${money(subtotal+delivery)}</strong></div>`;}
 export function snapshotItems(items){return items.map(i=>`<div class="summary-line"><img src="${esc(image(i.image))}" alt="${esc(i.name)}" width="58" height="60"/><div><h3>${esc(i.name)}</h3><p>${esc(i.summary.join(', ')||i.portion)}</p><span>${i.quantity} шт.</span></div><strong>${money(i.total)}</strong></div>`).join('');}
-export const ready=Promise.all([refresh(),request('/api/catalog').then(c=>app.catalog=c)]).then(()=>{updateState();return app;});
+const staticStorefront=document.documentElement.hasAttribute('data-static-storefront');
+function setCatalog(c){const changed=JSON.stringify(app.catalog)!==JSON.stringify(c);app.catalog=c;if(changed)document.dispatchEvent(new CustomEvent('mh:catalog'));return c;}
+let status,waitingTimer,connected=false;
+function connectionStatus(failed=false){
+ if(!status){status=document.createElement('div');status.className='server-connection';status.setAttribute('role','status');status.setAttribute('aria-live','polite');status.innerHTML='<span></span><button type="button" hidden>Повторить</button>';status.querySelector('button').onclick=()=>location.reload();document.body.append(status);}
+ status.hidden=false;status.querySelector('span').textContent=failed?'Пока не удалось подключиться к кафе. Меню доступно для просмотра.':'Подключаемся к кафе… Меню можно смотреть, заказ станет доступен после подключения.';status.querySelector('button').hidden=!failed;
+}
+waitingTimer=setTimeout(()=>connectionStatus(),1800);
+const stateReady=readWhenReady(()=>refresh(),{onWaiting:()=>connectionStatus()});
+export const catalogReady=(staticStorefront?request('/catalog.json'):stateReady.then(()=>readWhenReady(()=>request('/api/catalog')))).then(setCatalog);
+export const ready=(async()=>{
+ try{
+  // Establish the guest/account cookie first. Parallel state/catalog requests can otherwise create different guest owners.
+  await stateReady;
+  const catalog=staticStorefront?await readWhenReady(()=>request('/api/catalog'),{onWaiting:()=>connectionStatus()}):await catalogReady;
+  await catalogReady;setCatalog(catalog);updateState();connected=true;return app;
+ }catch(error){connectionStatus(true);throw error;}
+ finally{clearTimeout(waitingTimer);if(connected&&status)status.hidden=true;}
+})();

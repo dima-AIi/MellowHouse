@@ -34,3 +34,6 @@ artifacts/publish-v3/
 
 # Local verification, backups and generated working data are not publication sources.
 artifacts/
+
+# Vercel static build output and local project linking metadata.
+deploy/vercel-proxy/.vercel/
