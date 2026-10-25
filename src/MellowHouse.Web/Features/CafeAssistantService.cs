@@ -19,10 +19,18 @@ public sealed class CafeAssistantService(ShopDbContext db,IMenuAssistant assista
         "bubble-tea"=>products.Where(p=>p.Id.EndsWith("bubble-tea",StringComparison.Ordinal)).ToArray(),
         "hot"=>products.Where(p=>p.CategoryId is "hot" or "pizza" or "sandwiches").ToArray(),
         "drinks"=>products.Where(p=>DrinkCategories.Contains(p.CategoryId)).ToArray(),
+        "meals"=>products.Where(p=>MealCategories.Contains(p.CategoryId)).ToArray(),
         "warm-drinks"=>products.Where(p=>(p.CategoryId is "coffee" or "tea")&&!IcedCoffees.Contains(p.Id)).ToArray(),
         "cold"=>products.Where(p=>p.CategoryId is "cold" or "shakes"||IcedCoffees.Contains(p.Id)).ToArray(),
         _=>products.Where(p=>p.CategoryId==category).ToArray()};
     private static Product[] Rank(IEnumerable<Product> products)=>products.OrderByDescending(p=>(p.Popular||p.Recommended?100:0)+(p.CategoryId switch{"hot"=>40,"pizza"=>30,"sandwiches"=>25,"salads"=>15,"breakfast"=>10,_=>0})).ThenBy(p=>p.Price).ThenBy(p=>p.Id).ToArray();
+    private static bool IsDrinkCategory(string? category)=>category is "drinks" or "cold" or "warm-drinks" or "coffee" or "tea" or "shakes" or "matcha" or "bubble-tea";
+    private static string? PreviousCategory(string[] recent)
+    {
+        string? previous=null;
+        foreach(var question in recent){var next=Category(question)??AssistantConversation.MealCategory(question);if(next=="drinks"&&IsDrinkCategory(previous)&&Has(question,@"друг|без\s|до\s*\d"))continue;previous=next??previous;}
+        return previous;
+    }
     private static Product[] ColdSuggestions(Product[] candidates)
     {
         // Keep a varied first selection as the menu grows: iced coffee, cold tea/lemonade, shake.
@@ -47,17 +55,35 @@ public sealed class CafeAssistantService(ShopDbContext db,IMenuAssistant assista
         var all=await db.Products.Include(p=>p.Category).Where(p=>p.Available&&!p.Archived&&!p.Draft&&p.Category.Visible&&!p.Category.Archived).ToArrayAsync(ct);
         if(AssistantHistory.IsQuestion(message)&&!Has(message,@"игнорир|промпт|забудь.*инструк"))return await history.ReplyAsync(message,owner,all,ct);
         var recent=NvidiaMenuAssistant.Recent(r.RecentQuestions);var lastIds=(r.LastProductIds??[]).Where(x=>x is {Length:<=80}).Distinct().Take(6).ToArray();
-        var previousCategory=recent.Select(Category).LastOrDefault(x=>x is not null);var currentCategory=Category(text);
+        var previousCategory=PreviousCategory(recent);var currentCategory=Category(text);
+        var mealCategory=AssistantConversation.MealCategory(text);
+        var explicitDrink=currentCategory is "drinks" or "cold" or "warm-drinks" or "coffee" or "tea" or "shakes" or "matcha" or "bubble-tea";
+        if(mealCategory=="meals")mealCategory=recent.Select(AssistantConversation.MealCategory).LastOrDefault(x=>x is not null and not "meals")??mealCategory;
+        if(mealCategory is not null&&!explicitDrink)currentCategory=mealCategory;
+        if(currentCategory=="drinks"&&IsDrinkCategory(previousCategory)&&Has(text,@"друг|без\s|до\s*\d"))currentCategory=previousCategory;
         if(previousCategory=="drinks"&&Has(text,@"^(?:хочу\s+)?горяч(?:ее|ий|его)[.!\s]*$"))currentCategory="warm-drinks";
         if(previousCategory=="drinks"&&Has(text,@"^(?:хочу\s+)?холодн(?:ое|ый|ого)[.!\s]*$"))currentCategory="cold";
         var category=currentCategory??(NvidiaMenuAssistant.Followup(text)||WantsAdd(text)?previousCategory:null);
-        if(currentCategory is null&&Has(text,@"еду|поесть|обед|ужин"))category=null;
-        if(Has(message,@"игнорир|промпт|политик|президент|напиши.*код|выборы|программир|гороскоп|погод|видеокарт")||!NvidiaMenuAssistant.InScope(message,all.Select(p=>p.Name))&&!NvidiaMenuAssistant.Followup(message))return new(NvidiaMenuAssistant.Refusal,[],StartChoices);
+        if(currentCategory is null&&mealCategory is not null)category=mealCategory;
+        if(NvidiaMenuAssistant.OffTopic(message)||!NvidiaMenuAssistant.InScope(message,all.Select(p=>p.Name))&&!(NvidiaMenuAssistant.Followup(message)&&(recent.Length>0||lastIds.Length>0)))return new(NvidiaMenuAssistant.Refusal,[],StartChoices);
         var constraints=string.Join(" ",recent.TakeLast(2))+" "+message;
         // Category intent is resolved here; retain explicit diet/budget rules without accidentally filtering all food as coffee.
         var restrictionWords=string.Join(" ",Regex.Matches(constraints,@"до\s*\d{1,5}|без\s+молок[а-я]*|безлактоз[а-я]*|без\s+мяс[а-я]*|вегетар[а-я]*",RegexOptions.IgnoreCase).Select(m=>m.Value));
         var eligible=NvidiaMenuAssistant.Eligible(restrictionWords,all);
-        if(Has(constraints,@"с куриц|куриное|куриный")&&!Has(constraints,@"без куриц"))eligible=eligible.Where(p=>Has(p.Ingredients,@"куриц|курин")).ToArray();
+        if(Has(constraints,@"с куриц|куриное|куриный")&&!Has(constraints,@"без куриц"))eligible=eligible.Where(p=>AssistantConversation.IsDrink(p)||Has(p.Ingredients,@"куриц|курин")).ToArray();
+        if(!WantsAdd(text)&&Has(text,@"^\s*(?:а\s+)?(?:почему|чем\s+отлич|в ч[её]м\s+(?:разниц|отлич)|что\s+такое|расскажи\s+(?:о|про)|как\s+(?:готов|дела))"))
+        {
+            var explanation=await assistant.ReplyAsync(message,ct,recent);return new(explanation.Text,explanation.ProductIds,explanation.Suggestions);
+        }
+        if(mealCategory is not null&&explicitDrink&&!WantsAdd(text))
+        {
+            var meals=Rank(InCategory(eligible,mealCategory)).Take(2).ToArray();
+            if(currentCategory=="drinks")return new("Начнём с еды: вот подходящие блюда. Напиток тоже подберём — хочется горячий или холодный? Ничего в корзину пока не добавлял.",meals.Select(p=>p.Id).ToArray(),["Холодный напиток","Горячий напиток","Ещё горячие блюда"]);
+            var drinks=currentCategory=="cold"?ColdSuggestions(InCategory(eligible,currentCategory)):Rank(InCategory(eligible,currentCategory!)).Take(2).ToArray();
+            var budget=Regex.Match(restrictionWords,@"до\s*(\d{1,5})");
+            if(budget.Success){var limit=int.Parse(budget.Groups[1].Value);var pair=(from food in meals from drink in drinks where food.Price+drink.Price<=limit select new[]{food,drink}).FirstOrDefault();if(pair is null)return new("Для блюда вместе с напитком этот бюджет маловат. Подобрать только блюдо или увеличить общую сумму?",[],["Выбрать только блюдо","Подобрать только напиток"]);return new("Вот блюдо и напиток, которые вместе укладываются в бюджет по базовым ценам. Настройки можно проверить отдельно; корзину пока не менял.",pair.Select(p=>p.Id).ToArray(),["Что в составе?","Другие блюда","Другой напиток"]);}
+            return new("Вот варианты еды и напитков к ней. Выберите по одному — каждую позицию можно настроить и добавить отдельно. Корзину пока не менял.",meals.Concat(drinks.Take(2)).Select(p=>p.Id).ToArray(),["Другие блюда","Другой напиток","Что в составе?"]);
+        }
         if(Has(text,@"не знаю|не определил|помоги выбрать|что (?:бы )?(?:мне )?поесть|что хочу")&&!WantsAdd(text)&&category is null)
             return new("Давайте выберем по настроению. Хочется горячего и сытного, лёгкого блюда или чего-нибудь сладкого? Можно начать с категории ниже. Если хотите сюрприз, напишите: «Сам выбери мне еду и добавь в корзину».",[],StartChoices);
         if(Has(text,@"холодн")&&currentCategory is null&&!WantsAdd(text))return new("Хочется холодный напиток или лёгкое блюдо?",[],["Холодный напиток","Салаты и боулы"]);
@@ -76,7 +102,7 @@ public sealed class CafeAssistantService(ShopDbContext db,IMenuAssistant assista
                 selected=Rank(pool).Take(1).ToArray();
             }
             else if(offered.Length==1)selected=offered;
-            if(selected.Length==0)return new("Уточните блюдо: напишите его название или «добавь первый/второй» из последнего списка. Могу сам выбрать одно из популярных — если попросите.",Rank(candidates).Take(3).Select(p=>p.Id).ToArray(),["Сам выбери еду и добавь в корзину","Покажи горячее","Покажи салаты"]);
+            if(selected.Length==0)return new("Уточните позицию: напишите её название или «добавь первый/второй» из последнего списка. Могу сам выбрать из подходящих — если попросите.",Rank(candidates).Take(3).Select(p=>p.Id).ToArray(),AssistantConversation.Suggestions(candidates,category));
             if(Has(constraints,@"аллерги|сильн.*неперенос"))return new("При аллергии сначала уточним состав и доступные исключения. На общем оборудовании возможны следы аллергенов — я не буду добавлять случайное блюдо. Посмотрите эти карточки и обсудите приготовление с кафе.",selected.Select(p=>p.Id).ToArray(),["Что в составе?","Контакты кафе"]);
             if(!Guid.TryParse(r.RequestId,out var requestId))throw new ShopException("Обновите сообщение и повторите добавление.");
             var quantityMatch=Regex.Match(text,@"(?:добавь|положи|возьми)\s+(\d{1,5})\b");var quantity=quantityMatch.Success?int.Parse(quantityMatch.Groups[1].Value):1;
@@ -90,9 +116,10 @@ public sealed class CafeAssistantService(ShopDbContext db,IMenuAssistant assista
         }
         if(category is not null||named.Length>0||Has(text,@"популярн|другие варианты|ещ[её] варианты"))
         {
-            if(Has(text,@"другие варианты|ещ[её] варианты"))candidates=candidates.Where(p=>!lastIds.Contains(p.Id)).ToArray();
+            if(Has(text,@"другие варианты|ещ[её] варианты|друг(?:ой|ие|ую).*напит|другие блюд|ещ[её].*(?:напит|блюд|горяч)"))candidates=candidates.Where(p=>!lastIds.Contains(p.Id)).ToArray();
             var found=named.Length==0&&category=="cold"?ColdSuggestions(candidates):Rank(named.Length>0?named:candidates).Take(3).ToArray();
-            return new(found.Length>0?"Вот подходящие варианты из нашего меню. Можно открыть настройки или написать, например, «добавь второй». Хотите уточнить вкус или бюджет?":"Под эти условия пока нет подходящего блюда. Изменим категорию или бюджет?",found.Select(p=>p.Id).ToArray(),["Без мяса","До 500 рублей","Сам выбери и добавь в корзину"]);
+            var selectionText=found.Length>0?(AssistantConversation.MealCategory(message) is not null?"Давайте выберем еду: вот подходящие блюда. Можно посмотреть состав, настроить порцию или написать «добавь второй».":"Вот подходящие варианты из нашего меню. Можно открыть настройки или написать, например, «добавь второй». Хотите уточнить вкус или бюджет?"):"Под эти условия пока нет подходящих позиций. Изменим категорию или бюджет?";
+            return new(selectionText,found.Select(p=>p.Id).ToArray(),AssistantConversation.Suggestions(found,category));
         }
         if(Has(text,@"умеешь|можешь")&&Has(text,@"добавля|корзин"))return new("Да. Назовите блюдо или попросите меня выбрать из популярных и добавить в корзину. Я покажу состав заказа и цену; проверить и изменить его можно в корзине. Оформление и оплата — за вами.",[],StartChoices);
         var answer=await assistant.ReplyAsync(message,ct,r.RecentQuestions);return new(answer.Text,answer.ProductIds,answer.Suggestions);
@@ -124,13 +151,13 @@ public sealed class CafeAssistantService(ShopDbContext db,IMenuAssistant assista
         try
         {
             var existing=await db.SiteSettings.FindAsync([key],ct);
-            if(existing is not null){var receipt=JsonSerializer.Deserialize<AssistantCartReceipt>(existing.Json,JsonDefaults.Options)!;if(receipt.Hash!=hash)throw new ShopException("Это сообщение уже было обработано. Отправьте новое.",409);return new(receipt.Text,receipt.ProductIds,["Покажи ещё варианты","Что в составе?"],await carts.ViewAsync(owner,ct),receipt.ProductIds);}
+            if(existing is not null){var receipt=JsonSerializer.Deserialize<AssistantCartReceipt>(existing.Json,JsonDefaults.Options)!;if(receipt.Hash!=hash)throw new ShopException("Это сообщение уже было обработано. Отправьте новое.",409);return new(receipt.Text,receipt.ProductIds,AssistantConversation.Suggestions(products,added:true),await carts.ViewAsync(owner,ct),receipt.ProductIds);}
             await using var tx=await db.Database.BeginTransactionAsync(ct);var summaries=new List<string>();var total=0;
             foreach(var p in products){var selections=Configure(p,message);var price=Pricing.Calculate(p.View(),selections);total=checked(total+price.UnitPrice*quantity);summaries.Add(p.Name+" · "+quantity+" шт. · "+price.UnitPrice*quantity+" ₽"+(price.Summary.Length>0?" ("+string.Join(", ",price.Summary)+")":""));await carts.AddAsync(owner,new CartChange(p.Id,selections,quantity),ct);}
             var budget=Regex.Matches(restrictions,@"до\s*(\d{1,5})").LastOrDefault();if(budget is not null&&total>int.Parse(budget.Groups[1].Value))throw new ShopException("С выбранными настройками сумма превышает бюджет. Уточните размер или добавки — я пока ничего не добавил.");
             var text="Добавлено в корзину:\n"+string.Join("\n",summaries)+"\n\nМожно проверить и изменить заказ в корзине. Оформление и оплата ещё не выполнены.";
             db.SiteSettings.Add(new(){Key=key,Json=JsonSerializer.Serialize(new AssistantCartReceipt(hash,text,products.Select(p=>p.Id).ToArray()),JsonDefaults.Options)});await db.SaveChangesAsync(ct);await tx.CommitAsync(ct);
-            return new(text,products.Select(p=>p.Id).ToArray(),["Покажи ещё варианты","Подбери напиток"],await carts.ViewAsync(owner,ct),products.Select(p=>p.Id).ToArray());
+            return new(text,products.Select(p=>p.Id).ToArray(),AssistantConversation.Suggestions(products,added:true),await carts.ViewAsync(owner,ct),products.Select(p=>p.Id).ToArray());
         }
         finally{gate.Semaphore.Release();}
     }
