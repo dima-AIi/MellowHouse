@@ -59,6 +59,20 @@
 .delivery-payment{margin-bottom:48px}
 .delivery-payment>p{max-width:78ch;line-height:1.8}
 .delivery-payment .notice{font-size:14px;padding:18px 22px;max-width:none}
+.checkout-guest-notice{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:24px 0}
+.checkout-guest-notice p{margin:0;max-width:65ch;line-height:1.7}
+.checkout-guest-notice .btn{flex-shrink:0}
+.guest-order-panel{padding:24px;margin:28px 0;background:#e8f2ed;border:1px solid var(--border);border-radius:12px}
+.guest-order-panel h2{font-size:27px;margin:0 0 14px}
+.guest-order-panel p{font-size:14px;line-height:1.8;max-width:68ch}
+.guest-order-panel .guide-actions{gap:12px;margin:18px 0}
+.guest-order-panel .guide-actions .btn{font-size:13px;white-space:normal}
+.guest-order-panel .small{font-size:12px;margin-bottom:0}
+.guest-link-field{margin-top:20px}
+.guest-link-field label{display:block;font-size:13px;margin-bottom:8px}
+.guest-link-field input{width:100%;min-width:0}
+.payment-layout{align-items:start}
+@media(max-width:700px){.checkout-guest-notice{align-items:flex-start;flex-direction:column;gap:16px}.guest-order-panel{padding:20px}.guest-order-panel .guide-actions .btn{width:100%}}
 @media(max-width:900px){
  .app-guide .app-banner{padding:36px 32px 0;gap:24px}
  .app-guide .phone-preview{width:185px;flex-basis:185px;margin-right:12px}

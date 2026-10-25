@@ -1,10 +1,11 @@
-import{image,imageSet}from'./product-images.js?v=20261024-v13';
-import{validPhone,bindPhones}from'./forms.js?v=20261024-v13';
-import{app,request,setCart,updateState,money,esc,totals,icon,busy,toast}from'./core.js?v=20261024-v13';
-import{openAuth}from'./cart-auth.js?v=20261024-v13';
+import{image,imageSet}from'./product-images.js?v=20261025-v16';
+import{validPhone,bindPhones}from'./forms.js?v=20261025-v16';
+import{app,request,setCart,updateState,money,esc,totals,icon,busy,toast}from'./core.js?v=20261025-v16';
+import{openAuth}from'./cart-auth.js?v=20261025-v16';
+import{rememberGuestOrder,orderUrl}from'./guest-orders.js?v=20261025-v16';
 export async function initCheckout(){
  const form=document.querySelector('#checkout-form');
- if(!app.state.authenticated){form.hidden=true;document.querySelector('#checkout-auth-notice').hidden=false;openAuth(()=>location.reload());return;}
+ document.querySelector('#checkout-auth-notice').hidden=app.state.authenticated;
  if(!app.state.cart.items.length){form.innerHTML=`<div class="empty-state">${icon('bag')}<h2>В корзине пока пусто</h2><p>Сначала выберите любимые блюда.</p><a href="/Menu" class="btn">Открыть меню</a></div>`;return;}
  const labels={card:'Банковская карта',sbp:'СБП',yoomoney:'ЮMoney',cash:'Наличными при получении',terminal:'Картой при получении'};document.querySelector('#checkout-payment-choices').innerHTML=app.state.settings.paymentMethods.map((m,i)=>`<label class="choice"><input type="radio" name="paymentMethod" value="${m}" ${i===0?'checked':''}/>${labels[m]}</label>`).join('');
  let draft={};try{draft=await request('/api/checkout-draft');}catch(e){toast(e.message);}
@@ -34,7 +35,8 @@ export async function initCheckout(){
    if(!validPhone(document.querySelector('#phone'))){const error=new Error('Введите телефон: +7 и десять цифр.');error.field='phone';throw error;}
    let body=values();const newSignature=JSON.stringify({...body,requestKey:null,revision:app.state.cart.revision});if(signature&&signature!==newSignature)requestKey=crypto.randomUUID();signature=newSignature;body.requestKey=requestKey;clearTimeout(saveTimer);
    await request('/api/checkout-draft',{...body,signature},'PUT');
-   const order=await request('/api/orders',body,'POST');location.href=order.status==='Paid'||['cash','terminal'].includes(order.paymentMethod)?'/Order/'+order.id:'/Payment/'+order.id;
+   const order=await request('/api/orders',body,'POST');rememberGuestOrder(order);location.href=orderUrl(order.id,order.status==='Paid'||['cash','terminal'].includes(order.paymentMethod)?'Order':'Payment');
   }catch(error){if(error.status===401)openAuth(()=>location.reload());else showError(error);}});});render();
+ document.querySelector('#checkout-optional-login')?.addEventListener('click',async()=>{clearTimeout(saveTimer);const saved=values();await saveDraft();openAuth(async()=>{await request('/api/checkout-draft',{...saved,requestKey:crypto.randomUUID(),signature:null},'PUT');location.reload();});});
  const loader=document.querySelector('#checkout-loader');loader.disabled=false;loader.setAttribute('aria-busy','false');
 }

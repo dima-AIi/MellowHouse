@@ -1,7 +1,7 @@
-import{image,imageSet}from'./product-images.js?v=20261024-v13';
-import{clearChat}from'./chat-session.js?v=20261024-v13';
-import{validPhone}from'./forms.js?v=20261024-v13';
-import{app,ready,request,refresh,setCart,updateState,money,esc,icon,product,calculated,configure,toast,busy,handle,totals}from'./core.js?v=20261024-v13';
+import{image,imageSet}from'./product-images.js?v=20261025-v16';
+import{clearChat}from'./chat-session.js?v=20261025-v16';
+import{validPhone}from'./forms.js?v=20261025-v16';
+import{app,ready,request,refresh,setCart,updateState,money,esc,icon,product,calculated,configure,toast,busy,handle,totals}from'./core.js?v=20261025-v16';
 const cartDialog=document.querySelector('#cart-dialog'),authDialog=document.querySelector('#auth-dialog'),editDialog=document.querySelector('#edit-dialog');
 let afterAuth=null,channel='phone',challengeId=null,editing=null,register=false;
 export function openAuth(callback){afterAuth=callback;document.querySelector('#auth-title').innerHTML='Добро пожаловать<br>в Mellow House';switchChannel(channel);document.querySelectorAll('#auth-dialog .form-error').forEach(x=>x.textContent='');if(!authDialog.open)authDialog.showModal();}
@@ -12,8 +12,8 @@ function switchChannel(next){
  document.querySelectorAll('[data-auth-channel]').forEach(b=>{const active=b.dataset.authChannel===channel;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active));});
  document.querySelector('#auth-title').innerHTML='Добро пожаловать<br>в Mellow House';
 }
-async function signedIn(){await refresh();renderCart();authDialog.close();toast('Вы вошли в Mellow House');const callback=afterAuth;afterAuth=null;if(callback)callback();}
-export function beginCheckout(){if(!app.state.cart.items.length){toast('Сначала добавьте любимые блюда.');return;}if(!app.state.authenticated){openAuth(()=>{cartDialog.close();location.href='/Checkout';});return;}cartDialog.close();if(location.pathname.toLowerCase()!=='/checkout')location.href='/Checkout';}
+async function signedIn(){await refresh();renderCart();authDialog.close();toast('Вы вошли в Mellow House');const callback=afterAuth;afterAuth=null;if(callback)await callback();}
+export function beginCheckout(){if(!app.state.cart.items.length){toast('Сначала добавьте любимые блюда.');return;}cartDialog.close();if(location.pathname.toLowerCase()!=='/checkout')location.href='/Checkout';}
 export function renderCart(){
  const c=app.state.cart,host=document.querySelector('#cart-lines');document.querySelector('#cart-bottom').hidden=!c.items.length;document.querySelector('#clear-cart').hidden=!c.items.length;
  if(!c.items.length){host.innerHTML=`<div class="empty-state">${icon('bag')}<h2>В корзине пока пусто</h2><p>Добавьте любимые блюда<br>из нашего меню</p><a class="btn wide" href="/Menu">Открыть меню</a></div>`;return;}

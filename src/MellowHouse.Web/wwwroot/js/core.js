@@ -1,6 +1,6 @@
-import{image,imageSet}from'./product-images.js?v=20261024-v13';
-import{syncChatOwner}from'./chat-session.js?v=20261024-v13';
-import{readWhenReady,isJsonResponse}from'./server-connection.js?v=20261024-v13';
+import{image,imageSet}from'./product-images.js?v=20261025-v16';
+import{syncChatOwner}from'./chat-session.js?v=20261025-v16';
+import{readWhenReady,isJsonResponse}from'./server-connection.js?v=20261025-v16';
 export const money=n=>new Intl.NumberFormat('ru-RU',{style:'currency',currency:'RUB',maximumFractionDigits:0}).format(n);
 export const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const icon=name=>`<svg aria-hidden="true"><use href="/images/icons.svg#${name}"></use></svg>`;

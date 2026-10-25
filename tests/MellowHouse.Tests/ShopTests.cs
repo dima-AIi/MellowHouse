@@ -36,12 +36,12 @@ public sealed class Buyer(ShopFactory factory, CookieContainer? cookies = null) 
     }
     public async Task<(HttpStatusCode Status, byte[] Bytes)> Raw(string path)
     {
-        using var r=new HttpRequestMessage(HttpMethod.Get,path);r.Headers.Add("Cookie",Cookies.GetCookieHeader(new Uri("http://localhost")));using var response=await client.SendAsync(r);return(response.StatusCode,await response.Content.ReadAsByteArrayAsync());
+        using var r=new HttpRequestMessage(HttpMethod.Get,path);r.Headers.Add("Cookie",Cookies.GetCookieHeader(new Uri(client.BaseAddress!,path)));using var response=await client.SendAsync(r);return(response.StatusCode,await response.Content.ReadAsByteArrayAsync());
     }
     public async Task<(HttpStatusCode Status, JsonNode Json)> Send(string path, object? body = null, string method = "GET", bool csrf = true)
     {
         using var request = new HttpRequestMessage(new HttpMethod(method), path);
-        var cookieHeader = Cookies.GetCookieHeader(new Uri("http://localhost"));
+        var cookieHeader = Cookies.GetCookieHeader(new Uri(client.BaseAddress!,path));
         if (!string.IsNullOrEmpty(cookieHeader)) request.Headers.Add("Cookie", cookieHeader);
         if (csrf && method != "GET") request.Headers.Add("X-CSRF-TOKEN", token);
         if (body is not null) request.Content = JsonContent.Create(body);
@@ -143,11 +143,11 @@ public sealed class ShopTests
         Assert.Equal(HttpStatusCode.BadRequest,(await b.Send("/api/cart",new{productId="vanilla-raf",quantity=1},"POST",false)).Status);
         Assert.Equal(390,Amount((await b.State())["cart"]!,"subtotal"));
     }
-    [Fact] public async Task GuestCanBuildCart_ButCannotPlaceOrder_AndLoginPreservesIt()
+    [Fact] public async Task GuestCanPlacePendingOrder_AndOptionalLoginPreservesCartWithoutClaiming()
     {
         using var f=new ShopFactory();using var b=new Buyer(f);await b.State();await b.Add("vanilla-raf",Oat());await b.Add("bbq-chicken");
-        Assert.Equal(HttpStatusCode.Unauthorized,(await b.Send("/api/orders",Buyer.Details(),"POST")).Status);
-        await b.SignIn();Assert.Equal(770,Amount((await b.State())["cart"]!,"subtotal"));var o=await b.Checkout();Assert.Equal(960,Amount(o,"total"));
+        var guest=await b.Send("/api/orders",Buyer.Details(),"POST");Assert.Equal(HttpStatusCode.OK,guest.Status);Assert.True(guest.Json["guest"]!.GetValue<bool>());
+        await b.SignIn();Assert.Empty((await b.Send("/api/orders")).Json.AsArray());Assert.Equal(770,Amount((await b.State())["cart"]!,"subtotal"));var o=await b.Checkout();Assert.Equal(960,Amount(o,"total"));Assert.False(o["guest"]!.GetValue<bool>());
     }
     [Fact] public async Task FavoritesAndExistingCart_MergeAfterLogin_AndStayPrivate()
     {

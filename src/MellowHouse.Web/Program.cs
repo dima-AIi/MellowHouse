@@ -42,7 +42,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 builder.Services.AddAuthorization(o=>o.AddPolicy("Admin",p=>p.RequireRole("Admin")));
 builder.Services.AddAntiforgery(o => { o.HeaderName = "X-CSRF-TOKEN"; o.Cookie.Name = "mh.csrf"; o.Cookie.SameSite = SameSiteMode.Strict; });
 builder.Services.AddRazorPages(o=>{o.Conventions.AuthorizeFolder("/Admin","Admin");o.Conventions.AllowAnonymousToPage("/Admin/Login");});
-builder.Services.AddScoped<CartService>(); builder.Services.AddScoped<OrderService>(); builder.Services.AddScoped<IdentityService>();
+builder.Services.AddScoped<CartService>(); builder.Services.AddScoped<OrderService>(); builder.Services.AddScoped<IdentityService>(); builder.Services.AddScoped<GuestOrderAccess>();
 builder.Services.AddSingleton<MutationGate>();
 builder.Services.AddScoped<IPasswordHasher<Customer>,PasswordHasher<Customer>>();
 builder.Services.AddScoped<SiteService>();builder.Services.AddScoped<MediaService>();builder.Services.AddScoped<CatalogAdminService>();builder.Services.AddScoped<AdminService>();

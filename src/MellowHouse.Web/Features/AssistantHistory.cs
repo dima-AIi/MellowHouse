@@ -45,13 +45,14 @@ public sealed class AssistantHistory(ShopDbContext db)
 
     public async Task<CafeAssistantReply> ReplyAsync(string message,string owner,Product[] available,CancellationToken ct)
     {
-        if(!owner.StartsWith("u:",StringComparison.Ordinal)||!Guid.TryParse(owner[2..],out var customer))
+        var guest=owner.StartsWith("g:",StringComparison.Ordinal);
+        if((!guest&&!owner.StartsWith("u:",StringComparison.Ordinal))||!Guid.TryParse(owner[2..],out var customer)||guest&&!await db.Orders.AnyAsync(o=>o.CustomerId==customer&&o.Source=="Guest",ct))
             return new("Войдите в профиль, чтобы я нашёл ваши прошлые заказы. После входа продолжу с этим вопросом. Пока могу помочь выбрать из меню.",[],["Подобрать кофе","Что перекусить?"],RequiresLogin:true);
         var number=OrderNumber(message);
         var today=DateOnly.FromDateTime(DateTime.UtcNow.AddHours(3));var day=number.HasValue?null:Day(message,today);
         if(!number.HasValue&&day is null&&Has(message,@"\b\d{1,2}[./]\d{1,2}|\b\d{4}-\d{2}-\d{2}"))return new("Не получилось разобрать дату. Напишите её как 21.10.2026, либо укажите «вчера» или день недели.",[],["Покажи мой последний заказ"]);
         // Use the same owner and archive boundary as the customer's history API.
-        var query=db.Orders.AsNoTracking().Where(o=>o.CustomerId==customer&&o.Source!=DemoBusiness.ArchivedSource);
+        var query=db.Orders.AsNoTracking().Where(o=>o.CustomerId==customer&&o.Source!=DemoBusiness.ArchivedSource&&(guest?o.Source=="Guest":o.Source!="Guest"));
         if(number is {} requested)query=query.Where(o=>o.Id==requested-1040);
         else query=query.Where(o=>o.Fulfillment!="Rejected");
         if(day is {} selected){var start=selected.ToDateTime(TimeOnly.MinValue,DateTimeKind.Utc).AddHours(-3);var end=start.AddDays(1);query=query.Where(o=>o.CreatedUtc>=start&&o.CreatedUtc<end);}
@@ -78,7 +79,7 @@ public sealed class AssistantHistory(ShopDbContext db)
             }
         }
         var offered=ids.Distinct().Take(6).ToArray();
-        var text="Вот что вы заказывали в Mellow House:\n\n"+string.Join("\n",rows);
+        var text=(guest?"Заказы без входа из этого браузера:\n\n":"Вот что вы заказывали в Mellow House:\n\n")+string.Join("\n",rows);
         if(placed.Length>selectedOrders.Length&&day.HasValue)text+="\nПоказаны последние 10 заказов за этот день. Все записи доступны в профиле.";
         if(unavailable.Count>0)text+="\n\nСейчас недоступны: "+string.Join(", ",unavailable)+". Их не добавляю.";
         if(offered.Length>0)text+="\n\nНиже блюда, которые доступны сейчас. Нажмите «Добавить» или «Настроить»: действуют текущие цены, прежние настройки указаны выше. Корзину пока не менял.";

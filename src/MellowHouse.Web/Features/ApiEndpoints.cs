@@ -95,12 +95,21 @@ public static class ApiEndpoints
             if (draft is null) { draft = new() { Owner = owner }; db.CheckoutDrafts.Add(draft); }
             draft.Json = json; await db.SaveChangesAsync(ct); return Results.Ok(new { saved = true });
         });
-        app.MapPost("/api/orders", async (CheckoutRequest r, HttpContext h, OrderService s, CancellationToken ct) => Results.Ok(await s.CreateAsync(IdentityContext.Customer(h), r, ct)));
+        app.MapPost("/api/orders", async (CheckoutRequest r, HttpContext h, OrderService s, GuestOrderAccess access, CancellationToken ct) =>
+            Results.Ok(access.WithAccess(h.User.Identity?.IsAuthenticated == true
+                ? await s.CreateAsync(IdentityContext.Customer(h), r, ct)
+                : await s.CreateGuestAsync(GuestOrderAccess.Visitor(h), r, ct))));
         app.MapGet("/api/orders", async (HttpContext h, OrderService s, CancellationToken ct) => Results.Ok(await s.HistoryAsync(IdentityContext.Customer(h), ct)));
-        app.MapGet("/api/orders/{id:guid}", async (Guid id, HttpContext h, OrderService s, CancellationToken ct) => Results.Ok(await s.GetAsync(IdentityContext.Customer(h), id, ct)));
-        app.MapGet("/api/orders/{id:guid}/qr",async(Guid id,HttpContext h,OrderService s,CancellationToken ct)=>{await s.GetAsync(IdentityContext.Customer(h),id,ct);return Results.File(QRCoder.PngByteQRCodeHelper.GetQRCode("MELLOWHOUSE:ORDER:"+id.ToString("N")+":TEST",QRCoder.QRCodeGenerator.ECCLevel.Q,6),"image/png");});
-        app.MapPost("/api/orders/{id:guid}/payment", async (Guid id, PaymentRequest r, HttpContext h, OrderService s, CancellationToken ct) => Results.Ok(await s.PayAsync(IdentityContext.Customer(h), id, r, ct)));
-        app.MapPut("/api/orders/{id:guid}/method", async (Guid id, MethodRequest r, HttpContext h, OrderService s, CancellationToken ct) => Results.Ok(await s.ChangeMethodAsync(IdentityContext.Customer(h), id, r.Method, ct)));
+        app.MapGet("/api/orders/{id:guid}", async (Guid id, HttpContext h, OrderService s, GuestOrderAccess access, CancellationToken ct) => Results.Ok(await s.GetAsync(await access.ResolveAsync(h,id,ct), id, ct)));
+        app.MapGet("/api/orders/{id:guid}/qr",async(Guid id,HttpContext h,GuestOrderAccess access,CancellationToken ct)=>{await access.ResolveAsync(h,id,ct);return Results.File(QRCoder.PngByteQRCodeHelper.GetQRCode("MELLOWHOUSE:ORDER:"+id.ToString("N")+":TEST",QRCoder.QRCodeGenerator.ECCLevel.Q,6),"image/png");});
+        app.MapPost("/api/orders/{id:guid}/payment", async (Guid id, PaymentRequest r, HttpContext h, OrderService s, GuestOrderAccess access, CancellationToken ct) => Results.Ok(await s.PayAsync(await access.ResolveAsync(h,id,ct), id, r, ct)));
+        app.MapPut("/api/orders/{id:guid}/method", async (Guid id, MethodRequest r, HttpContext h, OrderService s, GuestOrderAccess access, CancellationToken ct) => Results.Ok(await s.ChangeMethodAsync(await access.ResolveAsync(h,id,ct), id, r.Method, ct)));
+        app.MapPost("/api/orders/{id:guid}/access",async(Guid id,GuestOrderTokenRequest r,HttpContext h,GuestOrderAccess access,CancellationToken ct)=>
+        {await access.OpenAsync(h,id,r.Token,ct);return Results.Ok(new{opened=true});}).RequireRateLimiting("login");
+        app.MapPost("/api/orders/{id:guid}/access-link",async(Guid id,HttpContext h,OrderService s,GuestOrderAccess access,CancellationToken ct)=>
+            Results.Ok(access.WithAccess(await s.GetAsync(await access.ResolveAsync(h,id,ct),id,ct))));
+        app.MapPost("/api/orders/{id:guid}/claim",async(Guid id,HttpContext h,GuestOrderAccess access,CancellationToken ct)=>
+        {await access.ClaimAsync(h,id,ct);return Results.Ok(new{saved=true});});
         app.MapPost("/api/orders/{id:guid}/repeat", async (Guid id, HttpContext h, OrderService s, CartService c, CancellationToken ct) =>
         { var uid = IdentityContext.Customer(h); var warnings = await s.RepeatAsync(uid, id, ct); return Results.Ok(new { warnings, cart = await c.ViewAsync("u:" + uid, ct) }); });
         app.MapPost("/api/assistant",async(AssistantRequest r,HttpContext h,CafeAssistantService assistant,CancellationToken ct)=>Results.Ok(await assistant.ReplyAsync(r,IdentityContext.Owner(h),ct))).RequireRateLimiting("assistant");

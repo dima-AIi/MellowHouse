@@ -1,5 +1,5 @@
-import{app,card,esc,money,icon}from'./core.js?v=20261024-v13';
-import{image,imageSet}from'./product-images.js?v=20261024-v13';
+import{app,card,esc,money,icon}from'./core.js?v=20261025-v16';
+import{image,imageSet}from'./product-images.js?v=20261025-v16';
 
 function nutrition(p){
  const f=p.nutritionFacts;if(!f)return p.nutrition?`<p>${esc(p.nutrition)}</p>`:'';
