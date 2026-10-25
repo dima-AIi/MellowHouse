@@ -71,7 +71,7 @@ public sealed class CafeAssistantService(ShopDbContext db,IMenuAssistant assista
         var restrictionWords=string.Join(" ",Regex.Matches(constraints,@"до\s*\d{1,5}|без\s+молок[а-я]*|безлактоз[а-я]*|без\s+мяс[а-я]*|вегетар[а-я]*",RegexOptions.IgnoreCase).Select(m=>m.Value));
         var eligible=NvidiaMenuAssistant.Eligible(restrictionWords,all);
         if(Has(constraints,@"с куриц|куриное|куриный")&&!Has(constraints,@"без куриц"))eligible=eligible.Where(p=>AssistantConversation.IsDrink(p)||Has(p.Ingredients,@"куриц|курин")).ToArray();
-        if(!WantsAdd(text)&&Has(text,@"^\s*(?:а\s+)?(?:почему|чем\s+отлич|в ч[её]м\s+(?:разниц|отлич)|что\s+такое|расскажи\s+(?:о|про)|как\s+(?:готов|дела))"))
+        if(!WantsAdd(text)&&Has(text,@"^\s*(?:а\s+)?(?:почему|чем\b.*?отлич|в ч[её]м\s+(?:разниц|отлич)|какая\s+разница|что\s+такое|расскажи\s+(?:о|про)|как\s+(?:готов|дела))"))
         {
             var explanation=await assistant.ReplyAsync(message,ct,recent);return new(explanation.Text,explanation.ProductIds,explanation.Suggestions);
         }
