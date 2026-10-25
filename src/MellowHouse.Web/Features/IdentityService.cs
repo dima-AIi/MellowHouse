@@ -98,6 +98,14 @@ public sealed class IdentityService(ShopDbContext db, CartService carts, IWebHos
     private static void CheckAccess(Customer c) { if (c.Blocked) throw new ShopException("Доступ к профилю приостановлен. Обратитесь в кафе.", 403); }
     private async Task CompleteSignInAsync(HttpContext h, Customer c, CancellationToken ct)
     {
+        var visitor=GuestOrderAccess.Visitor(h);
+        foreach(var order in await db.Orders.Where(o=>o.CustomerId==visitor&&o.Source=="Guest"&&o.PaidUtc==null).ToArrayAsync(ct))
+        {
+            var snapshot=System.Text.Json.Nodes.JsonNode.Parse(order.CheckoutJson)!.AsObject();
+            if(snapshot.ContainsKey("_cartOwner"))continue;
+            snapshot["_cartOwner"]="u:"+c.Id;
+            order.CheckoutJson=snapshot.ToJsonString();order.Revision++;
+        }
         await carts.MergeAsync(IdentityContext.Guest(h), "u:" + c.Id, ct); c.LastLoginUtc = c.LastActiveUtc = DateTime.UtcNow; await db.SaveChangesAsync(ct);
         var identity = new ClaimsIdentity([new Claim(ClaimTypes.NameIdentifier, c.Id.ToString()), new Claim(ClaimTypes.Name, c.Name), new Claim(ClaimTypes.Role, c.Role), new Claim("session-version", c.SessionVersion.ToString())], CookieAuthenticationDefaults.AuthenticationScheme);
         await h.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), new AuthenticationProperties { IsPersistent = true, ExpiresUtc = DateTimeOffset.UtcNow.AddDays(30) });

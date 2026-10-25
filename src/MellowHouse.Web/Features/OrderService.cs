@@ -33,7 +33,15 @@ public sealed class OrderService(ShopDbContext db,CartService carts,SiteService 
     }
     public async Task<OrderView> CreateAsync(Guid customer,CheckoutRequest r,CancellationToken ct=default)=>await CreateCoreAsync(customer,"u:"+customer,r,"Web",ct);
     public async Task<OrderView> CreateGuestAsync(Guid visitor,CheckoutRequest r,CancellationToken ct=default)=>await CreateCoreAsync(visitor,"g:"+visitor,r,"Guest",ct);
-    private static string PurchaseOwner(Order order) => (order.Source=="Guest"?"g:":"u:")+order.CustomerId;
+    private static string PurchaseOwner(Order order)
+    {
+        if(order.Source!="Guest")return "u:"+order.CustomerId;
+        // Signing in may move the cart without attaching the guest order to the account.
+        using var snapshot=JsonDocument.Parse(order.CheckoutJson);
+        if(snapshot.RootElement.TryGetProperty("_cartOwner",out var stored)&&stored.ValueKind==JsonValueKind.String&&
+           stored.GetString() is {} owner&&owner.StartsWith("u:",StringComparison.Ordinal)&&Guid.TryParse(owner[2..],out _))return owner;
+        return "g:"+order.CustomerId;
+    }
     private async Task<OrderView> CreateCoreAsync(Guid customer,string owner,CheckoutRequest request,string source,CancellationToken ct)
     {
         ValidateKey(request.RequestKey);

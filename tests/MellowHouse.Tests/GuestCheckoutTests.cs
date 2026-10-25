@@ -103,6 +103,22 @@ public sealed class GuestCheckoutTests
     }
 
     [Fact]
+    public async Task LoginBetweenCheckoutAndPayment_ClearsMovedCart_WithoutImplicitlySavingTheOrder()
+    {
+        using var f=new ShopFactory();using var guest=new Buyer(f);await guest.State();await guest.Add("bbq-chicken");
+        var order=await guest.Checkout();var id=Id(order);await guest.Add("bbq-chicken");await guest.SignIn();
+        Assert.Empty((await guest.Send("/api/orders")).Json.AsArray());
+        Assert.Equal(2,(await guest.State())["cart"]!["count"]!.GetValue<int>());
+        var paid=await guest.Send($"/api/orders/{id}/payment",new{attemptKey=Guid.NewGuid(),result="success"},"POST");
+        Assert.Equal(HttpStatusCode.OK,paid.Status);Assert.True(paid.Json["guest"]!.GetValue<bool>());
+        Assert.Equal(1,(await guest.State())["cart"]!["count"]!.GetValue<int>());
+        Assert.Empty((await guest.Send("/api/orders")).Json.AsArray());
+        Assert.Null(paid.Json["checkout"]!["_cartOwner"]);
+        Assert.Equal(HttpStatusCode.OK,(await guest.Send($"/api/orders/{id}/claim",new{},"POST")).Status);
+        Assert.Single((await guest.Send("/api/orders")).Json.AsArray());
+    }
+
+    [Fact]
     public async Task CsrfAndAccountOrderBoundariesRemainEnforced()
     {
         using var f=new ShopFactory();using var guest=new Buyer(f);await guest.State();await guest.Add("bbq-chicken");
