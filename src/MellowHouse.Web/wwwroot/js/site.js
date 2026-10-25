@@ -1,5 +1,5 @@
 import{app,ready,catalogReady,request,refresh,setCart,updateState,money,esc,product,defaults,calculated,configure,card,toast,handle}from'./core.js?v=20261024-v13';
-import{renderPublicCatalog,renderPublicSettings}from'./storefront.js?v=20261024-v13';
+import{renderPublicCatalog,renderPublicSettings}from'./storefront.js?v=20261025-v15';
 import'./cart-auth.js?v=20261024-v13';
 import{bindPhones,bindPasswordButtons}from'./forms.js?v=20261024-v13';
 bindPhones();bindPasswordButtons();
@@ -52,7 +52,7 @@ function updateDetail(){const config=calculated(detail.p,detail.selections);docu
 handle('[data-detail-qty]',async b=>{await catalogReady;detail.quantity=Math.max(1,Math.min(99,detail.quantity+Number(b.dataset.detailQty)));updateDetail();});
 handle('#detail-add',async()=>{await ready;const cart=await request('/api/cart',{productId:detail.p.id,quantity:detail.quantity,selections:detail.selections},'POST');setCart(cart);toast(`${detail.p.name} — в корзине`);});
 let installPrompt;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;});
-handle('#install-app',async()=>{if(installPrompt){await installPrompt.prompt();const result=await installPrompt.userChoice;document.querySelector('#install-status').textContent=result.outcome==='accepted'?'Приложение добавлено.':'Можно установить приложение позже.';installPrompt=null;}else{document.querySelector('#install-instructions').scrollIntoView({behavior:reduce.matches?'instant':'smooth'});document.querySelector('#install-status').textContent='Следуйте инструкции ниже для вашего браузера.';}});
+handle('#install-app',async()=>{if(installPrompt){await installPrompt.prompt();const result=await installPrompt.userChoice;document.querySelector('#install-status').textContent=result.outcome==='accepted'?'Приложение добавлено.':'Можно установить приложение позже.';installPrompt=null;}else{document.querySelector('#install-instructions').scrollIntoView({behavior:reduce.matches?'instant':'smooth'});document.querySelector('#install-status').textContent='Откройте инструкцию для своего устройства выше: нажмите на вопрос со знаком «+».';}});
 if('serviceWorker'in navigator)navigator.serviceWorker.register('/sw.js').catch(()=>{});
 function publicCatalogChanged(){renderPublicCatalog();sections=[...document.querySelectorAll('[data-section]')];categoryLinks=[...document.querySelectorAll('[data-category]')];activeId='';updateActive();renderSpecial();renderDetail();carouselState();updateState();document.dispatchEvent(new CustomEvent('mh:catalog-rendered'));}
 document.addEventListener('mh:catalog',publicCatalogChanged);

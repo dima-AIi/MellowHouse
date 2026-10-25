@@ -37,7 +37,9 @@ async function get(path,kind='json'){
    const contentType=response.headers.get('content-type')??'';
    if(!response.ok)throw new Error(path+': HTTP '+response.status);
    if(kind==='json'){if(!contentType.includes('application/json'))throw new Error('Origin is waking up');return await response.json();}
-   return sanitizePage(await response.text());
+   const html=sanitizePage(await response.text());
+   if(['/App','/Delivery'].includes(path)&&!html.includes('data-guide-version="15"'))throw new Error('Waiting for the updated guide pages on Render');
+   return html;
   }catch(error){last=error;await new Promise(resolve=>setTimeout(resolve,2500));}
  }
  throw new Error('Cannot export '+path+': '+last?.message);
