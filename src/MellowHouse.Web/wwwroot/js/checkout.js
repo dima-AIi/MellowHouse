@@ -1,8 +1,8 @@
-import{image,imageSet}from'./product-images.js?v=20261025-v16';
-import{validPhone,bindPhones}from'./forms.js?v=20261025-v16';
-import{app,request,setCart,updateState,money,esc,totals,icon,busy,toast}from'./core.js?v=20261025-v16';
-import{openAuth}from'./cart-auth.js?v=20261025-v16';
-import{rememberGuestOrder,orderUrl}from'./guest-orders.js?v=20261025-v16';
+import{image,imageSet}from'./product-images.js?v=20261026-v17';
+import{validPhone,bindPhones}from'./forms.js?v=20261026-v17';
+import{app,request,setCart,updateState,money,esc,totals,icon,busy,toast}from'./core.js?v=20261026-v17';
+import{openAuth}from'./cart-auth.js?v=20261026-v17';
+import{rememberGuestOrder,orderUrl}from'./guest-orders.js?v=20261026-v17';
 export async function initCheckout(){
  const form=document.querySelector('#checkout-form');
  document.querySelector('#checkout-auth-notice').hidden=app.state.authenticated;

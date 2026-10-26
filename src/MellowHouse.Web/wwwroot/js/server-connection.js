@@ -1,4 +1,5 @@
-// Only safe, read-only requests may be retried while a free Render instance starts.
+// Retry startup reads, or the dedicated browser-cart sync protected by a server receipt.
+// Ordinary cart mutations, checkout and payments must never use this retry loop.
 export async function readWhenReady(read,{timeout=180000,delay=2500,now=Date.now,sleep=ms=>new Promise(r=>setTimeout(r,ms)),onWaiting=()=>{}}={}){
  const start=now();let last;
  while(now()-start<timeout){

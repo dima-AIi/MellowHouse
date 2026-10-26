@@ -1,9 +1,9 @@
-import{app,ready,catalogReady,request,refresh,setCart,updateState,money,esc,product,defaults,calculated,configure,card,toast,handle}from'./core.js?v=20261025-v16';
-import{renderPublicCatalog,renderPublicSettings}from'./storefront.js?v=20261025-v16';
-import'./cart-auth.js?v=20261025-v16';
-import{bindPhones,bindPasswordButtons}from'./forms.js?v=20261025-v16';
+import{app,ready,catalogReady,addCart,request,refresh,setCart,updateState,money,esc,product,defaults,calculated,configure,card,toast,handle}from'./core.js?v=20261026-v17';
+import{renderPublicCatalog,renderPublicSettings}from'./storefront.js?v=20261026-v17';
+import'./cart-auth.js?v=20261026-v17';
+import{bindPhones,bindPasswordButtons}from'./forms.js?v=20261026-v17';
 bindPhones();bindPasswordButtons();
-import'./experience.js?v=20261025-v16';
+import'./experience.js?v=20261026-v17';
 document.documentElement.classList.add('js-ready');
 const reduce=matchMedia('(prefers-reduced-motion: reduce)');
 const menuButton=document.querySelector('#mobile-menu-button'),mobileNav=document.querySelector('#mobile-nav');
@@ -50,15 +50,16 @@ let detail=null;
 function renderDetail(){const host=document.querySelector('[data-product-detail]');if(!host)return;const p=product(host.dataset.productDetail);if(!p)return;const old=detail?.p.id===p.id?detail:null;const selections=defaults(p);if(old)for(const group of p.groups){const chosen=(old.selections[group.id]??[]).filter(id=>group.options.some(o=>o.id===id));if(chosen.length||!group.required)selections[group.id]=chosen;}detail={p,quantity:old?.quantity??1,selections};configure(document.querySelector('#product-options'),p,detail.selections,updateDetail);}
 function updateDetail(){const config=calculated(detail.p,detail.selections);document.querySelector('#detail-quantity').textContent=detail.quantity;document.querySelector('#detail-price').textContent=money(config.price*detail.quantity);document.querySelector('#detail-button-price').textContent=money(config.price*detail.quantity);document.querySelector('#product-allergens').textContent=config.allergens.length?'По выбранной рецептуре: '+config.allergens.join(', '):'В составе отмеченных аллергенов нет. Это не гарантия отсутствия следов.';document.querySelector('#recipe-changes').textContent='Выбранная конфигурация: '+config.summary.join(', ');}
 handle('[data-detail-qty]',async b=>{await catalogReady;detail.quantity=Math.max(1,Math.min(99,detail.quantity+Number(b.dataset.detailQty)));updateDetail();});
-handle('#detail-add',async()=>{await ready;const cart=await request('/api/cart',{productId:detail.p.id,quantity:detail.quantity,selections:detail.selections},'POST');setCart(cart);toast(`${detail.p.name} — в корзине`);});
+handle('#detail-add',async()=>{await catalogReady;const cart=await addCart({productId:detail.p.id,quantity:detail.quantity,selections:detail.selections});setCart(cart);toast(`${detail.p.name} — в корзине`);});
 let installPrompt;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;});
 handle('#install-app',async()=>{if(installPrompt){await installPrompt.prompt();const result=await installPrompt.userChoice;document.querySelector('#install-status').textContent=result.outcome==='accepted'?'Приложение добавлено.':'Можно установить приложение позже.';installPrompt=null;}else{document.querySelector('#install-instructions').scrollIntoView({behavior:reduce.matches?'instant':'smooth'});document.querySelector('#install-status').textContent='Откройте инструкцию для своего устройства выше: нажмите на вопрос со знаком «+».';}});
 if('serviceWorker'in navigator)navigator.serviceWorker.register('/sw.js').catch(()=>{});
 function publicCatalogChanged(){renderPublicCatalog();sections=[...document.querySelectorAll('[data-section]')];categoryLinks=[...document.querySelectorAll('[data-category]')];activeId='';updateActive();renderSpecial();renderDetail();carouselState();updateState();document.dispatchEvent(new CustomEvent('mh:catalog-rendered'));}
 document.addEventListener('mh:catalog',publicCatalogChanged);
 catalogReady.then(()=>{if(!document.querySelector('[data-product-detail]')||!detail)publicCatalogChanged();}).catch(e=>toast(e.message));
-if(document.documentElement.hasAttribute('data-static-storefront'))request('/site-public.json').then(settings=>{if(!app.state)renderPublicSettings(settings);}).catch(()=>{});
+if(document.documentElement.hasAttribute('data-static-storefront'))request('/site-public.json').then(settings=>{app.publicSettings=settings;if(!app.state)renderPublicSettings(settings);}).catch(()=>{});
 ready.then(()=>renderPublicSettings(app.state.settings)).catch(()=>{});
-ready.then(async()=>{renderSpecial();renderDetail();if(new URLSearchParams(location.search).get('cart')==='1'){document.querySelector('[data-open-cart]').click();history.replaceState(null,'',location.pathname+location.hash);}if(document.querySelector('#reset-password-form'))await(await import('./experience.js?v=20261025-v16')).initReset();if(document.querySelector('#checkout-form'))await(await import('./checkout.js?v=20261025-v16')).initCheckout();if(document.querySelector('#payment-page')||document.querySelector('#order-page')||document.querySelector('#account-content'))await(await import('./orders.js?v=20261025-v16')).initOrders();}).catch(e=>toast(e.message));
+catalogReady.then(()=>{if(new URLSearchParams(location.search).get('cart')==='1'){document.querySelector('[data-open-cart]').click();history.replaceState(null,'',location.pathname+location.hash);}}).catch(()=>{});
+ready.then(async()=>{renderSpecial();renderDetail();if(document.querySelector('#reset-password-form'))await(await import('./experience.js?v=20261026-v17')).initReset();if(document.querySelector('#checkout-form'))await(await import('./checkout.js?v=20261026-v17')).initCheckout();if(document.querySelector('#payment-page')||document.querySelector('#order-page')||document.querySelector('#account-content'))await(await import('./orders.js?v=20261026-v17')).initOrders();}).catch(e=>toast(e.message));
 
 ready.then(()=>{if(location.pathname!=='/Menu'||!['recommended','favorites'].includes(new URLSearchParams(location.search).get('tab'))||new URLSearchParams(location.search).has('cart'))return;let interrupted=false;const align=()=>{const target=document.querySelector('#special-products');if(!target||interrupted)return;const header=document.querySelector('.site-header')?.getBoundingClientRect().height??80;const toolbar=document.querySelector('.catalog-toolbar')?.getBoundingClientRect().height??60;scrollTo({top:Math.max(0,scrollY+target.getBoundingClientRect().top-header-toolbar-20),behavior:'instant'});};for(const event of['wheel','touchstart'])window.addEventListener(event,()=>{interrupted=true;},{once:true,passive:true});requestAnimationFrame(align);if(document.readyState!=='complete')window.addEventListener('load',align,{once:true});});

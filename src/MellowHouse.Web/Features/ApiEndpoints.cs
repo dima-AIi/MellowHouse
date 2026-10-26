@@ -27,6 +27,8 @@ public static class ApiEndpoints
         app.MapPost("/api/products/{id}/price", async (string id, Dictionary<string, string[]> input, ShopDbContext db, CancellationToken ct) =>
             Results.Ok(Pricing.Calculate((await db.Products.Include(x=>x.Category).SingleOrDefaultAsync(x=>x.Id==id,ct) ?? throw new ShopException("Товар не найден.", 404)).View(), input)));
         app.MapGet("/api/cart", async (HttpContext h, CartService c, CancellationToken ct) => Results.Ok(await c.ViewAsync(IdentityContext.Owner(h), ct)));
+        app.MapPost("/api/cart/browser-sync",async(BrowserCartRequest r,HttpContext h,BrowserCartSync sync,CancellationToken ct)=>
+            Results.Ok(await sync.MergeAsync(IdentityContext.Owner(h),r,ct)));
         app.MapPost("/api/cart/product/{id}",async(string id,ProductQuantityChange r,HttpContext h,CartService c,CancellationToken ct)=>
         {await c.AdjustProductAsync(IdentityContext.Owner(h),id,r.Delta,ct);return Results.Ok(await c.ViewAsync(IdentityContext.Owner(h),ct));});
         app.MapPost("/api/cart", async (CartChange r, HttpContext h, CartService c, CancellationToken ct) =>
