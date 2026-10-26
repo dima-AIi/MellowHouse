@@ -1,4 +1,4 @@
-const CACHE='mellowhouse-static-v18';
+const CACHE='mellowhouse-static-v19';
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(['/offline.html','/css/offline.css','/images/pwa-192.png','/images/pwa-512.png'])));self.skipWaiting();});
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('mellowhouse-static-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',event=>{const request=event.request,url=new URL(request.url);if(url.origin!==self.location.origin||request.method!=='GET'||url.pathname.startsWith('/api/')||url.pathname==='/health')return;if(request.mode==='navigate'){event.respondWith(fetch(request).catch(()=>caches.match('/offline.html')));return;}if(!/^\/(images|fonts|css)\//.test(url.pathname))return;event.respondWith(caches.match(request).then(cached=>cached||fetch(request).then(response=>{if(response.ok){const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(request,copy));}return response;})));});
