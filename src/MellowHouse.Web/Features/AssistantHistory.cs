@@ -54,7 +54,7 @@ public sealed class AssistantHistory(ShopDbContext db)
         // Use the same owner and archive boundary as the customer's history API.
         var query=db.Orders.AsNoTracking().Where(o=>o.CustomerId==customer&&o.Source!=DemoBusiness.ArchivedSource&&(guest?o.Source=="Guest":o.Source!="Guest"));
         if(number is {} requested)query=query.Where(o=>o.Id==requested-1040);
-        else query=query.Where(o=>o.Fulfillment!="Rejected");
+        else query=query.Where(o=>o.Fulfillment!="Rejected"&&o.Fulfillment!="Cancelled");
         if(day is {} selected){var start=selected.ToDateTime(TimeOnly.MinValue,DateTimeKind.Utc).AddHours(-3);var end=start.AddDays(1);query=query.Where(o=>o.CreatedUtc>=start&&o.CreatedUtc<end);}
         var orders=await query.OrderByDescending(o=>o.CreatedUtc).ThenByDescending(o=>o.Id).ToArrayAsync(ct);
         if(number.HasValue&&orders.Length==0)return new($"Заказ MH-{number} не найден в вашей истории. Проверьте номер в профиле. Другой заказ вместо него не выбираю.",[],["Покажи мой последний заказ"]);

@@ -1,7 +1,7 @@
-import{image,imageSet}from'./product-images.js?v=20261026-v17';
-import{readChat,writeChat}from'./chat-session.js?v=20261026-v17';
-import{openAuth}from'./cart-auth.js?v=20261026-v17';
-import{app,ready,catalogReady,request,setCart,money,esc,product,defaults,calculated,configure,busy,toast,handle}from'./core.js?v=20261026-v17';
+import{image,imageSet}from'./product-images.js?v=20261026-v18';
+import{readChat,writeChat}from'./chat-session.js?v=20261026-v18';
+import{openAuth}from'./cart-auth.js?v=20261026-v18';
+import{app,ready,catalogReady,request,setCart,money,esc,product,defaults,calculated,configure,busy,toast,handle}from'./core.js?v=20261026-v18';
 const reduce=matchMedia('(prefers-reduced-motion: reduce)');
 const video=document.querySelector('#menu-video');
 if(video){let userPaused=false,inView=false;const status=document.querySelector('#video-status');

@@ -8,11 +8,11 @@ public static class OrderWorkflow
         "New"=>"Заказ получен","Accepted"=>"Принят","Preparing"=>"Готовится",
         "Ready"=>method=="delivery"?"Готов к отправке":"Готов к выдаче",
         "OutForDelivery"=>"У курьера","Completed"=>method=="delivery"?"Доставлен":"Выдан",
-        "Rejected"=>"Отклонён",_=>stage
+        "Rejected"=>"Отклонён","Cancelled"=>"Отменён клиентом",_=>stage
     };
     public static string[] Next(Order order,string? method)
     {
-        if(order.Fulfillment is "Completed" or "Rejected")return [];
+        if(order.Fulfillment is "Completed" or "Rejected" or "Cancelled")return [];
         if(order.Status=="Refunded"||order.PaidUtc is null&&!PaymentMethods.AtPickup(order.PaymentMethod))return ["Rejected"];
         var next=order.Fulfillment switch
         {

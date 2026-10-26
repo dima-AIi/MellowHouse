@@ -8,11 +8,12 @@ public sealed record OrderLineSnapshot(string ProductId,string Name,string Image
 public sealed record OrderEventView(string Status,string Note,DateTime CreatedUtc);
 public sealed record RefundLine(int Index,int Quantity);
 public sealed record RefundView(Guid Id,int Amount,int Delivery,string Reason,RefundLine[] Lines,DateTime CreatedUtc);
-public sealed record OrderView(Guid Id,string Number,string Status,OrderLineSnapshot[] Items,CheckoutRequest Checkout,int Subtotal,int Delivery,int Total,DateTime CreatedUtc,string PaymentMethod,string Fulfillment="New",int Refunded=0,OrderEventView[]? Events=null,RefundView[]? Refunds=null,string Source="Web",string[]? AllowedTransitions=null,bool Guest=false,string? GuestAccessToken=null);
+public sealed record OrderView(Guid Id,string Number,string Status,OrderLineSnapshot[] Items,CheckoutRequest Checkout,int Subtotal,int Delivery,int Total,DateTime CreatedUtc,string PaymentMethod,string Fulfillment="New",int Refunded=0,OrderEventView[]? Events=null,RefundView[]? Refunds=null,string Source="Web",string[]? AllowedTransitions=null,bool Guest=false,string? GuestAccessToken=null,bool CanCancel=false);
 public sealed record PaymentRequest(string AttemptKey,string Result);
 public sealed record TransitionRequest(string Status,string? Reason);
 public sealed record RefundRequest(string RequestKey,string Reason,RefundLine[] Lines,bool Delivery);
 public sealed record ReceiptRequest(string RequestKey,string Method);
+public sealed record CancelOrderRequest(string RequestKey);
 public sealed record ManualOrderRequest(Guid? CustomerId,CheckoutRequest Checkout,CartChange[] Lines);
 public interface IPaymentProvider { Task<string> ResolveAsync(string result,CancellationToken ct); }
 public sealed class LocalPaymentProvider:IPaymentProvider
@@ -29,7 +30,7 @@ public sealed class OrderService(ShopDbContext db,CartService carts,SiteService 
     public static OrderView View(Order o,OrderEventView[]? events=null,RefundView[]? refunds=null)
     {
         var checkout=JsonSerializer.Deserialize<CheckoutRequest>(o.CheckoutJson,JsonDefaults.Options)!;
-        return new(o.PublicId,$"MH-{o.Id+1040}",o.Status,Lines(o),checkout,o.Subtotal,o.Delivery,o.Total,o.CreatedUtc,o.PaymentMethod,o.Fulfillment,o.Refunded,events,refunds,o.Source,OrderWorkflow.Next(o,checkout?.Method),o.Source=="Guest");
+        return new(o.PublicId,$"MH-{o.Id+1040}",o.Status,Lines(o),checkout,o.Subtotal,o.Delivery,o.Total,o.CreatedUtc,o.PaymentMethod,o.Fulfillment,o.Refunded,events,refunds,o.Source,OrderWorkflow.Next(o,checkout?.Method),o.Source=="Guest",CanCancel:o.Fulfillment is not("Completed" or "Rejected" or "Cancelled"));
     }
     public async Task<OrderView> CreateAsync(Guid customer,CheckoutRequest r,CancellationToken ct=default)=>await CreateCoreAsync(customer,"u:"+customer,r,"Web",ct);
     public async Task<OrderView> CreateGuestAsync(Guid visitor,CheckoutRequest r,CancellationToken ct=default)=>await CreateCoreAsync(visitor,"g:"+visitor,r,"Guest",ct);
@@ -79,8 +80,8 @@ public sealed class OrderService(ShopDbContext db,CartService carts,SiteService 
     {
         ValidateKey(r.AttemptKey);var result=await payments.ResolveAsync(r.Result,ct);
         await using var tx=await db.Database.BeginTransactionAsync(ct);var order=await FindAsync(customer,id,ct);
+        if(order.Fulfillment is "Rejected" or "Cancelled")throw new ShopException("Заказ отменён или отклонён. Оплата недоступна.",409);
         if(order.PaidUtc is not null)return View(order);
-        if(order.Fulfillment=="Rejected")throw new ShopException("Заказ отклонён. Оплата недоступна.",409);
         if(PaymentMethods.AtPickup(order.PaymentMethod))throw new ShopException("Этот заказ оплачивается при получении.");
         if(await db.PaymentAttempts.AnyAsync(x=>x.OrderId==order.Id&&x.AttemptKey==r.AttemptKey,ct))return View(order);
         db.PaymentAttempts.Add(new(){OrderId=order.Id,AttemptKey=r.AttemptKey,Result=result});order.Revision++;
@@ -96,7 +97,7 @@ public sealed class OrderService(ShopDbContext db,CartService carts,SiteService 
     public async Task<OrderView> ChangeMethodAsync(Guid customer,Guid id,string method,CancellationToken ct=default)
     {
         var s=await site.GetAsync(ct);if(!s.PaymentMethods.Contains(method))throw new ShopException("Способ оплаты недоступен.");
-        var o=await FindAsync(customer,id,ct);if(o.PaidUtc is not null||PaymentMethods.AtPickup(o.PaymentMethod)||o.Fulfillment=="Rejected")throw new ShopException("Способ оплаты этого заказа уже нельзя изменить.",409);
+        var o=await FindAsync(customer,id,ct);if(o.PaidUtc is not null||PaymentMethods.AtPickup(o.PaymentMethod)||o.Fulfillment is "Rejected" or "Cancelled")throw new ShopException("Способ оплаты этого заказа уже нельзя изменить.",409);
         await using var tx=await db.Database.BeginTransactionAsync(ct);
         o.PaymentMethod=method;o.Status="Pending";o.Revision++;
         if(PaymentMethods.AtPickup(method)){await ClearPurchasedAsync(PurchaseOwner(o),o,ct);db.OrderEvents.Add(new(){OrderId=o.Id,Status="New",Note="Выбрана оплата при получении."});}
@@ -107,13 +108,36 @@ public sealed class OrderService(ShopDbContext db,CartService carts,SiteService 
         var o=await FindAsync(customer,id,ct);var warnings=new List<string>();await using var tx=await db.Database.BeginTransactionAsync(ct);
         foreach(var line in Lines(o)){try{await carts.AddAsync("u:"+customer,new(line.ProductId,Pricing.Parse(line.Configuration),line.Quantity),ct);}catch(ShopException e){warnings.Add($"{line.Name}: {e.Message}");}}await tx.CommitAsync(ct);return warnings.ToArray();
     }
+    public async Task<OrderView> CancelAsync(Guid customer,Guid id,CancelOrderRequest request,CancellationToken ct=default)
+    {
+        ValidateKey(request.RequestKey);
+        await using var tx=await db.Database.BeginTransactionAsync(ct);
+        var order=await FindAsync(customer,id,ct);
+        if(order.Fulfillment=="Cancelled")return await DetailedAsync(order,ct);
+        if(order.Fulfillment is "Completed" or "Rejected")throw new ShopException("Этот заказ уже завершён. Если нужна помощь с возвратом, свяжитесь с кафе.",409);
+        if(order.PaidUtc is not null&&order.Refunded<order.Total)
+        {
+            var previous=await db.OrderRefunds.Where(x=>x.OrderId==order.Id).ToArrayAsync(ct);
+            var returned=previous.SelectMany(x=>JsonSerializer.Deserialize<RefundLine[]>(x.LinesJson,JsonDefaults.Options)??[]).GroupBy(x=>x.Index).ToDictionary(x=>x.Key,x=>x.Sum(l=>l.Quantity));
+            var remaining=Lines(order).Select((line,index)=>new RefundLine(index,line.Quantity-returned.GetValueOrDefault(index))).Where(l=>l.Quantity>0).ToArray();
+            var amount=order.Total-order.Refunded;
+            db.OrderRefunds.Add(new(){OrderId=order.Id,ActorId=customer,RequestKey="customer-cancel:"+request.RequestKey,Reason="Отмена заказа клиентом (демонстрационная оплата)",Amount=amount,Delivery=order.Delivery-previous.Sum(x=>x.Delivery),LinesJson=JsonSerializer.Serialize(remaining,JsonDefaults.Options)});
+            order.Refunded=order.Total;order.Status="Refunded";
+            db.OrderEvents.Add(new(){OrderId=order.Id,ActorId=customer,Status="Refund",Note=$"Возврат {amount} ₽ после отмены клиентом. Тестовая оплата: реального списания не было."});
+        }
+        else if(order.PaidUtc is null)order.Status="Cancelled";
+        order.Fulfillment="Cancelled";order.Revision++;
+        db.OrderEvents.Add(new(){OrderId=order.Id,ActorId=customer,Status="Cancelled",Note="Заказ отменён клиентом."});
+        Audit.Log(db,customer,"order.customer-cancel",id.ToString());
+        await db.SaveChangesAsync(ct);await tx.CommitAsync(ct);return await DetailedAsync(order,ct);
+    }
     public async Task<Order> AdminFindAsync(Guid id,CancellationToken ct)=>await db.Orders.SingleOrDefaultAsync(x=>x.PublicId==id&&x.Source!=DemoBusiness.ArchivedSource,ct)??throw new ShopException("Заказ не найден.",404);
     public async Task TransitionAsync(Guid id,TransitionRequest r,Guid actor,CancellationToken ct)
     {
         var o=await AdminFindAsync(id,ct);if(o.Fulfillment==r.Status)return;
         var checkout=View(o).Checkout;
         var allowed=new[]{"New","Accepted","Preparing","Ready","OutForDelivery","Completed","Rejected"};
-        if(!allowed.Contains(r.Status)||o.Fulfillment is "Completed" or "Rejected")throw new ShopException("Заказ завершён либо указан неизвестный статус.",409);
+        if(!allowed.Contains(r.Status)||o.Fulfillment is "Completed" or "Rejected" or "Cancelled")throw new ShopException("Заказ завершён либо указан неизвестный статус.",409);
         if(r.Status=="OutForDelivery"&&checkout.Method!="delivery")throw new ShopException("Самовывоз не передают курьеру.",409);
         if(r.Status!="Rejected"&&o.PaidUtc is null&&!PaymentMethods.AtPickup(o.PaymentMethod))throw new ShopException("Сначала дождитесь оплаты заказа.",409);
         if(r.Status=="Completed"&&o.PaidUtc is null)throw new ShopException("Перед завершением отметьте оплату при получении.",409);
@@ -123,7 +147,7 @@ public sealed class OrderService(ShopDbContext db,CartService carts,SiteService 
     }
     public async Task ReceiptAsync(Guid id,ReceiptRequest r,Guid actor,CancellationToken ct)
     {
-        ValidateKey(r.RequestKey);var o=await AdminFindAsync(id,ct);if(o.PaidUtc is not null)return;
+        ValidateKey(r.RequestKey);var o=await AdminFindAsync(id,ct);if(o.Fulfillment=="Cancelled")throw new ShopException("Отменённый заказ нельзя оплатить.",409);if(o.PaidUtc is not null)return;
         if(!PaymentMethods.AtPickup(o.PaymentMethod)||!PaymentMethods.AtPickup(r.Method)||o.Fulfillment=="Rejected")throw new ShopException("Оплату при получении нельзя отметить для этого заказа.",409);
         o.Status="Paid";o.PaidUtc=DateTime.UtcNow;o.PaymentMethod=r.Method;o.Revision++;db.PaymentAttempts.Add(new(){OrderId=o.Id,AttemptKey=r.RequestKey,Result="receipt"});
         db.OrderEvents.Add(new(){OrderId=o.Id,ActorId=actor,Status="Paid",Note="Оплата при получении отмечена сотрудником."});Audit.Log(db,actor,"order.receipt",id.ToString());await db.SaveChangesAsync(ct);

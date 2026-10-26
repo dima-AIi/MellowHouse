@@ -113,3 +113,20 @@
  .delivery-timing p,.delivery-payment>p{font-size:14px}
  .delivery-payment{margin-bottom:36px}
 }
+.card-actions .card-price{flex:0 0 auto;margin:0;white-space:nowrap;font-variant-numeric:tabular-nums}
+.card-actions .card-controls{display:flex;align-items:center;justify-content:flex-end;gap:8px;margin-left:auto;flex:0 0 auto}
+.card-controls .favorite,.card-controls .add-control,.card-controls .round-btn{margin-left:0}
+.card-actions:has(.has-items){flex-wrap:nowrap}
+.card-actions:has(.has-items) .card-controls .add-control{margin-left:0;flex-basis:auto}
+.popular .card-copy{padding:16px 18px 18px;border:1px solid #ffffff24;border-radius:12px;background:#ffffff08}
+.popular .card-copy h3{margin:0 0 14px;min-height:2.6em;display:grid;place-items:center}
+.popular .card-actions{max-width:none;justify-content:space-between;gap:12px;flex-wrap:nowrap}
+.popular .card-price{padding:5px 12px;border-radius:7px;background:#ffffff14;font-size:23px}
+.option-help{font-size:12px;line-height:1.6;color:#52675b;margin:4px 0 10px}
+.option-tile small,.option-check small{font-variant-numeric:tabular-nums;line-height:1.5}
+.order-cancel{margin-top:18px;padding-top:18px;border-top:1px solid var(--border)}
+.order-cancel p{font-size:13px;line-height:1.7;color:#52675b;max-width:55ch}
+.order-cancel .btn{color:#8f3325;border-color:#c8a59d}
+.cancel-order-dialog{max-width:460px;width:calc(100% - 32px);border:0;border-radius:12px;padding:26px}
+.cancel-order-dialog p{font-size:14px;line-height:1.7}
+@media(max-width:700px){.card-actions,.card-actions:has(.has-items){display:grid;grid-template-columns:1fr;gap:10px}.card-actions .card-controls{justify-self:end;margin:0;gap:6px}.card-actions .card-controls .favorite{display:grid;margin:0;flex:0 0 32px;width:32px}.card-controls .add-control.has-items .round-btn{width:32px;height:38px}.card-actions:has(.has-items) .card-controls .add-control{flex-basis:auto;justify-content:center;margin:0}.popular .card-copy{padding:12px}.popular .card-actions,.popular .card-actions:has(.has-items){display:flex;gap:8px}.popular .card-copy h3{font-size:22px;min-height:2.6em}.popular .card-price{font-size:20px;padding:4px 8px}.popular .card-controls .favorite{display:none}.cancel-order-dialog{padding:22px}}

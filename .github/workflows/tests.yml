@@ -33,7 +33,7 @@ jobs:
       - name: Server and access tests
         run: dotnet test tests/MellowHouse.Tests/MellowHouse.Tests.csproj --logger "trx;LogFileName=project-tests.trx" --verbosity minimal
       - name: Browser logic tests
-        run: node --test tools/static-storefront-v13.test.mjs tools/order-status-v8.test.mjs tools/chat-session-v10.test.mjs tools/form-guard-v12.test.mjs tools/browser-cart-v17.test.mjs
+        run: node --test tools/static-storefront-v13.test.mjs tools/order-status-v8.test.mjs tools/chat-session-v10.test.mjs tools/form-guard-v12.test.mjs tools/browser-cart-v17.test.mjs tools/product-options-v18.test.mjs
       - name: Save test results
         if: always()
         uses: actions/upload-artifact@v4
