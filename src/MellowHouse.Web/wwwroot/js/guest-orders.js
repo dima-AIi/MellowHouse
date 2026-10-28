@@ -1,4 +1,4 @@
-import{request}from'./core.js?v=20261026-v18';
+import{request}from'./core.js?v=20261028-v20';
 const key=id=>'mh.guest-order.'+id;
 export function rememberGuestOrder(order){
  if(order.guestAccessToken){try{sessionStorage.setItem(key(order.id),order.guestAccessToken);sessionStorage.setItem('mh.guest-last',order.id);}catch{}}

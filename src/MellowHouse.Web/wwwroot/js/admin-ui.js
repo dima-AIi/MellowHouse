@@ -1,8 +1,8 @@
-import{fulfillmentLabel}from'./order-status.js?v=20261026-v18';
+import{fulfillmentLabel}from'./order-status.js?v=20261028-v20';
 export{fulfillmentLabel};
-import{app,request,money,esc,toast,busy,configure,defaults,calculated}from'./core.js?v=20261026-v18';
+import{app,request,money,esc,toast,busy,configure,defaults,calculated}from'./core.js?v=20261028-v20';
 export{app,request,money,esc,toast,busy,configure,defaults,calculated};
-import{watchForm}from'./form-guard.js?v=20261026-v18';
+import{watchForm}from'./form-guard.js?v=20261028-v20';
 let serial=0;
 export const date=value=>value?new Intl.DateTimeFormat('ru-RU',{dateStyle:'short',timeStyle:'short',timeZone:'Europe/Moscow'}).format(new Date(value.endsWith('Z')?value:value+'Z')):'—';
 export const today=()=>new Date().toLocaleDateString('en-CA',{timeZone:'Europe/Moscow'});

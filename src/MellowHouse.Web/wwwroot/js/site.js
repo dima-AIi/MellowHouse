@@ -1,15 +1,13 @@
-import{app,ready,catalogReady,addCart,request,refresh,setCart,updateState,money,esc,product,defaults,calculated,configure,card,toast,handle}from'./core.js?v=20261026-v18';
-import{renderPublicCatalog,renderPublicSettings}from'./storefront.js?v=20261026-v18';
-import'./cart-auth.js?v=20261026-v18';
-import{bindPhones,bindPasswordButtons}from'./forms.js?v=20261026-v18';
+import{app,ready,catalogReady,addCart,request,refresh,setCart,updateState,money,esc,product,defaults,calculated,configure,card,toast,handle}from'./core.js?v=20261028-v20';
+import{renderPublicCatalog,renderPublicSettings}from'./storefront.js?v=20261028-v20';
+import'./cart-auth.js?v=20261028-v20';
+import{bindPhones,bindPasswordButtons}from'./forms.js?v=20261028-v20';
 bindPhones();bindPasswordButtons();
-import'./experience.js?v=20261026-v18';
+import'./experience.js?v=20261028-v20';
 document.documentElement.classList.add('js-ready');
 const reduce=matchMedia('(prefers-reduced-motion: reduce)');
-const menuButton=document.querySelector('#mobile-menu-button'),mobileNav=document.querySelector('#mobile-nav');
-menuButton.addEventListener('click',()=>{const open=mobileNav.hidden;mobileNav.hidden=!open;menuButton.setAttribute('aria-expanded',String(open));menuButton.setAttribute('aria-label',open?'Закрыть навигацию':'Открыть навигацию');});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!mobileNav.hidden){mobileNav.hidden=true;menuButton.setAttribute('aria-expanded','false');menuButton.setAttribute('aria-label','Открыть навигацию');menuButton.focus();}});
-mobileNav.addEventListener('click',e=>{if(e.target.closest('a')){mobileNav.hidden=true;menuButton.setAttribute('aria-expanded','false');menuButton.setAttribute('aria-label','Открыть навигацию');}});
+import'./mobile-v20.js?v=20261028-v20';
+
 document.querySelectorAll('.desktop-nav a').forEach(a=>{if(new URL(a.href).pathname===location.pathname)a.setAttribute('aria-current','page');});
 const requestedTab=new URLSearchParams(location.search).get('tab');
 const currentTab=document.querySelector('[data-menu-tab]')?(requestedTab==='favorites'||requestedTab==='recommended'?requestedTab:'menu'):undefined;
@@ -60,6 +58,6 @@ catalogReady.then(()=>{if(!document.querySelector('[data-product-detail]')||!det
 if(document.documentElement.hasAttribute('data-static-storefront'))request('/site-public.json').then(settings=>{app.publicSettings=settings;if(!app.state)renderPublicSettings(settings);}).catch(()=>{});
 ready.then(()=>renderPublicSettings(app.state.settings)).catch(()=>{});
 catalogReady.then(()=>{if(new URLSearchParams(location.search).get('cart')==='1'){document.querySelector('[data-open-cart]').click();history.replaceState(null,'',location.pathname+location.hash);}}).catch(()=>{});
-ready.then(async()=>{renderSpecial();renderDetail();if(document.querySelector('#reset-password-form'))await(await import('./experience.js?v=20261026-v18')).initReset();if(document.querySelector('#checkout-form'))await(await import('./checkout.js?v=20261026-v18')).initCheckout();if(document.querySelector('#payment-page')||document.querySelector('#order-page')||document.querySelector('#account-content'))await(await import('./orders.js?v=20261026-v18')).initOrders();}).catch(e=>toast(e.message));
+ready.then(async()=>{renderSpecial();renderDetail();if(document.querySelector('#reset-password-form'))await(await import('./experience.js?v=20261028-v20')).initReset();if(document.querySelector('#checkout-form'))await(await import('./checkout.js?v=20261028-v20')).initCheckout();if(document.querySelector('#payment-page')||document.querySelector('#order-page')||document.querySelector('#account-content'))await(await import('./orders.js?v=20261028-v20')).initOrders();}).catch(e=>toast(e.message));
 
 ready.then(()=>{if(location.pathname!=='/Menu'||!['recommended','favorites'].includes(new URLSearchParams(location.search).get('tab'))||new URLSearchParams(location.search).has('cart'))return;let interrupted=false;const align=()=>{const target=document.querySelector('#special-products');if(!target||interrupted)return;const header=document.querySelector('.site-header')?.getBoundingClientRect().height??80;const toolbar=document.querySelector('.catalog-toolbar')?.getBoundingClientRect().height??60;scrollTo({top:Math.max(0,scrollY+target.getBoundingClientRect().top-header-toolbar-20),behavior:'instant'});};for(const event of['wheel','touchstart'])window.addEventListener(event,()=>{interrupted=true;},{once:true,passive:true});requestAnimationFrame(align);if(document.readyState!=='complete')window.addEventListener('load',align,{once:true});});

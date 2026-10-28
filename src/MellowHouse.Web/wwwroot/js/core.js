@@ -1,11 +1,11 @@
-import{optionLabel,optionPrice,optionHelp}from'./product-options.js?v=20261026-v18';
-import{BrowserCart,browserCartKey}from'./browser-cart.js?v=20261026-v18';
-import{image,imageSet}from'./product-images.js?v=20261026-v18';
-import{syncChatOwner}from'./chat-session.js?v=20261026-v18';
-import{readWhenReady,isJsonResponse}from'./server-connection.js?v=20261026-v18';
+import{optionLabel,optionPrice,optionHelp}from'./product-options.js?v=20261028-v20';
+import{BrowserCart,browserCartKey}from'./browser-cart.js?v=20261028-v20';
+import{image,imageSet}from'./product-images.js?v=20261028-v20';
+import{syncChatOwner}from'./chat-session.js?v=20261028-v20';
+import{readWhenReady,isJsonResponse}from'./server-connection.js?v=20261028-v20';
 export const money=n=>new Intl.NumberFormat('ru-RU',{style:'currency',currency:'RUB',maximumFractionDigits:0}).format(n);
 export const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-export const icon=name=>`<svg aria-hidden="true"><use href="/images/icons.svg#${name}"></use></svg>`;
+export const icon=name=>`<svg aria-hidden="true"><use href="/images/icons.svg?v=20261028-v20#${name}"></use></svg>`;
 export const app={state:null,catalog:null,method:localStorage.getItem('mh.method')==='delivery'?'delivery':'pickup'};
 export class ApiError extends Error{constructor(message,status,field){super(message);this.status=status;this.field=field;}}
 export async function request(path,body,method='GET'){

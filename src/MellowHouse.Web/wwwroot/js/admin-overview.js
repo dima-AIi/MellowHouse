@@ -1,4 +1,4 @@
-import{request,field,header,select,dialog,esc,money,today,empty,toast}from'./admin-ui.js?v=20261026-v18';
+import{request,field,header,select,dialog,esc,money,today,empty,toast}from'./admin-ui.js?v=20261028-v20';
 const labels={rent:'Аренда',payroll:'Команда',utilities:'Коммунальные услуги',marketing:'Реклама',delivery:'Логистика',other:'Прочее'};
 export async function initOverview(host){
  let tab='summary',data,loadSerial=0;const beginning=new Date(today()+'T12:00:00Z');beginning.setUTCMonth(beginning.getUTCMonth()-2);
