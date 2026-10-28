@@ -15,12 +15,13 @@ document.querySelectorAll('[data-tab]').forEach(a=>{if(a.dataset.tab===(currentT
 const reveal=document.querySelector('.reveal-message');
 if(reveal){
  const parts=[...reveal.querySelectorAll('h2,p')];
- const showAll=()=>parts.forEach(part=>part.classList.add('is-in-view'));
- if(reduce.matches||!('IntersectionObserver'in window))showAll();
+ const showAll=()=>{reveal.classList.add('visible');parts.forEach(part=>part.classList.add('is-in-view'));};
+ if(reduce.matches||document.documentElement.classList.contains('mh-welcome-return')||!('IntersectionObserver'in window))showAll();
  else{
   const observer=new IntersectionObserver(entries=>{
-   for(const entry of entries)if(entry.isIntersecting){entry.target.classList.add('is-in-view');observer.unobserve(entry.target);}
-  },{threshold:.35,rootMargin:'0px 0px -18% 0px'});
+   for(const entry of entries)entry.target.classList.toggle('is-in-view',entry.isIntersecting);
+   reveal.classList.toggle('visible',parts.some(part=>part.classList.contains('is-in-view')));
+  },{threshold:.12,rootMargin:'0px 0px -8% 0px'});
   parts.forEach(part=>observer.observe(part));
   reduce.addEventListener('change',e=>{if(e.matches){observer.disconnect();showAll();}});
  }
