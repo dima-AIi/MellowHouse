@@ -23,6 +23,8 @@ public static class AssistantConversation
     public static string[] Suggestions(IEnumerable<Product> products,string? category=null,bool added=false)
     {
         var selected=products.ToArray();
+        if(selected.Any(IsDrink)&&selected.Any(p=>!IsDrink(p)))
+            return ["Другие блюда","Другой напиток","Что в составе?"];
         if(selected.Length>0&&selected.All(IsDrink)||category is "drinks" or "cold" or "warm-drinks" or "coffee" or "tea" or "shakes" or "matcha" or "bubble-tea")
             return added?["Подобрать горячее блюдо","Выбрать десерт","Другой напиток"]
                 :["Другой напиток","Напиток без молока","До 400 рублей"];

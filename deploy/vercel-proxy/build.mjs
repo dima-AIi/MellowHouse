@@ -38,7 +38,7 @@ async function get(path,kind='json'){
    if(!response.ok)throw new Error(path+': HTTP '+response.status);
    if(kind==='json'){if(!contentType.includes('application/json'))throw new Error('Origin is waking up');return await response.json();}
    const html=sanitizePage(await response.text());
-   if(!html.includes('data-storefront-version="23"'))throw new Error('Waiting for restored home layout on Render');
+   if(!html.includes('data-storefront-version="24"'))throw new Error('Waiting for multi-category assistant release on Render');
    return html;
   }catch(error){last=error;await new Promise(resolve=>setTimeout(resolve,2500));}
  }
@@ -71,7 +71,7 @@ export async function build(){
  const media=[...new Set([...catalog.products.map(p=>p.image),...catalog.categories.map(c=>c.image)].filter(p=>/^\/media\/[-a-zA-Z0-9_.]+$/.test(p)))];
  await mkdir(join(assets,'media'),{recursive:true});
  await pool(media,async path=>{const r=await fetch(origin+path,{signal:AbortSignal.timeout(30000)});if(!r.ok||!r.headers.get('content-type')?.startsWith('image/'))throw new Error('Missing public image: '+path);await writeFile(join(assets,path.slice(1)),new Uint8Array(await r.arrayBuffer()));});
- await writeFile(join(assets,'storefront-build.json'),JSON.stringify({version:23,revision:process.env.VERCEL_GIT_COMMIT_SHA??'local',builtAt:new Date().toISOString(),products:catalog.products.length,architecture:'static-vercel-api-render'}));
+ await writeFile(join(assets,'storefront-build.json'),JSON.stringify({version:24,revision:process.env.VERCEL_GIT_COMMIT_SHA??'local',builtAt:new Date().toISOString(),products:catalog.products.length,architecture:'static-vercel-api-render'}));
  await writeFile(join(output,'config.json'),JSON.stringify({version:3,routes:deploymentRoutes(catalog.products.map(p=>p.id))},null,2));
  console.log(`Static storefront: ${pages.length+catalog.products.length+1} pages, ${catalog.products.length} products. Private routes stay uncached on Render.`);
 }

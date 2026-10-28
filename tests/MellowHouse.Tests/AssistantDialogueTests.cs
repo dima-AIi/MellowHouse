@@ -90,4 +90,74 @@ public sealed class AssistantDialogueTests
         public const string Explanation="В латте обычно больше молока, а в капучино заметнее слой молочной пены.";
         public Task<AssistantAnswer> ReplyAsync(string message,CancellationToken ct,string[]? recentQuestions=null)=>Task.FromResult(new AssistantAnswer(Explanation,[],["Подобрать кофе"]));
     }
+
+    [Theory]
+    [InlineData("Хочу кофе и пиццу","coffee","pizza")]
+    [InlineData("Хочу пиццу и кофе","pizza","coffee")]
+    [InlineData("Сэндвич с кофе какой-нибудь","sandwiches","coffee")]
+    [InlineData("Блин, ну ты дурак, покажи уже кофе и пиццу","coffee","pizza")]
+    [InlineData("Салат и чай","salads","tea")]
+    [InlineData("Американо и сэндвич","coffee","sandwiches")]
+    [InlineData("Капучино и чизкейк","coffee","desserts")]
+    [InlineData("Тост с авокадо и кофе","breakfast","coffee")]
+    [InlineData("Матча-латте и пицца","tea","pizza")]
+    public async Task EveryRequestedCategory_HasRealCards_WithoutChangingCart(string question,string first,string second)
+    {
+        using var f=new ShopFactory(samples:true);using var b=new Buyer(f);await b.State();var categories=await Categories(b);
+        var answer=await Ask(b,question);var ids=Values(answer,"productIds");
+        Assert.InRange(ids.Length,2,6);Assert.Contains(ids,id=>categories[id]==first);Assert.Contains(ids,id=>categories[id]==second);
+        Assert.All(ids,id=>Assert.Contains(categories[id],new[]{first,second}));
+        if(question.Contains("сэндвич",StringComparison.OrdinalIgnoreCase))Assert.DoesNotContain("potato-wedges",ids);
+        Assert.Equal(0,(await b.State())["cart"]!["count"]!.GetValue<int>());
+    }
+    [Fact] public async Task ThreeCategories_AndFollowupBudget_KeepTheWholeSet()
+    {
+        using var f=new ShopFactory(samples:true);using var b=new Buyer(f);await b.State();var categories=await Categories(b);
+        const string question="Пицца, кофе и десерт";var answer=await Ask(b,question);
+        foreach(var category in new[]{"pizza","coffee","desserts"})Assert.Contains(Values(answer,"productIds"),id=>categories[id]==category);
+        Assert.InRange(Values(answer,"productIds").Length,3,6);
+        var catalog=(await b.Send("/api/catalog")).Json["products"]!.AsArray();
+        var minimum=new[]{"pizza","coffee","desserts"}.Sum(c=>catalog.Where(p=>p!["categoryId"]!.GetValue<string>()==c).Min(p=>p!["price"]!.GetValue<int>()));
+        var limited=await Ask(b,"До "+minimum+" рублей",[question],Values(answer,"productIds"));
+        var ids=Values(limited,"productIds");Assert.Equal(3,ids.Length);
+        foreach(var category in new[]{"pizza","coffee","desserts"})Assert.Contains(ids,id=>categories[id]==category);
+        Assert.True(ids.Sum(id=>catalog.Single(p=>p!["id"]!.GetValue<string>()==id)!["price"]!.GetValue<int>())<=minimum);
+    }
+    [Theory]
+    [InlineData("Пиццу не хочу, покажи кофе","coffee")]
+    [InlineData("Не хочу пиццу, а кофе хочу","coffee")]
+    [InlineData("Пиццу не хочу вообще, а кофе хочу","coffee")]
+    [InlineData("Кофе, но лучше чай","tea")]
+    [InlineData("Кофе, а нет, лучше чай","tea")]
+    [InlineData("Да чёрт, кофе хочу","coffee")]
+    public async Task NegationCorrectionAndFiller_PreserveTheActualChoice(string question,string expected)
+    {
+        using var f=new ShopFactory(samples:true);using var b=new Buyer(f);await b.State();var categories=await Categories(b);
+        var ids=Values(await Ask(b,question),"productIds");Assert.NotEmpty(ids);Assert.All(ids,id=>Assert.Equal(expected,categories[id]));
+    }
+    [Fact] public async Task ExactNamedProduct_IsKeptAlongsideTheOtherCategory()
+    {
+        using var f=new ShopFactory(samples:true);using var b=new Buyer(f);await b.State();var categories=await Categories(b);
+        var catalog=(await b.Send("/api/catalog")).Json["products"]!.AsArray();var named=catalog.Single(p=>p!["id"]!.GetValue<string>()=="bbq-chicken")!;
+        var ids=Values(await Ask(b,named["name"]!.GetValue<string>()+" и кофе"),"productIds");
+        Assert.Contains("bbq-chicken",ids);Assert.Contains(ids,id=>categories[id]=="coffee");
+        Assert.Single(ids,id=>categories[id]=="sandwiches");
+    }
+    [Fact] public async Task MixedList_OnlyAddsTheRequestedCard_AndAmbiguousBothNeedsClarification()
+    {
+        using var f=new ShopFactory(samples:true);using var b=new Buyer(f);await b.State();
+        const string question="Кофе и пицца";var ids=Values(await Ask(b,question),"productIds");Assert.Equal(4,ids.Length);
+        var ambiguous=await Ask(b,"Добавь оба",[question],ids);Assert.Contains("Уточните",ambiguous["text"]!.GetValue<string>());
+        Assert.Equal(0,(await b.State())["cart"]!["count"]!.GetValue<int>());
+        var added=await Ask(b,"Добавь второй",[question],ids);Assert.Equal(ids[1],Assert.Single(Values(added,"addedProductIds")));
+        Assert.Equal(1,added["cart"]!["count"]!.GetValue<int>());
+    }
+    [Fact] public async Task MixedSelection_DietAndImpossibleTotal_AreNotSilentlyIgnored()
+    {
+        using var f=new ShopFactory(samples:true);using var b=new Buyer(f);await b.State();var categories=await Categories(b);
+        var answer=await Ask(b,"Пицца и кофе без мяса и без молока");var ids=Values(answer,"productIds");
+        Assert.NotEmpty(ids);Assert.All(ids,id=>Assert.Equal("coffee",categories[id]));Assert.Contains("не нашлось",answer["text"]!.GetValue<string>());
+        var tooCheap=await Ask(b,"Пицца и кофе до 100 рублей");Assert.Empty(Values(tooCheap,"productIds"));
+        Assert.Equal(0,(await b.State())["cart"]!["count"]!.GetValue<int>());
+    }
 }
