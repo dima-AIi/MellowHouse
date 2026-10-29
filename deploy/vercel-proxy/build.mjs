@@ -1,6 +1,7 @@
 import {cp, mkdir, readFile, writeFile, readdir, rm} from 'node:fs/promises';
 import {resolve, dirname, join, relative} from 'node:path';
 import {fileURLToPath, pathToFileURL} from 'node:url';
+import {execFileSync} from 'node:child_process';
 
 const here=dirname(fileURLToPath(import.meta.url));
 export const origin='https://mellow-house.onrender.com';
@@ -38,7 +39,7 @@ async function get(path,kind='json'){
    if(!response.ok)throw new Error(path+': HTTP '+response.status);
    if(kind==='json'){if(!contentType.includes('application/json'))throw new Error('Origin is waking up');return await response.json();}
    const html=sanitizePage(await response.text());
-   if(!html.includes('data-storefront-version="24"'))throw new Error('Waiting for multi-category assistant release on Render');
+   if(!html.includes('data-storefront-version="25"'))throw new Error('Waiting for React storefront release on Render');
    return html;
   }catch(error){last=error;await new Promise(resolve=>setTimeout(resolve,2500));}
  }
@@ -46,6 +47,10 @@ async function get(path,kind='json'){
 }
 async function pool(items,worker){let next=0;await Promise.all(Array.from({length:4},async()=>{while(next<items.length){const item=items[next++];await worker(item);}}));}
 export async function build(){
+ const frontend=resolve(here,'../../frontend');
+ // Vercel's project root is deploy/vercel-proxy; install the locked client project explicitly.
+ execFileSync('npm',['exec','--yes','--package=pnpm@11.25.0','--','pnpm','--dir',frontend,'install','--frozen-lockfile','--prod=false'],{stdio:'inherit'});
+ execFileSync('npm',['exec','--yes','--package=pnpm@11.25.0','--','pnpm','--dir',frontend,'build'],{stdio:'inherit'});
  const output=join(here,'.vercel/output'),assets=join(output,'static');
  // Only this generated directory is ever replaced. Never export a browser session or an admin page.
  if(relative(here,output)!==join('.vercel','output'))throw new Error('Invalid build directory');
@@ -71,7 +76,7 @@ export async function build(){
  const media=[...new Set([...catalog.products.map(p=>p.image),...catalog.categories.map(c=>c.image)].filter(p=>/^\/media\/[-a-zA-Z0-9_.]+$/.test(p)))];
  await mkdir(join(assets,'media'),{recursive:true});
  await pool(media,async path=>{const r=await fetch(origin+path,{signal:AbortSignal.timeout(30000)});if(!r.ok||!r.headers.get('content-type')?.startsWith('image/'))throw new Error('Missing public image: '+path);await writeFile(join(assets,path.slice(1)),new Uint8Array(await r.arrayBuffer()));});
- await writeFile(join(assets,'storefront-build.json'),JSON.stringify({version:24,revision:process.env.VERCEL_GIT_COMMIT_SHA??'local',builtAt:new Date().toISOString(),products:catalog.products.length,architecture:'static-vercel-api-render'}));
+ await writeFile(join(assets,'storefront-build.json'),JSON.stringify({version:25,revision:process.env.VERCEL_GIT_COMMIT_SHA??'local',builtAt:new Date().toISOString(),products:catalog.products.length,architecture:'react-typescript-static-vercel-api-render'}));
  await writeFile(join(output,'config.json'),JSON.stringify({version:3,routes:deploymentRoutes(catalog.products.map(p=>p.id))},null,2));
  console.log(`Static storefront: ${pages.length+catalog.products.length+1} pages, ${catalog.products.length} products. Private routes stay uncached on Render.`);
 }

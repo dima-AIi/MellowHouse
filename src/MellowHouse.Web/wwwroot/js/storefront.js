@@ -7,6 +7,7 @@ function nutrition(p){
  return `<div class="nutrition" aria-label="Пищевая ценность на базовую порцию"><p class="nutrition-caption">КБЖУ на порцию${f.estimated?' · ориентировочно':''}</p><dl class="nutrition-values">${[['ккал',f.calories],['Белки, г',f.protein],['Жиры, г',f.fat],['Угл., г',f.carbs]].map(([label,value])=>`<div><dt>${label}</dt><dd>${number(value)}</dd></div>`).join('')}</dl></div>`;
 }
 export function renderPublicCatalog(){
+ if(window.mhReact){window.mhReact.renderCatalog();return;}
  if(!app.catalog)return;
  const {products,categories}=app.catalog,sections=document.querySelector('#catalog-sections');
  if(sections){
@@ -31,7 +32,8 @@ export function renderPublicSettings(settings){
  if(!settings)return;
  const heading=document.querySelector('.value-section>h2');if(heading)heading.textContent=settings.marketingTitle;
  const intro=document.querySelector('.menu-intro-copy');if(intro){intro.querySelector('h2').textContent=settings.menuTitle;intro.querySelector('h2+p').textContent=settings.menuText;}
- const faq=document.querySelector('.faq-column .faq-list');if(faq)faq.innerHTML=settings.faq.map(f=>`<details><summary>${esc(f.question)}</summary><p>${esc(f.answer)}</p></details>`).join('');
+ if(window.mhReact)window.mhReact.renderSettings(settings);
+ const faq=window.mhReact?null:document.querySelector('.faq-column .faq-list');if(faq)faq.innerHTML=settings.faq.map(f=>`<details><summary>${esc(f.question)}</summary><p>${esc(f.answer)}</p></details>`).join('');
  const rows=document.querySelectorAll('.contact-list .contact-row>div');
  if(rows.length===4){rows[0].innerHTML=`${settings.phone?`<a href="tel:${esc(settings.phone)}"><strong>${esc(settings.phone)}</strong></a>`:'<strong>Телефон скоро появится</strong>'}<p>Поможем с выбором и ответим на вопросы о заказе.</p>`;rows[1].innerHTML=`${settings.email?`<a href="mailto:${esc(settings.email)}"><strong>${esc(settings.email)}</strong></a>`:'<strong>Контактная почта уточняется</strong>'}<p>Для вопросов и обратной связи.</p>`;rows[2].innerHTML=`<strong>${esc(settings.address||'Адрес кафе уточняется')}</strong><p>${esc(settings.cafeName)} · самовывоз бесплатно</p>`;rows[3].innerHTML=`<strong>${esc(settings.hours||'График работы уточняется')}</strong><p>Актуальный статус заказа — в вашем профиле.</p>`;document.querySelector('.map-label strong').textContent=settings.address||'Скоро здесь будет наш адрес';document.querySelector('.service-card[href="/Delivery"] h2').textContent='Доставка · '+money(settings.deliveryPrice);}
  const labels={card:'Банковская карта',sbp:'СБП',yoomoney:'ЮMoney',cash:'Наличные при получении',terminal:'Картой при получении'};

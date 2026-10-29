@@ -37,3 +37,8 @@ artifacts/
 
 # Vercel static build output and local project linking metadata.
 deploy/vercel-proxy/.vercel/
+
+# React sources are committed; generated bundles are rebuilt by CI and hosting.
+**/node_modules/
+src/MellowHouse.Web/wwwroot/react/
+frontend/coverage/

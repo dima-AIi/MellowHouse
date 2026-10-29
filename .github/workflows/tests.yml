@@ -29,7 +29,13 @@ jobs:
           global-json-file: global.json
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '24'
+      - name: Install locked React client
+        run: npm exec --yes --package=pnpm@11.25.0 -- pnpm --dir frontend install --frozen-lockfile
+      - name: Typecheck and build React client
+        run: npm exec --yes --package=pnpm@11.25.0 -- pnpm --dir frontend build
+      - name: React user interaction tests
+        run: npm exec --yes --package=pnpm@11.25.0 -- pnpm --dir frontend test
       - name: Server and access tests
         run: dotnet test tests/MellowHouse.Tests/MellowHouse.Tests.csproj --logger "trx;LogFileName=project-tests.trx" --verbosity minimal
       - name: Browser logic tests

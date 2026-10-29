@@ -29,3 +29,6 @@
 @media(prefers-reduced-motion:reduce){.chat-typing span{animation:none;opacity:.65}}
 
 .mh-welcome-return .reveal-message h2,.mh-welcome-return .reveal-message p{opacity:1;transition:none}
+
+/* React groups a message and its cards without changing the chat layout. */
+.chat-entry{display:contents}

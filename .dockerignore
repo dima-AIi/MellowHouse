@@ -1,5 +1,7 @@
 **/bin
 **/obj
+**/node_modules
+src/MellowHouse.Web/wwwroot/react
 **/App_Data
 **/TestResults
 .vs

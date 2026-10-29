@@ -1,9 +1,19 @@
+FROM node:24-bookworm-slim AS frontend
+WORKDIR /source/frontend
+RUN npm install --global pnpm@11.25.0
+COPY frontend/package.json frontend/pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
+COPY frontend/ ./
+COPY src/MellowHouse.Web/wwwroot/js/ /source/src/MellowHouse.Web/wwwroot/js/
+RUN pnpm build
+
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /source
 COPY Directory.Build.props NuGet.Config ./
 COPY src/MellowHouse.Web/MellowHouse.Web.csproj src/MellowHouse.Web/
 RUN dotnet restore src/MellowHouse.Web/MellowHouse.Web.csproj
 COPY src/MellowHouse.Web/ src/MellowHouse.Web/
+COPY --from=frontend /source/src/MellowHouse.Web/wwwroot/react/ src/MellowHouse.Web/wwwroot/react/
 RUN dotnet publish src/MellowHouse.Web/MellowHouse.Web.csproj -c Release -o /app/publish --no-restore /p:UseAppHost=false
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
