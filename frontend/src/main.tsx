@@ -1,7 +1,19 @@
-import 'vite/modulepreload-polyfill';
-import {attachStorefront} from './bridge';
-import * as runtime from '@mellow/core';
+import { AppBoundary } from "./ui";
+import "vite/modulepreload-polyfill";
+import { createRoot } from "react-dom/client";
+import { ShopStore } from "./store";
+import { PublicApp } from "./public-app";
 
-window.mhReact=attachStorefront(runtime);
-document.documentElement.dataset.uiRuntime='react-typescript';
-await import('@mellow/site');
+const template =
+  document.querySelector("#main")?.innerHTML ??
+  '<div class="container page-space"><h1>Страница не найдена</h1><a href="/Menu">Открыть меню</a></div>';
+const host = document.createElement("div");
+host.id = "react-app";
+document.body.replaceChildren(host);
+const store = new ShopStore();
+document.documentElement.dataset.uiRuntime = "react-typescript-full";
+createRoot(host).render(
+  <AppBoundary>
+    <PublicApp store={store} template={template} />
+  </AppBoundary>,
+);
