@@ -445,10 +445,10 @@ export function MenuSearch({ catalog }: { catalog: Catalog }) {
             </a>
           ))
         ) : (
-          <p>
-            Попробуйте другое название или ингредиент. Все разделы меню остаются
-            ниже.
-          </p>
+          <div className="search-empty">
+            <strong>Результаты не найдены</strong>
+            <p>Попробуйте другое название или ингредиент. Все разделы меню остаются ниже.</p>
+          </div>
         )}
       </div>
       <p id="search-status" role="status" className="small muted">

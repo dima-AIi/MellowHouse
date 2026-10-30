@@ -78,13 +78,14 @@ const optimized = new Set([
   "/images/products/vegetable-bowl-v6.png",
   "/images/products/warm-beef-salad-v6.png",
 ]);
+const categories = new Set(["beef-medallions", "cappuccino", "cherry-lemonade", "chocolate-fondant", "egg-croissant", "roastbeef-mustard", "salmon-bowl", "strawberry-shake"].map(name => `/images/categories/${name}.webp`));
 export function image(path: string, width = 320) {
-  return optimized.has(path)
+  return optimized.has(path) || categories.has(path)
     ? `/images/optimized/${path.slice(8)}-${width}.webp`
     : path;
 }
 export function imageSet(path: string) {
-  return optimized.has(path)
-    ? [320, 480, 640, 768, 960].map((w) => `${image(path, w)} ${w}w`).join(", ")
+  return optimized.has(path) || categories.has(path)
+    ? (categories.has(path) ? [320, 480, 640] : [320, 480, 640, 768, 960]).map((w) => `${image(path, w)} ${w}w`).join(", ")
     : "";
 }

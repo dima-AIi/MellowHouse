@@ -21,6 +21,7 @@ export function Auth({
     [password, setPassword] = useState(""),
     [name, setName] = useState(""),
     [phone, setPhone] = useState(""),
+    [phoneError, setPhoneError] = useState(""),
     [code, setCode] = useState(""),
     [challenge, setChallenge] = useState(""),
     [demo, setDemo] = useState(""),
@@ -36,6 +37,11 @@ export function Auth({
     store.emit();
   };
   async function submit() {
+    if (mode === "phone" && !validPhone(phone)) {
+      setPhoneError("Введите полный номер: +7 или 8 и десять цифр. Например, +7 (999) 123-45-67.");
+      document.querySelector<HTMLInputElement>('.auth-dialog input[type="tel"]')?.focus();
+      return;
+    }
     await action.run(async () => {
       await store.ready;
       if (mode === "phone") {
@@ -131,9 +137,19 @@ export function Auth({
           <Field
             label="Телефон"
             type="tel"
+            name="phone"
+            inputMode="tel"
+            maxLength={22}
+            error={phoneError}
             autoComplete="tel"
             value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            onChange={(e) => {
+              setPhone(e.target.value);
+              setPhoneError("");
+            }}
+            onBlur={() => {
+              if (phone && !validPhone(phone)) setPhoneError("Введите полный номер: +7 или 8 и десять цифр.");
+            }}
             placeholder="+7 (999) 123-45-67"
             required
           />

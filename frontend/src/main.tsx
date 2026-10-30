@@ -1,4 +1,5 @@
 import { AppBoundary } from "./ui";
+import "./styles.css";
 import "vite/modulepreload-polyfill";
 import { createRoot } from "react-dom/client";
 import { ShopStore } from "./store";

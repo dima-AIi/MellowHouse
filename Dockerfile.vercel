@@ -5,6 +5,7 @@ COPY frontend/package.json frontend/pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 COPY frontend/ ./
 COPY src/MellowHouse.Web/wwwroot/js/ /source/src/MellowHouse.Web/wwwroot/js/
+COPY src/MellowHouse.Web/wwwroot/css/ /source/src/MellowHouse.Web/wwwroot/css/
 RUN pnpm build
 
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build

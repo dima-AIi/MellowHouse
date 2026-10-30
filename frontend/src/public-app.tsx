@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type MouseEvent } from "react";
+import { lazy, Suspense, useEffect, useMemo, useRef, useState, type MouseEvent } from "react";
 import { ShopStore, useShop } from "./store";
 import type { Catalog, PublicSettings, Selections } from "./types";
 import { Header, Footer } from "./chrome";
@@ -15,12 +15,32 @@ import {
   money,
 } from "./components";
 import { CartDialog, Auth, Method } from "./cart-auth";
-import { Checkout } from "./checkout";
-import { Account, ResetPassword } from "./account";
-import { OrderPage } from "./orders";
-import { Assistant } from "./assistant";
+const Checkout = lazy(() => import("./checkout").then(m => ({default: m.Checkout})));
+const Account = lazy(() => import("./account").then(m => ({default: m.Account})));
+const ResetPassword = lazy(() => import("./account").then(m => ({default: m.ResetPassword})));
+const OrderPage = lazy(() => import("./orders").then(m => ({default: m.OrderPage})));
+const Assistant = lazy(() => import("./assistant").then(m => ({default: m.Assistant})));
 import { Empty, useAction } from "./ui";
+import { image, imageSet } from "./media";
 const reduced = () => matchMedia("(prefers-reduced-motion:reduce)").matches;
+function DeferredAssistant({ store, catalog }: {store: ShopStore; catalog: Catalog}) {
+  const host = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(location.hash === "#assistant-section");
+  useEffect(() => {
+    if (visible || !host.current) return;
+    const observer = new IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting)) {
+        setVisible(true);
+        observer.disconnect();
+      }
+    }, {rootMargin: "300px"});
+    observer.observe(host.current);
+    return () => observer.disconnect();
+  }, [visible]);
+  return <div ref={host} className="assistant-card">
+    {visible ? <Suspense fallback={<p role="status">Загружаем помощника…</p>}><Assistant runtime={store} catalog={catalog} /></Suspense> : <button className="btn btn-outline" onClick={() => setVisible(true)}>Открыть помощника</button>}
+  </div>;
+}
 function StaticContent({
   html,
   settings,
@@ -196,11 +216,11 @@ function Home({
           <picture>
             <source
               media="(max-width:600px)"
-              srcSet="/images/hero-mobile-v2.webp"
+              srcSet="/images/hero-mobile-v28.webp"
             />
             <img
               className="hero-image"
-              src="/images/hero-v2.webp"
+              src="/images/hero-v28.webp"
               alt="Кофе, горячий сэндвич, свежий салат и говяжьи медальоны на столе Mellow House"
               width="1536"
               height="1024"
@@ -296,7 +316,9 @@ function Home({
             .map((c) => (
               <a className="photo-category" key={c.id} href={"/Menu#" + c.id}>
                 <img
-                  src={c.image}
+                  src={image(c.image!, 640)}
+                  srcSet={imageSet(c.image!)}
+                  sizes="(max-width:700px) 46vw, (max-width:1100px) 30vw, 320px"
                   alt=""
                   width="640"
                   height="426"
@@ -354,9 +376,7 @@ function Home({
             заказам.
           </p>
         </div>
-        <div className="assistant-card">
-          <Assistant runtime={store} catalog={catalog} />
-        </div>
+        <DeferredAssistant store={store} catalog={catalog} />
       </section>
     </>
   );
@@ -937,7 +957,7 @@ export function PublicApp({
         </div>
         <MobileMenu open={mobile} close={() => setMobile(false)} />
       </header>
-      <main id="main">{content}</main>
+      <main id="main"><Suspense fallback={<div className="container page-space" role="status">Открываем страницу…</div>}>{content}</Suspense></main>
       <footer className="site-footer">
         <div className="container footer-grid">
           <Footer />

@@ -81,7 +81,7 @@ export const phoneDigits = (value: string) => {
   return digits;
 };
 export const validPhone = (value: string) =>
-  /^7\d{10}$/.test(phoneDigits(value));
+  /^\+?[\d ()-]+$/.test(value.trim()) && /^7\d{10}$/.test(phoneDigits(value));
 export const today = () =>
   new Date().toLocaleDateString("en-CA", { timeZone: "Europe/Moscow" });
 export const date = (value: string) =>

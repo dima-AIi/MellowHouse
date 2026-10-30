@@ -7,6 +7,7 @@ export default defineConfig({
     emptyOutDir: true,
     target: "es2022",
     manifest: true,
+    cssCodeSplit: false,
     rollupOptions: {
       input: {
         storefront: "src/main.tsx",
@@ -16,6 +17,7 @@ export default defineConfig({
       output: {
         entryFileNames: "[name].js",
         chunkFileNames: "chunks/[name]-[hash].js",
+        assetFileNames: "assets/[name][extname]",
       },
     },
   },
