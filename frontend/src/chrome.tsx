@@ -4,10 +4,12 @@ export function Header({
   view,
   authenticated = false,
   menuOpen = false,
+  connecting = false,
 }: {
   view: View;
   authenticated?: boolean;
   menuOpen?: boolean;
+  connecting?: boolean;
 }) {
   return (
     <>
@@ -61,10 +63,19 @@ export function Header({
         <button
           className="header-cart"
           data-open-cart=""
-          aria-label={`Открыть корзину, ${view.cart.count} шт., ${money(view.cart.subtotal)}`}
+          aria-busy={connecting || undefined}
+          aria-label={
+            connecting && !view.cart.count
+              ? "Открыть корзину"
+              : `Открыть корзину, ${view.cart.count} шт., ${money(view.cart.subtotal)}`
+          }
         >
           <Icon name="bag" />
-          <span data-cart-total="">{money(view.cart.subtotal)}</span>
+          <span data-cart-total="">
+            {connecting && !view.cart.count
+              ? "Корзина"
+              : money(view.cart.subtotal)}
+          </span>
           <small data-cart-count="" hidden={!view.cart.count}>
             {view.cart.count}
           </small>

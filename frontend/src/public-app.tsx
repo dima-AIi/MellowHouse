@@ -149,7 +149,7 @@ function Home({
   catalog: Catalog;
   html: string;
 }) {
-  const settings = store.app.state?.settings,
+  const settings = store.app.state?.settings ?? store.publicSettings,
     view = {
       cart: store.cartView(),
       favorites: store.app.state?.favorites ?? [],
@@ -362,7 +362,7 @@ function Home({
   );
 }
 function Menu({ store, catalog }: { store: ShopStore; catalog: Catalog }) {
-  const settings = store.app.state?.settings,
+  const settings = store.app.state?.settings ?? store.publicSettings,
     view = {
       cart: store.cartView(),
       favorites: store.app.state?.favorites ?? [],
@@ -419,7 +419,6 @@ function Menu({ store, catalog }: { store: ShopStore; catalog: Catalog }) {
     <>
       <section className="menu-intro">
         <div className="menu-intro-copy">
-          <p className="eyebrow">Время для любимого</p>
           <h1>Наше меню</h1>
           <h2>{settings?.menuTitle ?? "Найдите свой любимый вкус"}</h2>
           <p>
@@ -544,7 +543,10 @@ function Menu({ store, catalog }: { store: ShopStore; catalog: Catalog }) {
       </div>
       <button className="mobile-cart-bar" data-open-cart="">
         <Icon name="bag" />
-        Корзина · {money(view.cart.subtotal)}
+        Корзина
+        {store.phase === "connected" || view.cart.count > 0
+          ? " · " + money(view.cart.subtotal)
+          : ""}
         <span>›</span>
       </button>
     </>
@@ -720,15 +722,24 @@ export function PublicApp({
 }) {
   useShop(store);
   const [mobile, setMobile] = useState(false),
+    [showConnection, setShowConnection] = useState(false),
     action = useAction(),
     catalog = store.app.catalog,
-    settings = store.app.state?.settings,
+    settings = store.app.state?.settings ?? store.publicSettings,
     path = location.pathname.toLowerCase(),
     restored = useRef(false),
     install = useRef<{
       prompt: () => Promise<void>;
       userChoice: Promise<{ outcome: string }>;
     } | null>(null);
+  useEffect(() => {
+    if (store.phase === "connected") {
+      setShowConnection(false);
+      return;
+    }
+    const timer = setTimeout(() => setShowConnection(true), 2500);
+    return () => clearTimeout(timer);
+  }, [store.phase]);
   useEffect(() => {
     document.documentElement.classList.add("js-ready", "mh-welcome-ready");
     if ("serviceWorker" in navigator)
@@ -805,8 +816,11 @@ export function PublicApp({
       store.cartOpen = true;
       store.emit();
     } else if (button.hasAttribute("data-account")) {
-      if (store.app.state?.authenticated) location.href = "/Account";
-      else store.openAuth();
+      void action.run(async () => {
+        await store.ready;
+        if (store.app.state?.authenticated) location.href = "/Account";
+        else store.openAuth();
+      });
     } else if (button.id === "mobile-menu-button") setMobile(!mobile);
     else if (button.dataset.platformPreview)
       store.toast(
@@ -834,7 +848,8 @@ export function PublicApp({
       });
   }
   let content;
-  if (
+  if (path === "/account") content = <Account store={store} />;
+  else if (
     path === "/checkout" ||
     path === "/account" ||
     path === "/resetpassword" ||
@@ -916,6 +931,7 @@ export function PublicApp({
               favorites: store.app.state?.favorites ?? [],
             }}
             authenticated={store.app.state?.authenticated}
+            connecting={store.phase !== "connected"}
             menuOpen={mobile}
           />
         </div>
@@ -937,16 +953,17 @@ export function PublicApp({
           <span>{action.error || store.message}</span>
         </div>
       )}
-      {store.phase !== "connected" && (
-        <div className="server-connection" role="status">
-          {store.phase === "failed"
-            ? "Пока нет связи с кафе. Выбранные блюда сохранены в браузере."
-            : "Выбирайте блюда — корзина работает. Подключаем кафе, чтобы сверить цены и оформить заказ."}
-          {store.phase === "failed" && (
-            <button onClick={() => location.reload()}>Повторить</button>
-          )}
-        </div>
-      )}
+      {store.phase !== "connected" &&
+        (showConnection || store.phase === "failed") && (
+          <div className="server-connection" role="status">
+            {store.phase === "failed"
+              ? "Пока нет связи с кафе. Выбранные блюда сохранены в браузере."
+              : "Выбирайте блюда — корзина работает. Подключаем кафе, чтобы сверить цены и оформить заказ."}
+            {store.phase === "failed" && (
+              <button onClick={() => location.reload()}>Повторить</button>
+            )}
+          </div>
+        )}
     </div>
   );
 }

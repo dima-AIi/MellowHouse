@@ -92,14 +92,12 @@ it("renders both requested categories using the actual response and sends contex
 it("adding the second offered product sends its exact id and applies only the server cart", async () => {
   const api = runtime(),
     cart = { items: [], count: 1, subtotal: 520 };
-  api.request
-    .mockResolvedValueOnce(selection)
-    .mockResolvedValueOnce({
-      ...selection,
-      text: "Добавлена пицца.",
-      addedProductIds: ["pizza"],
-      cart,
-    });
+  api.request.mockResolvedValueOnce(selection).mockResolvedValueOnce({
+    ...selection,
+    text: "Добавлена пицца.",
+    addedProductIds: ["pizza"],
+    cart,
+  });
   render(<Assistant runtime={api} catalog={catalog} />);
   await send("Кофе и пицца");
   await screen.findByText("Вот кофе и пицца.");

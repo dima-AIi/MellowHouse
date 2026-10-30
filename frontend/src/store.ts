@@ -1,6 +1,7 @@
 import { useSyncExternalStore } from "react";
 import { BrowserCart, browserCartKey } from "./browser-cart";
 import { syncOwner, clearChat } from "./sessions";
+import { readPublicCache, writePublicCache } from "./public-cache";
 import type {
   Catalog,
   Cart,
@@ -9,6 +10,7 @@ import type {
   Selections,
   SessionState,
   Product,
+  PublicSettings,
 } from "./types";
 
 export class ApiError extends Error {
@@ -53,6 +55,8 @@ export class ShopStore implements ShopRuntime {
   private local: BrowserCart;
   private mutations: Promise<void> = Promise.resolve();
   private ownerEpoch = 0;
+  private catalogAt = 0;
+  publicSettings?: PublicSettings;
   subscribe = (listener: () => void) => {
     this.listeners.add(listener);
     return () => {
@@ -67,33 +71,43 @@ export class ShopStore implements ShopRuntime {
   constructor(
     private fetcher: typeof fetch = fetch,
     private storage: Storage = localStorage,
+    options: { catalog?: boolean } = {},
   ) {
     this.app.method =
       this.storage.getItem("mh.method") === "delivery" ? "delivery" : "pickup";
     this.local = new BrowserCart(storage, this.emit);
+    const hydrateCatalog = options.catalog !== false;
+    const cached = hydrateCatalog ? readPublicCache(storage) : null;
+    if (cached) {
+      this.app.catalog = cached.catalog;
+      this.catalogAt = cached.savedAt;
+      this.publicSettings = cached.settings;
+    }
     const state = retryRead(() => this.refresh());
-    this.catalogReady = (
-      document.documentElement.hasAttribute("data-static-storefront")
-        ? this.request<Catalog>("/catalog.json")
-        : state.then(() =>
-            retryRead(() => this.request<Catalog>("/api/catalog")),
-          )
-    ).then((c) => {
-      this.app.catalog = c;
-      this.emit();
-      return c;
-    });
+    const staticSite = document.documentElement.hasAttribute(
+      "data-static-storefront",
+    );
+    this.catalogReady = !hydrateCatalog
+      ? Promise.resolve({ categories: [], products: [] })
+      : cached
+        ? Promise.resolve(cached.catalog)
+        : (staticSite
+            ? this.request<Catalog>("/catalog.json")
+            : state.then(() =>
+                retryRead(() => this.request<Catalog>("/api/catalog")),
+              )
+          ).then((catalog) => {
+            this.applyCatalog(catalog);
+            return catalog;
+          });
     const initialCatalog = this.catalogReady,
       local = this.local;
     this.ready = (async () => {
       try {
         await state;
         await initialCatalog;
-        if (document.documentElement.hasAttribute("data-static-storefront"))
-          this.app.catalog = await retryRead(() =>
-            this.request<Catalog>("/api/catalog"),
-          );
-        const batch = local.freeze();
+        // /api/state already returns a fresh cart. Do not load the same cart again on every page.
+        const batch = hydrateCatalog ? local.freeze() : null;
         if (batch) {
           const result = await retryRead(() =>
             this.request<{ cart: Cart; warnings: string[] }>(
@@ -112,10 +126,7 @@ export class ShopStore implements ShopRuntime {
           );
           this.app.state!.cart = result.cart;
           this.notice = result.warnings.join(" ");
-        } else
-          this.app.state!.cart = await retryRead(() =>
-            this.request<Cart>("/api/cart"),
-          );
+        }
         this.phase = "connected";
         if (batch) local.acknowledge(batch.id);
         this.emit();
@@ -126,12 +137,38 @@ export class ShopStore implements ShopRuntime {
         throw error;
       }
     })();
+    // Refresh the public snapshot separately: it must never block session readiness or erase the visible menu.
+    if (
+      hydrateCatalog &&
+      (staticSite || cached) &&
+      (!cached || Date.now() - cached.savedAt > 30000)
+    )
+      void Promise.all([state, initialCatalog])
+        .then(() => this.request<Catalog>("/api/catalog"))
+        .then((catalog) => this.applyCatalog(catalog))
+        .catch(() => {});
     // Every consumer has a visible failed state; do not leave rejected startup promises unhandled.
     void this.ready.catch(() => {});
     void this.catalogReady.catch(() => {});
     window.addEventListener("storage", (event) => {
       if (event.key === browserCartKey) this.emit();
     });
+  }
+  private savePublic() {
+    if (this.app.catalog)
+      writePublicCache(this.storage, {
+        catalog: this.app.catalog,
+        settings: this.publicSettings,
+        savedAt: this.catalogAt,
+      });
+  }
+  private applyCatalog(catalog: Catalog) {
+    const changed =
+      JSON.stringify(this.app.catalog) !== JSON.stringify(catalog);
+    this.app.catalog = catalog;
+    this.catalogAt = Date.now();
+    this.savePublic();
+    if (changed) this.emit();
   }
   async request<T>(path: string, body?: unknown, method = "GET"): Promise<T> {
     let response: Response;
@@ -185,7 +222,15 @@ export class ShopStore implements ShopRuntime {
     )
       this.ownerEpoch++;
     syncOwner(state.authenticated ? "u:" + state.profile!.id : "guest");
+    if (
+      !this.storage.getItem("mh.method") &&
+      (state.fulfillmentMethod === "pickup" ||
+        state.fulfillmentMethod === "delivery")
+    )
+      this.app.method = state.fulfillmentMethod;
     this.app.state = state;
+    this.publicSettings = state.settings;
+    this.savePublic();
     this.emit();
     return state;
   }

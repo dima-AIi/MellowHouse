@@ -398,3 +398,40 @@ dialog[open]:not(.mobile-menu) {
     bottom: 1px;
   }
 }
+
+/* Keep the original admin controls legible when several actions share a row. */
+.admin-table td > .text-button,
+.admin-table td > .danger-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 8px 12px;
+  margin: 3px 8px 3px 0;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+  white-space: nowrap;
+}
+.admin-table td > .text-button:hover {
+  background: var(--mint);
+}
+.time-choices:focus {
+  outline: none;
+}
+.time-choices[aria-invalid="true"] {
+  border-left: 3px solid #b33b32;
+  padding-left: 14px;
+}
+.time-choices .form-error {
+  margin: 12px 0 0;
+  line-height: 1.6;
+}
+.account-grid #account-content {
+  min-width: 0;
+}
+.account-grid .account-nav {
+  align-self: start;
+}
+.account-grid #history-content {
+  padding-top: 24px;
+}

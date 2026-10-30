@@ -38,133 +38,177 @@ export function Account({ store }: { store: ShopStore }) {
     });
   }
   return (
-    <div className="container page-space" id="account-content">
-      <div className="section-heading">
-        <h1>Личный кабинет</h1>
-        {profile && (
-          <button
-            className="text-button"
-            onClick={() => void action.run(() => store.logout())}
-          >
-            Выйти
-          </button>
-        )}
-      </div>
-      <nav className="account-nav">
-        <a href="/Account" className={!profileView ? "active" : ""}>
-          История заказов
-        </a>
-        <a href="/Account?view=profile" className={profileView ? "active" : ""}>
-          Личные данные
-        </a>
-        <a href="/Menu?tab=favorites#catalog-start">Избранное</a>
-        {profile?.role === "Admin" && <a href="/Admin">Панель управления</a>}
+    <div className="container page-space">
+      <nav className="breadcrumbs" aria-label="Хлебные крошки">
+        <a href="/">Главная</a>
+        <span>/</span>
+        <span>Личный кабинет</span>
       </nav>
-      {!profile ? (
-        <Empty
-          title="Войдите в Mellow House"
-          text="Здесь будет общая история профиля. Заказы без входа открываются по личной ссылке; корзина и избранное сохранены."
-        >
-          <button className="btn" onClick={() => store.openAuth()}>
-            Войти
-          </button>
-          {lastOrderUrl() && (
-            <a className="btn btn-outline" href={lastOrderUrl()!}>
-              Открыть последний заказ без входа
+      <h1>Личный кабинет</h1>
+      <div className="account-grid">
+        <aside className="account-nav" aria-label="Личный кабинет">
+          <a
+            href="/Account"
+            className={!profileView ? "active" : ""}
+            aria-current={!profileView ? "page" : undefined}
+          >
+            Мои заказы
+          </a>
+          <a
+            href="/Account?view=profile"
+            className={profileView ? "active" : ""}
+            aria-current={profileView ? "page" : undefined}
+          >
+            Личные данные
+          </a>
+          {profile?.role === "Admin" && <a href="/Admin">Панель управления</a>}
+          {profile && (
+            <button
+              className="text-button"
+              disabled={action.busy}
+              onClick={() => void action.run(() => store.logout())}
+            >
+              Выйти
+            </button>
+          )}
+        </aside>
+        <section id="account-content">
+          <nav className="menu-tabs" aria-label="Разделы меню">
+            <a href="/Menu">Меню</a>
+            <a href="/Menu?tab=recommended#catalog-start">Рекомендуемое</a>
+            <a href="/Account" className={!profileView ? "active" : ""}>
+              История заказов
             </a>
-          )}
-        </Empty>
-      ) : profileView ? (
-        <Profile store={store} />
-      ) : (
-        <>
-          <h2>История заказов</h2>
-          {orders.error && (
-            <p className="form-error" role="alert">
-              {orders.error}
-            </p>
-          )}
-          {orders.value?.length ? (
-            orders.value.map((order) => (
-              <article className="history-card" key={order.id}>
-                <div className="history-head">
-                  <h3>Заказ {order.number}</h3>
-                  <time dateTime={order.createdUtc}>
-                    {date(order.createdUtc)}
-                  </time>
-                  <span className="status-pill">
-                    {orderStatus(order).title}
-                  </span>
-                  <span className="small muted">
-                    {paymentStatuses[order.status]}
-                  </span>
-                </div>
-                <div className="history-content">
-                  <div className="history-products">
-                    {order.items.map((item, index) => (
-                      <div className="history-product" key={index}>
-                        <img
-                          src={image(item.image)}
-                          alt={item.name}
-                          width="120"
-                          height="85"
-                          loading="lazy"
-                        />
-                        <strong>{item.name}</strong>
-                        <small>
-                          {item.summary.join(", ") || item.portion}
-                          <br />
-                          {money(item.unitPrice)} · {item.quantity} шт.
-                        </small>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="history-actions">
-                    <strong>{money(order.total)}</strong>
-                    <a
-                      className="btn btn-outline"
-                      href={orderUrl(
-                        order.id,
-                        placed(order) || closed(order) ? "Order" : "Payment",
-                      )}
-                    >
-                      {placed(order) || closed(order)
-                        ? "Подробнее"
-                        : "Продолжить оплату"}
-                    </a>
+            <a href="/Menu?tab=favorites#catalog-start">Избранное</a>
+          </nav>
+          <div id="history-content">
+            {store.phase !== "connected" ? (
+              <div className="account-loading" role="status">
+                {store.phase === "failed" ? (
+                  <>
+                    <p>Не удалось загрузить профиль.</p>
                     <button
                       className="btn btn-outline"
-                      disabled={action.busy}
-                      onClick={() => void repeat(order.id)}
+                      onClick={() => location.reload()}
                     >
-                      Повторить заказ
+                      Повторить
                     </button>
-                  </div>
-                </div>
-              </article>
-            ))
-          ) : orders.value ? (
-            <Empty
-              title="Первый заказ — впереди"
-              text="Выберите любимые блюда, и они останутся в вашей истории."
-            >
-              <a className="btn" href="/Menu">
-                Открыть меню
-              </a>
-            </Empty>
-          ) : (
-            <p role="status">Загружаем историю…</p>
-          )}
-        </>
-      )}
-      {action.error && (
-        <p className="form-error" role="alert">
-          {action.error}
-        </p>
-      )}
+                  </>
+                ) : (
+                  "Загружаем профиль…"
+                )}
+              </div>
+            ) : !profile ? (
+              <Empty
+                title="Войдите в Mellow House"
+                text="Здесь будет общая история профиля. Заказы без входа открываются по личной ссылке; корзина и избранное сохранены."
+              >
+                <button className="btn" onClick={() => store.openAuth()}>
+                  Войти
+                </button>
+                {lastOrderUrl() && (
+                  <a className="btn btn-outline" href={lastOrderUrl()!}>
+                    Открыть последний заказ без входа
+                  </a>
+                )}
+              </Empty>
+            ) : profileView ? (
+              <Profile store={store} />
+            ) : (
+              <>
+                {!!orders.value?.length && <h2>История заказов</h2>}
+                {orders.error && (
+                  <p className="form-error" role="alert">
+                    {orders.error}
+                  </p>
+                )}
+                {orders.value?.length ? (
+                  orders.value.map((order) => (
+                    <article className="history-card" key={order.id}>
+                      <div className="history-head">
+                        <h3>Заказ {order.number}</h3>
+                        <time dateTime={order.createdUtc}>
+                          {date(order.createdUtc)}
+                        </time>
+                        <span className="status-pill">
+                          {orderStatus(order).title}
+                        </span>
+                        <span className="small muted">
+                          {paymentStatuses[order.status]}
+                        </span>
+                      </div>
+                      <div className="history-content">
+                        <div className="history-products">
+                          {order.items.map((item, index) => (
+                            <div className="history-product" key={index}>
+                              <img
+                                src={image(item.image)}
+                                alt={item.name}
+                                width="120"
+                                height="85"
+                                loading="lazy"
+                              />
+                              <strong>{item.name}</strong>
+                              <small>
+                                {item.summary.join(", ") || item.portion}
+                                <br />
+                                {money(item.unitPrice)} · {item.quantity} шт.
+                              </small>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="history-actions">
+                          <strong>{money(order.total)}</strong>
+                          <a
+                            className="btn btn-outline"
+                            href={orderUrl(
+                              order.id,
+                              placed(order) || closed(order)
+                                ? "Order"
+                                : "Payment",
+                            )}
+                          >
+                            {placed(order) || closed(order)
+                              ? "Подробнее"
+                              : "Продолжить оплату"}
+                          </a>
+                          <button
+                            className="btn btn-outline"
+                            disabled={action.busy}
+                            onClick={() => void repeat(order.id)}
+                          >
+                            Повторить заказ
+                          </button>
+                        </div>
+                      </div>
+                    </article>
+                  ))
+                ) : orders.value ? (
+                  <Empty
+                    title="Первый заказ — впереди"
+                    text="Выберите любимые блюда, и они останутся в вашей истории."
+                  >
+                    <a className="btn" href="/Menu">
+                      Открыть меню
+                    </a>
+                  </Empty>
+                ) : (
+                  <p role="status">Загружаем историю…</p>
+                )}
+              </>
+            )}
+            {action.error && (
+              <p className="form-error" role="alert">
+                {action.error}
+              </p>
+            )}
+          </div>
+        </section>
+      </div>
     </div>
   );
 }
+
 function Profile({ store }: { store: ShopStore }) {
   const profile = store.app.state!.profile!,
     action = useAction(),
@@ -176,21 +220,29 @@ function Profile({ store }: { store: ShopStore }) {
       street: "",
       apartment: "",
     }),
-    [status, setStatus] = useState("");
+    [status, setStatus] = useState(""),
+    [loaded, setLoaded] = useState(false);
   useEffect(() => {
     let active = true;
     store
       .request<Partial<CheckoutData>>("/api/checkout-draft")
       .then((draft) => {
-        if (active)
+        if (active) {
+          setLoaded(true);
           setData((previous) => ({
             ...previous,
             city: draft.city ?? "",
             street: draft.street ?? "",
             apartment: draft.apartment ?? "",
           }));
+        }
       })
-      .catch((error) => action.setError(error.message));
+      .catch((error) => {
+        if (active) {
+          action.setError(error.message);
+          setLoaded(true);
+        }
+      });
     return () => {
       active = false;
     };
@@ -204,10 +256,21 @@ function Profile({ store }: { store: ShopStore }) {
       );
       await store.refresh();
       setStatus("Личные данные сохранены.");
+      store.toast("Личные данные сохранены");
     });
   }
+  const currentDay = today(),
+    years = data.birthDate
+      ? Number(currentDay.slice(0, 4)) -
+        Number(data.birthDate.slice(0, 4)) -
+        (currentDay.slice(5) < data.birthDate.slice(5) ? 1 : 0)
+      : null;
   return (
-    <Form onSubmit={() => void save()} busy={action.busy} error={action.error}>
+    <Form
+      onSubmit={() => void save()}
+      busy={action.busy || !loaded}
+      error={action.error}
+    >
       <div className="profile-form">
         <h2>Личные данные</h2>
         <Field
@@ -226,6 +289,11 @@ function Profile({ store }: { store: ShopStore }) {
           value={data.birthDate}
           onChange={(e) => setData({ ...data, birthDate: e.target.value })}
         />
+        <small>
+          {years !== null && years >= 0
+            ? "Полных лет: " + years + ". Поле можно оставить пустым."
+            : "Дата рождения необязательна."}
+        </small>
         <Field
           label="Телефон для заказа (необязательно)"
           type="tel"
@@ -236,7 +304,8 @@ function Profile({ store }: { store: ShopStore }) {
         <h3>Адрес доставки</h3>
         <p className="small muted">
           Сохранённый адрес подставится при оформлении. Адрес можно оставить
-          пустым для самовывоза.
+          пустым для самовывоза. Доставка —{" "}
+          {money(store.app.state?.deliveryPrice ?? 190)}.
         </p>
         <Field
           label="Город"

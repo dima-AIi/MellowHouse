@@ -46,6 +46,9 @@ export function AdminCatalogPage({ store }: { store: ShopStore }) {
     [query, setQuery] = useState(""),
     [category, setCategory] = useState(""),
     [tab, setTab] = useState("active"),
+    [status, setStatus] = useState("all"),
+    [archived, setArchived] = useState(false),
+    [sort, setSort] = useState("order"),
     [page, setPage] = useState(0),
     [product, setProduct] = useState<AdminProduct | null>(null),
     [editingCategory, setEditingCategory] = useState<AdminCategory | null>(
@@ -55,67 +58,64 @@ export function AdminCatalogPage({ store }: { store: ShopStore }) {
     [archiveCategory, setArchiveCategory] = useState<AdminCategory | null>(
       null,
     ),
+    [archiveProduct, setArchiveProduct] = useState<AdminProduct | null>(null),
     [transfer, setTransfer] = useState(""),
     action = useAction();
-  const filtered = (data.value?.products ?? []).filter(
-      (p) =>
-        (tab === "archived" ? p.archived : !p.archived) &&
-        (tab !== "draft" || p.draft) &&
-        (tab !== "stop" || (!p.available && !p.draft)) &&
-        (!category || p.categoryId === category) &&
-        (p.name + " " + p.ingredients)
-          .toLowerCase()
-          .includes(query.toLowerCase()),
-    ),
+  const filtered = (data.value?.products ?? [])
+      .filter(
+        (p) =>
+          p.archived === archived &&
+          (!category || p.categoryId === category) &&
+          (status === "all" ||
+            (status === "draft" && p.draft) ||
+            (status === "stop" && !p.available && !p.draft)) &&
+          (p.name + " " + p.ingredients)
+            .toLowerCase()
+            .includes(query.toLowerCase()),
+      )
+      .sort((a, b) =>
+        sort === "name"
+          ? a.name.localeCompare(b.name, "ru")
+          : sort === "price-asc"
+            ? a.price - b.price
+            : sort === "price-desc"
+              ? b.price - a.price
+              : a.sortOrder - b.sortOrder,
+      ),
     pages = Math.max(1, Math.ceil(filtered.length / 24)),
     current = Math.min(page, pages - 1);
-  async function toggle(p: AdminProduct, archived: boolean) {
-    await action.run(async () => {
-      await store.request(
-        "/api/admin/products/" + p.id + (archived ? "/restore" : ""),
-        {},
-        archived ? "POST" : "DELETE",
-      );
-      await data.reload();
-    });
-  }
+  const categories = (data.value?.categories ?? []).filter(
+    (c) =>
+      c.archived === archived &&
+      c.name.toLowerCase().includes(query.toLowerCase()),
+  );
   return (
     <>
       <div className="admin-page-heading">
         <div>
-          <h1>Каталог</h1>
-          <p>Товары, фотографии и настройки блюд.</p>
+          <h1>Меню, которое хочется открыть</h1>
+          <p>Товары и категории — в одном месте.</p>
         </div>
-        <div className="admin-actions">
-          <button
-            className="btn"
-            onClick={() =>
+        <button
+          className="btn"
+          onClick={() => {
+            if (tab === "categories") {
+              setEditingCategory(null);
+              setCategoryOpen(true);
+            } else
               setProduct(
                 fresh(
                   data.value?.categories.find((c) => !c.archived)?.id ?? "",
                 ),
-              )
-            }
-          >
-            Новый товар
-          </button>
-          <button
-            className="btn btn-outline"
-            onClick={() => {
-              setEditingCategory(null);
-              setCategoryOpen(true);
-            }}
-          >
-            Новая категория
-          </button>
-        </div>
+              );
+          }}
+        >
+          + Добавить {tab === "categories" ? "категорию" : "товар"}
+        </button>
       </div>
       <div className="admin-tabs">
         {[
           ["active", "Товары"],
-          ["draft", "Черновики"],
-          ["stop", "Стоп-лист"],
-          ["archived", "Архив"],
           ["categories", "Категории"],
         ].map(([value, label]) => (
           <button
@@ -130,145 +130,188 @@ export function AdminCatalogPage({ store }: { store: ShopStore }) {
           </button>
         ))}
       </div>
-      {data.error && <p className="form-error">{data.error}</p>}
-      {action.error && (
+      <div className="admin-filters">
+        <Field
+          label="Поиск"
+          type="search"
+          placeholder="Название или состав"
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            setPage(0);
+          }}
+        />
+        <Select
+          label="Категория"
+          value={category}
+          onChange={(value) => {
+            setCategory(value);
+            setPage(0);
+          }}
+          options={[
+            ["", "Все категории"],
+            ...(data.value?.categories ?? [])
+              .filter((c) => !c.archived)
+              .map((c) => [c.id, c.name] as [string, string]),
+          ]}
+        />
+        <Select
+          label="Сортировка"
+          value={sort}
+          onChange={setSort}
+          options={[
+            ["order", "Порядок в меню"],
+            ["name", "По названию"],
+            ["price-asc", "Цена по возрастанию"],
+            ["price-desc", "Цена по убыванию"],
+          ]}
+        />
+        {tab !== "categories" && (
+          <Select
+            label="Статус товара"
+            value={status}
+            onChange={(value) => {
+              setStatus(value);
+              setPage(0);
+            }}
+            options={[
+              ["all", "Все товары"],
+              ["draft", "Черновики"],
+              ["stop", "Стоп-лист"],
+            ]}
+          />
+        )}
+        <label className="choice">
+          <input
+            type="checkbox"
+            checked={archived}
+            onChange={(e) => {
+              setArchived(e.target.checked);
+              setPage(0);
+            }}
+          />
+          Показать архив
+        </label>
+      </div>
+      {(data.error || action.error) && (
         <p className="form-error" role="alert">
-          {action.error}
+          {action.error || data.error}
         </p>
       )}
       {tab === "categories" ? (
-        <div className="admin-table-wrap">
-          <table className="admin-table">
-            <thead>
-              <tr>
-                <th>Категория</th>
-                <th>Порядок</th>
-                <th>Видимость</th>
-                <th>Действия</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.value?.categories.map((c) => (
-                <tr key={c.id}>
-                  <td>{c.name}</td>
-                  <td>{c.sortOrder}</td>
-                  <td>
-                    {c.archived
+        <div className="admin-category-grid">
+          {categories.map((c) => (
+            <article className="admin-panel" key={c.id}>
+              <div className="section-heading">
+                <h3>{c.name}</h3>
+                <span>{c.sortOrder}</span>
+              </div>
+              <p>
+                {
+                  data.value?.products.filter(
+                    (p) => p.categoryId === c.id && !p.archived,
+                  ).length
+                }{" "}
+                товаров · {c.visible ? "Видна на сайте" : "Скрыта"}
+              </p>
+              <p className="small muted">
+                {c.onHome ? "Фотокатегория на главной" : "В общем меню"}
+              </p>
+              <div className="admin-actions">
+                <button
+                  className="btn btn-outline"
+                  onClick={() => {
+                    setEditingCategory(c);
+                    setCategoryOpen(true);
+                  }}
+                >
+                  Изменить
+                </button>
+                <button
+                  className="text-button"
+                  disabled={action.busy}
+                  onClick={() =>
+                    c.archived
+                      ? void action.run(async () => {
+                          await store.request(
+                            "/api/admin/categories/" + c.id + "/restore",
+                            {},
+                            "POST",
+                          );
+                          await data.reload();
+                        })
+                      : setArchiveCategory(c)
+                  }
+                >
+                  {c.archived ? "Восстановить" : "В архив"}
+                </button>
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <>
+          <p className="small muted">Товаров: {filtered.length}</p>
+          <div className="admin-product-list">
+            {filtered.slice(current * 24, (current + 1) * 24).map((p) => (
+              <article key={p.id}>
+                <div className="admin-product-photo">
+                  {p.image ? (
+                    <img
+                      src={image(p.image)}
+                      alt={p.name}
+                      width="90"
+                      height="90"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <span>Фото</span>
+                  )}
+                </div>
+                <div className="admin-product-copy">
+                  <h3>{p.name}</h3>
+                  <p>
+                    {data.value?.categories.find((c) => c.id === p.categoryId)
+                      ?.name ?? "Категория"}{" "}
+                    · {p.portion || "Порция не указана"}
+                  </p>
+                  <strong>{money(p.price)}</strong>
+                  <span className="admin-badge">
+                    {p.archived
                       ? "В архиве"
-                      : c.visible
-                        ? "На сайте"
-                        : "Скрыта"}
-                  </td>
-                  <td>
-                    <button
-                      className="text-button"
-                      onClick={() => {
-                        setEditingCategory(c);
-                        setCategoryOpen(true);
-                      }}
-                    >
-                      Изменить
-                    </button>
+                      : p.draft
+                        ? "Черновик"
+                        : p.available
+                          ? "В меню"
+                          : "Стоп-лист"}
+                  </span>
+                </div>
+                <div className="admin-row-actions">
+                  <button
+                    className="btn btn-outline"
+                    onClick={() => setProduct(structuredClone(p))}
+                  >
+                    Изменить
+                  </button>
+                  {p.archived ? (
                     <button
                       className="text-button"
                       disabled={action.busy}
                       onClick={() =>
-                        c.archived
-                          ? void action.run(async () => {
-                              await store.request(
-                                "/api/admin/categories/" + c.id + "/restore",
-                                {},
-                                "POST",
-                              );
-                              await data.reload();
-                            })
-                          : setArchiveCategory(c)
+                        void action.run(async () => {
+                          await store.request(
+                            "/api/admin/products/" + p.id + "/restore",
+                            {},
+                            "POST",
+                          );
+                          await data.reload();
+                        })
                       }
                     >
-                      {c.archived ? "Восстановить" : "В архив"}
+                      Восстановить
                     </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      ) : (
-        <>
-          <div className="admin-filters">
-            <Field
-              label="Поиск товара"
-              type="search"
-              value={query}
-              onChange={(e) => {
-                setQuery(e.target.value);
-                setPage(0);
-              }}
-            />
-            <Select
-              label="Категория"
-              value={category}
-              onChange={(value) => {
-                setCategory(value);
-                setPage(0);
-              }}
-              options={[
-                ["", "Все категории"],
-                ...(data.value?.categories ?? []).map(
-                  (c) => [c.id, c.name] as [string, string],
-                ),
-              ]}
-            />
-            <button
-              className="btn btn-outline"
-              onClick={() => void data.reload()}
-            >
-              Обновить
-            </button>
-          </div>
-          <div className="admin-table-wrap">
-            <table className="admin-table">
-              <thead>
-                <tr>
-                  <th>Товар</th>
-                  <th>Цена</th>
-                  <th>Себестоимость</th>
-                  <th>Статус</th>
-                  <th>Действия</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filtered.slice(current * 24, (current + 1) * 24).map((p) => (
-                  <tr key={p.id}>
-                    <td>
-                      <div className="admin-product-name">
-                        <img
-                          src={image(p.image)}
-                          alt=""
-                          width="55"
-                          height="55"
-                        />
-                        <strong>{p.name}</strong>
-                      </div>
-                    </td>
-                    <td>{money(p.price)}</td>
-                    <td>{p.cost === null ? "Не указана" : money(p.cost)}</td>
-                    <td>
-                      {p.archived
-                        ? "В архиве"
-                        : p.draft
-                          ? "Черновик"
-                          : p.available
-                            ? "В меню"
-                            : "Стоп-лист"}
-                    </td>
-                    <td>
-                      <button
-                        className="text-button"
-                        onClick={() => setProduct(structuredClone(p))}
-                      >
-                        Изменить
-                      </button>
+                  ) : (
+                    <>
                       <button
                         className="text-button"
                         onClick={() =>
@@ -277,62 +320,54 @@ export function AdminCatalogPage({ store }: { store: ShopStore }) {
                             id: "",
                             name: p.name + " — копия",
                             draft: true,
+                            popular: false,
+                            recommended: false,
                             archived: false,
                           })
                         }
                       >
-                        Копировать
+                        Дублировать
                       </button>
                       <button
-                        className="text-button"
-                        disabled={action.busy}
-                        onClick={() => void toggle(p, p.archived)}
+                        className="danger-link"
+                        onClick={() => setArchiveProduct(p)}
                       >
-                        {p.archived ? "Восстановить" : "В архив"}
+                        В архив
                       </button>
-                      {!p.archived && (
-                        <button
-                          className="text-button"
-                          disabled={action.busy}
-                          onClick={() =>
-                            void action.run(async () => {
-                              await store.request(
-                                "/api/admin/products/" + p.id,
-                                { ...p, available: !p.available },
-                                "PUT",
-                              );
-                              await data.reload();
-                            })
-                          }
-                        >
-                          {p.available ? "В стоп-лист" : "Вернуть в меню"}
-                        </button>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                    </>
+                  )}
+                </div>
+              </article>
+            ))}
           </div>
-          <div className="admin-pagination">
-            <span>
-              Найдено: {filtered.length} · страница {current + 1} из {pages}
-            </span>
-            <button
-              className="btn btn-outline"
-              disabled={!current}
-              onClick={() => setPage(current - 1)}
-            >
-              Назад
-            </button>
-            <button
-              className="btn btn-outline"
-              disabled={current + 1 >= pages}
-              onClick={() => setPage(current + 1)}
-            >
-              Далее
-            </button>
-          </div>
+          {data.value && !filtered.length && (
+            <p className="notice">
+              {archived
+                ? "Архив пуст"
+                : "Товары не найдены. Измените фильтр или добавьте товар."}
+            </p>
+          )}
+          {pages > 1 && (
+            <div className="admin-pagination">
+              <span>
+                Страница {current + 1} из {pages}
+              </span>
+              <button
+                className="btn btn-outline"
+                disabled={!current}
+                onClick={() => setPage(current - 1)}
+              >
+                Назад
+              </button>
+              <button
+                className="btn btn-outline"
+                disabled={current + 1 >= pages}
+                onClick={() => setPage(current + 1)}
+              >
+                Далее
+              </button>
+            </div>
+          )}
         </>
       )}
       {product && data.value && (
@@ -360,6 +395,31 @@ export function AdminCatalogPage({ store }: { store: ShopStore }) {
         />
       )}
       <Modal
+        open={!!archiveProduct}
+        title="Убрать товар в архив?"
+        onClose={() => setArchiveProduct(null)}
+      >
+        <p>Он исчезнет из меню, но сохранится в старых заказах.</p>
+        <p className="form-error">{action.error}</p>
+        <button
+          className="btn"
+          disabled={action.busy}
+          onClick={() =>
+            void action.run(async () => {
+              await store.request(
+                "/api/admin/products/" + archiveProduct!.id,
+                undefined,
+                "DELETE",
+              );
+              setArchiveProduct(null);
+              await data.reload();
+            })
+          }
+        >
+          В архив
+        </button>
+      </Modal>
+      <Modal
         open={!!archiveCategory}
         title="Архивировать категорию?"
         onClose={() => setArchiveCategory(null)}
@@ -379,9 +439,7 @@ export function AdminCatalogPage({ store }: { store: ShopStore }) {
               .map((c) => [c.id, c.name] as [string, string]),
           ]}
         />
-        <p className="form-error" role="alert">
-          {action.error}
-        </p>
+        <p className="form-error">{action.error}</p>
         <button
           className="btn"
           disabled={action.busy}

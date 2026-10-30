@@ -9,6 +9,6 @@ document.body.replaceChildren(host);
 document.documentElement.dataset.uiRuntime = "react-typescript-full";
 createRoot(host).render(
   <AppBoundary>
-    <AdminApp store={new ShopStore()} />
+    <AdminApp store={new ShopStore(undefined, undefined, { catalog: false })} />
   </AppBoundary>,
 );

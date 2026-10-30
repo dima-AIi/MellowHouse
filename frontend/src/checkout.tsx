@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ShopStore, useShop } from "./store";
+import { ApiError, ShopStore, useShop } from "./store";
 import type { CheckoutData, Order } from "./types";
 import { Field, Empty, Form, useAction } from "./ui";
 import { Method, Totals } from "./cart-auth";
@@ -41,6 +41,22 @@ export function Checkout({ store }: { store: ShopStore }) {
     }),
     [loaded, setLoaded] = useState(false),
     [saved, setSaved] = useState("");
+  const timeGroup = useRef<HTMLFieldSetElement>(null);
+  const timeError =
+    action.field === "timing" || action.field === "scheduledLocal"
+      ? action.error
+      : "";
+  useEffect(() => {
+    if (timeError) {
+      timeGroup.current?.scrollIntoView({
+        block: "center",
+        behavior: matchMedia("(prefers-reduced-motion:reduce)").matches
+          ? "instant"
+          : "smooth",
+      });
+      timeGroup.current?.focus({ preventScroll: true });
+    }
+  }, [timeError]);
   const dirty = useRef(false),
     current = useRef(data);
   current.current = data;
@@ -87,12 +103,17 @@ export function Checkout({ store }: { store: ShopStore }) {
   }, [data, loaded, store, store.app.method, action.busy]);
   function patch<K extends keyof CheckoutData>(key: K, value: CheckoutData[K]) {
     dirty.current = true;
+    if (
+      key === action.field ||
+      (key === "timing" && action.field === "scheduledLocal")
+    )
+      action.setError("");
     setData((previous) => ({ ...previous, [key]: value }));
   }
   async function place() {
     await action.run(async () => {
       if (!validPhone(data.phone))
-        throw Error("Введите телефон: +7 и десять цифр.");
+        throw new ApiError("Введите телефон: +7 и десять цифр.", 400, "phone");
       const body = {
         ...current.current,
         scheduledLocal: current.current.scheduledLocal.slice(0, 16),
@@ -166,13 +187,17 @@ export function Checkout({ store }: { store: ShopStore }) {
       )}
       <Form
         busy={action.busy || !loaded}
-        error={action.error}
+        error={
+          timeError ||
+          ["city", "phone", "name", "street"].includes(action.field ?? "")
+            ? undefined
+            : action.error
+        }
         onSubmit={() => void place()}
       >
         <div className="checkout-layout">
           <div className="checkout-fields">
             <section className="checkout-panel">
-              <h2>1 Получение</h2>
               <Method store={store} />
               {store.app.method === "delivery" ? (
                 <>
@@ -192,6 +217,7 @@ export function Checkout({ store }: { store: ShopStore }) {
                   <Field
                     label="Улица и дом"
                     name="street"
+                    error={action.field === "street" ? action.error : undefined}
                     value={data.street}
                     required
                     maxLength={160}
@@ -230,6 +256,7 @@ export function Checkout({ store }: { store: ShopStore }) {
               <Field
                 label="Имя"
                 name="name"
+                error={action.field === "name" ? action.error : undefined}
                 autoComplete="given-name"
                 maxLength={80}
                 value={data.name}
@@ -239,13 +266,20 @@ export function Checkout({ store }: { store: ShopStore }) {
               <Field
                 label="Телефон для связи по заказу"
                 name="phone"
+                error={action.field === "phone" ? action.error : undefined}
                 type="tel"
                 autoComplete="tel"
                 value={data.phone}
                 required
                 onChange={(e) => patch("phone", e.target.value)}
               />
-              <fieldset className="time-choices">
+              <fieldset
+                className="time-choices"
+                ref={timeGroup}
+                tabIndex={-1}
+                aria-invalid={timeError ? true : undefined}
+                aria-describedby={timeError ? "timing-error" : undefined}
+              >
                 <legend>Время получения</legend>
                 {(["asap", "scheduled"] as const).map((timing) => (
                   <label className="choice" key={timing}>
@@ -259,28 +293,33 @@ export function Checkout({ store }: { store: ShopStore }) {
                     {timing === "asap" ? "Как можно скорее" : "Ко времени"}
                   </label>
                 ))}
+                {data.timing === "scheduled" && (
+                  <>
+                    <Field
+                      label="Дата и время (МСК)"
+                      name="scheduledLocal"
+                      type="datetime-local"
+                      value={data.scheduledLocal}
+                      min={moscow(new Date(Date.now() + 30 * 60000))}
+                      max={moscow(new Date(Date.now() + 7 * 86400000))}
+                      required
+                      onChange={(e) =>
+                        patch("scheduledLocal", e.target.value.slice(0, 16))
+                      }
+                    />
+                    <small>
+                      От 30 минут до 7 дней вперёд, в рабочие дни{" "}
+                      {settings.openingTime ?? "08:00"}–
+                      {settings.closingTime ?? "22:00"} (МСК).
+                    </small>
+                  </>
+                )}
+                {timeError && (
+                  <p id="timing-error" className="form-error" role="alert">
+                    {timeError}
+                  </p>
+                )}
               </fieldset>
-              {data.timing === "scheduled" && (
-                <>
-                  <Field
-                    label="Дата и время (МСК)"
-                    name="scheduledLocal"
-                    type="datetime-local"
-                    value={data.scheduledLocal}
-                    min={moscow(new Date(Date.now() + 30 * 60000))}
-                    max={moscow(new Date(Date.now() + 7 * 86400000))}
-                    required
-                    onChange={(e) =>
-                      patch("scheduledLocal", e.target.value.slice(0, 16))
-                    }
-                  />
-                  <small>
-                    От 30 минут до 7 дней вперёд, в рабочие дни{" "}
-                    {settings.openingTime ?? "08:00"}–
-                    {settings.closingTime ?? "22:00"} (МСК).
-                  </small>
-                </>
-              )}
               <div className="field">
                 <label htmlFor="checkout-comment">
                   Комментарий к заказу (необязательно)
@@ -300,7 +339,7 @@ export function Checkout({ store }: { store: ShopStore }) {
               </div>
             </section>
             <section className="checkout-panel">
-              <h2>2 Способ оплаты</h2>
+              <h2>Способ оплаты</h2>
               {(settings.paymentMethods ?? ["card"]).map((method) => (
                 <label key={method} className="choice">
                   <input

@@ -236,7 +236,9 @@ it("the React product editor rejects unsupported image formats before posting a 
   const { store, fetcher } = await makeStore();
   render(<AdminCatalogPage store={store} />);
   await screen.findByText("Капучино");
-  await userEvent.click(screen.getByRole("button", { name: "Новый товар" }));
+  await userEvent.click(
+    screen.getByRole("button", { name: "+ Добавить товар" }),
+  );
   const input = document.querySelector<HTMLInputElement>('input[type="file"]')!;
   fireEvent.change(input, {
     target: {

@@ -36,21 +36,7 @@ export function AdminApp({ store }: { store: ShopStore }) {
         <Auth store={store} admin />
       </main>
     );
-  if (store.phase !== "connected")
-    return (
-      <main className="admin-main">
-        <h1>Подключаем панель управления…</h1>
-        <p role="status">
-          {store.phase === "failed"
-            ? "Не удалось связаться с сервером. Проверьте соединение."
-            : "Загружаем данные кафе."}
-        </p>
-        <button className="btn" onClick={() => location.reload()}>
-          Повторить
-        </button>
-      </main>
-    );
-  if (store.app.state?.profile?.role !== "Admin")
+  if (store.phase === "connected" && store.app.state?.profile?.role !== "Admin")
     return (
       <main className="admin-login-main">
         <Auth store={store} admin />
@@ -118,7 +104,23 @@ export function AdminApp({ store }: { store: ShopStore }) {
       </header>
       <main id="admin-main" className="admin-main">
         <div id="admin-workspace" data-section={section}>
-          {section === "catalog" ? (
+          {store.phase !== "connected" ? (
+            <div className="admin-loading" role="status">
+              {store.phase === "failed" ? (
+                <>
+                  <p>Не удалось загрузить данные кафе. Проверьте соединение.</p>
+                  <button
+                    className="btn btn-outline"
+                    onClick={() => location.reload()}
+                  >
+                    Повторить
+                  </button>
+                </>
+              ) : (
+                "Загружаем данные кафе…"
+              )}
+            </div>
+          ) : section === "catalog" ? (
             <AdminCatalogPage store={store} />
           ) : section === "orders" ? (
             <AdminOrders store={store} />
