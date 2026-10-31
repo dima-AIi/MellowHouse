@@ -2,6 +2,7 @@ import {cp, mkdir, readFile, writeFile, readdir, rm} from 'node:fs/promises';
 import {resolve, dirname, join, relative} from 'node:path';
 import {fileURLToPath, pathToFileURL} from 'node:url';
 import {execFileSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
 
 const here=dirname(fileURLToPath(import.meta.url));
 export const origin='https://mellow-house.onrender.com';
@@ -68,8 +69,11 @@ export async function build(){
  // Explicit whitelist: state, cookies, profile, cart and CSRF tokens are never written to the deployment.
  await writeFile(join(assets,'catalog.json'),JSON.stringify(catalog));
  await writeFile(join(assets,'site-public.json'),JSON.stringify(state.settings));
- await pool(pages,async([path,name])=>writeFile(join(assets,'pages',name+'.html'),await get(path,'html')));
- await pool(catalog.products,async p=>writeFile(join(assets,'pages/products',p.id+'.html'),await get('/Product/'+p.id,'html')));
+ // HTML comes from Render, but styles are built here; cache keys must match these exact bytes.
+ const styleHash=createHash('sha256').update(await readFile(join(assets,'react/assets/style.css'))).digest('hex').slice(0,16);
+ const page=async path=>(await get(path,'html')).replace(/href="\/react\/assets\/style\.css(?:\?[^" ]*)?"/g,`href="/react/assets/style.css?v=${styleHash}"`);
+ await pool(pages,async([path,name])=>writeFile(join(assets,'pages',name+'.html'),await page(path)));
+ await pool(catalog.products,async p=>writeFile(join(assets,'pages/products',p.id+'.html'),await page('/Product/'+p.id)));
  const sample=await readFile(join(assets,'pages/products',catalog.products[0].id+'.html'),'utf8');
  const start=sample.indexOf('<main id="main">'),end=sample.indexOf('</main>',start);
  await writeFile(join(assets,'pages/product.html'),sample.slice(0,start)+'<main id="main"><div class="container page-space" id="dynamic-product"><p>Загружаем товар…</p></div>'+sample.slice(end));
