@@ -287,12 +287,6 @@ export function OrderPage({
                   ? "Оплата ЮMoney"
                   : "Удобная оплата"}
             </h1>
-            <p className="notice">
-              <strong>Демонстрационная оплата</strong>
-              <br />
-              Деньги не списываются. Кнопка имитирует подтверждение. QR — код
-              тестового заказа, а не банковский QR СБП.
-            </p>
             <Tracking order={order} onRefresh={() => void resource.reload()} />
             {cancellation}
             {guest}
