@@ -92,15 +92,15 @@ export function Auth({
   }
   const content = (
     <>
-      <h2>
+      {(admin || mode === "forgot" || mode === "code") && <h2>
         {admin
           ? "Вход для команды"
           : mode === "forgot"
             ? "Восстановить доступ"
             : mode === "code"
               ? "Введите код"
-              : "Добро пожаловать в Mellow House"}
-      </h2>
+              : "Вход"}
+      </h2>}
       {!admin && (
         <>
           <p className="saved-note">✓ Корзина сохранена</p>
@@ -139,12 +139,15 @@ export function Auth({
             type="tel"
             name="phone"
             inputMode="tel"
-            maxLength={22}
+            maxLength={18}
             error={phoneError}
             autoComplete="tel"
             value={phone}
             onChange={(e) => {
-              setPhone(e.target.value);
+              let digits = 0;
+              const limited = [...e.target.value.replace(/[^\d+ ()-]/g, "")]
+                .filter(char => !/\d/.test(char) || ++digits <= 11).join("");
+              setPhone(limited);
               setPhoneError("");
             }}
             onBlur={() => {

@@ -41,3 +41,15 @@ it("serves responsive category images and preserves unknown uploaded images", ()
   expect(image("/media/custom.webp", 640)).toBe("/media/custom.webp");
   expect(imageSet("/media/custom.webp")).toBe("");
 });
+
+it("limits typed or pasted phone input to eleven digits and removes the welcome heading", async () => {
+  const { store } = await makeStore();
+  store.authOpen = true;
+  render(<Auth store={store} />);
+  const input = screen.getByRole("textbox", {name: "Телефон"}) as HTMLInputElement;
+  fireEvent.change(input, {target: {value: "555555555555555555555555"}});
+  expect(input.value).toBe("55555555555");
+  fireEvent.change(input, {target: {value: "+7 (999) 000-00-261234"}});
+  expect(input.value.replace(/\D/g, "")).toBe("79990000026");
+  expect(screen.queryByText("Добро пожаловать в Mellow House")).toBeNull();
+});
